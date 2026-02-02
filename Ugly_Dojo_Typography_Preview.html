@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <title>Ugly Dojo - Typography Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Black+Han+Sans&family=Inter:wght@400;600&family=Oswald:wght@500;700&family=Rajdhani:wght@500;700&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        .intro {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            text-align: center;
+            font-family: 'Work Sans', sans-serif;
+        }
+
+        .intro h1 {
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 2rem;
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+
+        .intro p {
+            color: #888;
+        }
+
+        .chosen-banner {
+            background: linear-gradient(90deg, #ffcc00, #cc0000);
+            color: #000;
+            text-align: center;
+            padding: 15px;
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 8px;
+        }
+
+        .option {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            padding: 40px;
+            border: 2px solid #333;
+            border-radius: 8px;
+        }
+
+        .option:hover {
+            border-color: #ffcc00;
+        }
+
+        .option.chosen {
+            border: 3px solid #ffcc00;
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
+        }
+
+        .option-label {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.75rem;
+            color: #ffcc00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .option.chosen .option-label {
+            background: #ffcc00;
+            color: #000;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .option-fonts {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Option 1: Bebas Neue + Inter */
+        .opt1 .brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 4px;
+            color: #ffcc00;
+        }
+
+        .opt1 .tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: #cc0000;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 5px;
+        }
+
+        .opt1 .body-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: #ccc;
+            margin-top: 30px;
+        }
+
+        /* Option 2: Black Han Sans + Work Sans */
+        .opt2 .brand {
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+            color: #ffcc00;
+        }
+
+        .opt2 .tagline {
+            font-family: 'Work Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #cc0000;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 5px;
+        }
+
+        .opt2 .body-text {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1rem;
+            color: #ccc;
+            margin-top: 30px;
+        }
+
+        /* Option 3: Oswald + Inter */
+        .opt3 .brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 3.5rem;
+            letter-spacing: 3px;
+            color: #ffcc00;
+        }
+
+        .opt3 .tagline {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #cc0000;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 5px;
+        }
+
+        .opt3 .body-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: #ccc;
+            margin-top: 30px;
+        }
+
+        /* Option 4: Anton + Inter */
+        .opt4 .brand {
+            font-family: 'Anton', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+            color: #ffcc00;
+        }
+
+        .opt4 .tagline {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #cc0000;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 5px;
+        }
+
+        .opt4 .body-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: #ccc;
+            margin-top: 30px;
+        }
+
+        /* Option 5: Rajdhani + Inter */
+        .opt5 .brand {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 3.5rem;
+            letter-spacing: 4px;
+            color: #ffcc00;
+        }
+
+        .opt5 .tagline {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: #cc0000;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 5px;
+        }
+
+        .opt5 .body-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: #ccc;
+            margin-top: 30px;
+        }
+
+        .recommendation {
+            background: #111;
+            border-left: 4px solid #ffcc00;
+            padding: 20px;
+            margin-top: 30px;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .recommendation strong {
+            color: #ffcc00;
+        }
+
+        .other-options-header {
+            max-width: 800px;
+            margin: 60px auto 40px;
+            padding-top: 40px;
+            border-top: 1px solid #333;
+            font-family: 'Work Sans', sans-serif;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="intro">
+        <h1>UGLY DOJO TYPOGRAPHY</h1>
+        <p>Brand typography options explored February 2026</p>
+    </div>
+
+    <div class="chosen-banner">CHOSEN: OPTION 2 - BLACK HAN SANS + WORK SANS</div>
+
+    <!-- Option 2 - CHOSEN -->
+    <div class="option opt2 chosen">
+        <div class="option-label">OFFICIAL BRAND TYPOGRAPHY</div>
+        <div class="option-fonts">Headers: Black Han Sans | Body: Work Sans</div>
+        <div class="brand">UGLY DOJO</div>
+        <div class="tagline">Train Different</div>
+        <p class="body-text">This is body text showing how content would look on a page. Black Han Sans is a Korean-inspired font that has that martial arts movie poster vibe while remaining very legible. Work Sans is clean and modern for body text.</p>
+        <div class="recommendation">
+            <strong>Why this was chosen:</strong> Black Han Sans was designed with Korean aesthetics in mind but optimized for Western readability. Perfect for Ugly Dojo's Taekwondo roots. It's the most "Asian fusion" option while staying 100% legible.
+        </div>
+    </div>
+
+    <div class="other-options-header">Other Options Considered</div>
+
+    <!-- Option 1 -->
+    <div class="option opt1">
+        <div class="option-label">Option 1 - American Poster Style</div>
+        <div class="option-fonts">Headers: Bebas Neue | Body: Inter</div>
+        <div class="brand">UGLY DOJO</div>
+        <div class="tagline">Train Different</div>
+        <p class="body-text">This is body text showing how content would look on a page. Bebas Neue gives that bold American poster feel while Inter keeps everything clean and highly readable. This combination works great for martial arts, fitness, and action-oriented brands.</p>
+        <div class="recommendation">
+            <strong>Why this works:</strong> Bebas Neue has that classic American boxing poster / garage gym aesthetic. Clean, bold, no-nonsense. Inter is one of the most legible fonts on the web.
+        </div>
+    </div>
+
+    <!-- Option 3 -->
+    <div class="option opt3">
+        <div class="option-label">Option 3 - Strong & Versatile</div>
+        <div class="option-fonts">Headers: Oswald | Body: Inter</div>
+        <div class="brand">UGLY DOJO</div>
+        <div class="tagline">Train Different</div>
+        <p class="body-text">This is body text showing how content would look on a page. Oswald is a reworking of classic American gothic fonts. It's bold and commanding without being too aggressive. Pairs well with the clean Inter for body copy.</p>
+        <div class="recommendation">
+            <strong>Why this works:</strong> Oswald is incredibly versatile and works for everything from headers to buttons. Very "American industrial" but refined enough to feel modern.
+        </div>
+    </div>
+
+    <!-- Option 4 -->
+    <div class="option opt4">
+        <div class="option-label">Option 4 - Maximum Impact</div>
+        <div class="option-fonts">Headers: Anton | Body: Inter</div>
+        <div class="brand">UGLY DOJO</div>
+        <div class="tagline">Train Different</div>
+        <p class="body-text">This is body text showing how content would look on a page. Anton is pure impact - like a movie title or fight poster. It demands attention. Combined with Inter for readability on longer content.</p>
+        <div class="recommendation">
+            <strong>Why this works:</strong> Anton is unapologetically bold. If Ugly Dojo is about intensity and no-BS training, this font screams that energy.
+        </div>
+    </div>
+
+    <!-- Option 5 -->
+    <div class="option opt5">
+        <div class="option-label">Option 5 - Tech/Modern Fusion</div>
+        <div class="option-fonts">Headers: Rajdhani | Body: Inter</div>
+        <div class="brand">UGLY DOJO</div>
+        <div class="tagline">Train Different</div>
+        <p class="body-text">This is body text showing how content would look on a page. Rajdhani has a geometric, slightly futuristic feel with subtle South Asian influence. It bridges Eastern and Western aesthetics through clean geometry.</p>
+        <div class="recommendation">
+            <strong>Why this works:</strong> Rajdhani feels like something from a sci-fi martial arts movie. Modern, clean, with subtle cultural fusion in its DNA.
+        </div>
+    </div>
+
+</body>
+</html>
