@@ -1,0 +1,6 @@
+name = "uglydojo"
+compatibility_date = "2024-09-23"
+
+[[kv_namespaces]]
+binding = "Q63_TRACKER"
+id = "f7b20c14a1194448aced3c0997f812df"

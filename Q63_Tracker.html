@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Q63 Tracker — Ugly Dojo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & BASE ─── */
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:'Work Sans',sans-serif;
+  background:#000;color:#fff;
+  min-height:100vh;min-height:100dvh;
+  overflow-x:hidden;
+}
+a{color:#ffcc00;text-decoration:none}
+button{
+  font-family:'Work Sans',sans-serif;
+  cursor:pointer;border:none;outline:none;
+  font-size:.95rem;font-weight:600;
+}
+input{
+  font-family:'Work Sans',sans-serif;
+  font-size:1rem;
+  background:#1a1a1a;color:#fff;
+  border:1px solid #333;border-radius:8px;
+  padding:14px 16px;width:100%;
+  transition:border-color .2s;
+}
+input:focus{border-color:#ffcc00;outline:none}
+input::placeholder{color:#555}
+
+/* ─── VARIABLES ─── */
+:root{
+  --yellow:#ffcc00;
+  --red:#cc0000;
+  --dark:#1a1a1a;
+  --darker:#111;
+  --gray:#888;
+  --glow:0 0 20px rgba(255,204,0,.15);
+}
+
+/* ─── LAYOUT ─── */
+.app{
+  max-width:480px;margin:0 auto;
+  padding:20px 16px 100px;
+  min-height:100vh;min-height:100dvh;
+}
+
+/* ─── BRAND ─── */
+.brand{font-family:'Black Han Sans',sans-serif;color:var(--yellow);letter-spacing:1px}
+.brand-lg{font-size:2.4rem}
+.brand-sm{font-size:1.2rem}
+.tagline{
+  font-size:.8rem;color:var(--red);
+  text-transform:uppercase;letter-spacing:3px;
+  font-weight:600;
+}
+
+/* ─── AUTH SCREEN ─── */
+.auth-header{text-align:center;padding:40px 0 30px}
+.auth-header .katana-icon{font-size:3rem;margin-bottom:12px}
+.auth-tabs{display:flex;margin-bottom:24px;border-bottom:1px solid #333}
+.auth-tab{
+  flex:1;padding:12px;text-align:center;
+  background:none;color:var(--gray);
+  font-weight:600;font-size:.9rem;
+  border-bottom:2px solid transparent;
+  transition:all .2s;
+}
+.auth-tab.active{color:var(--yellow);border-bottom-color:var(--yellow)}
+.auth-form{display:flex;flex-direction:column;gap:12px}
+.auth-form input{margin:0}
+.btn-primary{
+  background:var(--yellow);color:#000;
+  padding:14px;border-radius:8px;
+  font-size:1rem;font-weight:700;
+  letter-spacing:.5px;
+  transition:all .2s;
+}
+.btn-primary:active{transform:scale(.98);opacity:.9}
+.btn-link{
+  background:none;color:var(--gray);
+  font-size:.85rem;padding:8px;
+  text-align:center;width:100%;
+}
+.btn-link:hover{color:#fff}
+.auth-error{
+  background:rgba(204,0,0,.15);
+  border:1px solid var(--red);
+  color:#ff6666;border-radius:8px;
+  padding:10px 14px;font-size:.85rem;
+  display:none;
+}
+.auth-error.show{display:block}
+.auth-success{
+  background:rgba(0,180,0,.15);
+  border:1px solid #0b0;
+  color:#6f6;border-radius:8px;
+  padding:10px 14px;font-size:.85rem;
+  display:none;
+}
+.auth-success.show{display:block}
+
+/* ─── BOTTOM NAV ─── */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:#0a0a0a;
+  border-top:1px solid #222;
+  display:flex;justify-content:space-around;
+  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+  z-index:100;
+}
+.nav-btn{
+  background:none;color:var(--gray);
+  display:flex;flex-direction:column;
+  align-items:center;gap:2px;
+  font-size:.65rem;padding:6px 12px;
+  transition:color .2s;
+}
+.nav-btn .nav-icon{font-size:1.3rem}
+.nav-btn.active{color:var(--yellow)}
+
+/* ─── DASHBOARD ─── */
+.dash-greeting{font-size:.9rem;color:var(--gray);margin-bottom:4px}
+.dash-day{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.8rem;color:#fff;
+  margin-bottom:20px;
+}
+.dash-day span{color:var(--yellow)}
+
+/* Katana progress bar */
+.katana-bar{
+  position:relative;
+  background:var(--dark);
+  border-radius:12px;
+  height:56px;
+  margin-bottom:20px;
+  overflow:hidden;
+  border:1px solid #333;
+}
+.katana-fill{
+  height:100%;
+  background:linear-gradient(90deg,#cc0000,#ffcc00);
+  border-radius:12px;
+  transition:width .8s ease;
+  display:flex;align-items:center;
+  justify-content:flex-end;
+  padding-right:12px;
+  min-width:0;
+}
+.katana-fill-label{
+  font-weight:700;font-size:.85rem;
+  color:#000;white-space:nowrap;
+}
+.katana-label{
+  position:absolute;top:50%;right:12px;
+  transform:translateY(-50%);
+  font-size:.75rem;color:var(--gray);
+}
+
+/* Rank badge */
+.rank-card{
+  background:var(--dark);border-radius:12px;
+  padding:16px;margin-bottom:16px;
+  display:flex;align-items:center;gap:14px;
+  border:1px solid #333;
+}
+.rank-icon{font-size:2rem}
+.rank-name{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.1rem;color:var(--yellow);
+}
+.rank-subtitle{font-size:.8rem;color:var(--gray)}
+
+/* Stats row */
+.stats-row{display:flex;gap:10px;margin-bottom:20px}
+.stat-card{
+  flex:1;background:var(--dark);
+  border-radius:12px;padding:14px 10px;
+  text-align:center;border:1px solid #333;
+}
+.stat-value{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.5rem;color:var(--yellow);
+}
+.stat-label{font-size:.7rem;color:var(--gray);margin-top:2px}
+
+/* CTA button */
+.btn-cta{
+  display:block;width:100%;
+  background:var(--yellow);color:#000;
+  padding:16px;border-radius:12px;
+  font-size:1.1rem;font-weight:700;
+  text-align:center;letter-spacing:.5px;
+  transition:all .2s;
+  box-shadow:var(--glow);
+}
+.btn-cta:active{transform:scale(.98)}
+
+/* ─── CHECK-IN ─── */
+.checkin-header{
+  text-align:center;margin-bottom:24px;
+}
+.checkin-title{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.5rem;margin-bottom:4px;
+}
+.checkin-score{
+  font-size:.9rem;color:var(--gray);
+}
+.checkin-score span{color:var(--yellow);font-weight:700}
+
+.practice-card{
+  background:var(--dark);border-radius:12px;
+  padding:16px;margin-bottom:10px;
+  display:flex;align-items:center;gap:14px;
+  border:1px solid #333;
+  transition:all .3s;
+  cursor:pointer;
+  -webkit-user-select:none;user-select:none;
+}
+.practice-card.checked{
+  border-color:var(--yellow);
+  box-shadow:0 0 12px rgba(255,204,0,.1);
+}
+.practice-icon{font-size:1.6rem;flex-shrink:0}
+.practice-info{flex:1}
+.practice-name{font-weight:600;font-size:.95rem}
+.practice-req{font-size:.75rem;color:var(--gray);margin-top:2px}
+.practice-toggle{
+  width:48px;height:28px;
+  border-radius:14px;
+  background:#333;
+  position:relative;
+  flex-shrink:0;
+  transition:background .3s;
+}
+.practice-toggle::after{
+  content:'';position:absolute;
+  top:3px;left:3px;
+  width:22px;height:22px;
+  border-radius:50%;background:#666;
+  transition:all .3s;
+}
+.practice-card.checked .practice-toggle{background:var(--yellow)}
+.practice-card.checked .practice-toggle::after{
+  transform:translateX(20px);
+  background:#000;
+}
+.btn-save-checkin{
+  margin-top:20px;
+  display:block;width:100%;
+  background:var(--yellow);color:#000;
+  padding:16px;border-radius:12px;
+  font-size:1rem;font-weight:700;
+  transition:all .2s;
+}
+.btn-save-checkin:active{transform:scale(.98)}
+.btn-save-checkin:disabled{opacity:.5;cursor:not-allowed}
+
+/* Perfect strike overlay */
+.perfect-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.9);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:200;opacity:0;
+  pointer-events:none;
+  transition:opacity .4s;
+}
+.perfect-overlay.show{opacity:1;pointer-events:auto}
+.perfect-text{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:2.5rem;color:var(--yellow);
+  text-align:center;
+  animation:perfectPulse 1s ease infinite;
+}
+.perfect-sub{color:var(--gray);margin-top:8px;font-size:1rem}
+.perfect-dismiss{
+  margin-top:30px;background:var(--yellow);
+  color:#000;padding:12px 32px;border-radius:8px;
+  font-weight:700;
+}
+@keyframes perfectPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
+
+/* ─── 63-DAY GRID ─── */
+.grid-title{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.3rem;text-align:center;
+  margin-bottom:20px;
+}
+.week-section{margin-bottom:16px}
+.week-label{
+  font-size:.75rem;color:var(--yellow);
+  font-weight:600;margin-bottom:6px;
+  letter-spacing:1px;
+}
+.day-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.day-cell{
+  aspect-ratio:1;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:600;
+  cursor:pointer;transition:all .2s;
+  border:1px solid transparent;
+  position:relative;
+}
+.day-cell.empty{background:#111;color:#333}
+.day-cell.score-0{background:#1a1a1a;color:#555}
+.day-cell.score-1,.day-cell.score-2{background:#4a1010;color:#ff6666}
+.day-cell.score-3,.day-cell.score-4{background:#4a3010;color:#ffaa44}
+.day-cell.score-5{background:#3a3a10;color:#dddd44}
+.day-cell.score-6{background:#1a3a1a;color:#66cc66}
+.day-cell.score-7{background:#0a3a0a;color:#44ff44;border-color:#44ff44}
+.day-cell.today{
+  border:2px solid var(--yellow);
+  animation:todayPulse 2s ease infinite;
+}
+.day-cell.future{background:#0a0a0a;color:#222}
+@keyframes todayPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,204,0,.3)}
+  50%{box-shadow:0 0 8px 2px rgba(255,204,0,.2)}
+}
+
+/* ─── STATS ─── */
+.stats-title{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.3rem;text-align:center;
+  margin-bottom:20px;
+}
+.sharpness-gauge{
+  text-align:center;margin-bottom:24px;
+}
+.sharpness-value{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:3rem;color:var(--yellow);
+}
+.sharpness-label{font-size:.8rem;color:var(--gray)}
+.sharpness-bar{
+  height:8px;background:var(--dark);
+  border-radius:4px;margin-top:8px;
+  overflow:hidden;
+}
+.sharpness-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--red),var(--yellow));
+  border-radius:4px;transition:width .8s;
+}
+.stat-block{
+  background:var(--dark);border-radius:12px;
+  padding:16px;margin-bottom:12px;
+  border:1px solid #333;
+}
+.stat-block-title{font-weight:600;font-size:.85rem;margin-bottom:10px}
+.practice-stat{
+  display:flex;align-items:center;gap:10px;
+  padding:6px 0;
+}
+.practice-stat-icon{font-size:1rem;width:24px;text-align:center}
+.practice-stat-name{flex:1;font-size:.85rem}
+.practice-stat-bar{
+  width:80px;height:6px;background:#333;
+  border-radius:3px;overflow:hidden;
+}
+.practice-stat-fill{height:100%;background:var(--yellow);border-radius:3px;transition:width .5s}
+.practice-stat-pct{font-size:.75rem;color:var(--gray);width:36px;text-align:right}
+.btn-logout{
+  margin-top:20px;display:block;width:100%;
+  background:none;color:var(--red);
+  border:1px solid var(--red);
+  padding:12px;border-radius:8px;
+  font-size:.9rem;font-weight:600;
+  transition:all .2s;
+}
+.btn-logout:active{background:rgba(204,0,0,.1)}
+
+/* ─── DAY DETAIL MODAL ─── */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.85);
+  display:flex;align-items:flex-end;
+  justify-content:center;
+  z-index:150;opacity:0;
+  pointer-events:none;transition:opacity .3s;
+}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal-content{
+  background:var(--dark);
+  border-radius:16px 16px 0 0;
+  padding:24px 20px calc(24px + env(safe-area-inset-bottom));
+  width:100%;max-width:480px;
+  transform:translateY(100%);
+  transition:transform .3s;
+}
+.modal-overlay.show .modal-content{transform:translateY(0)}
+.modal-handle{
+  width:40px;height:4px;background:#444;
+  border-radius:2px;margin:0 auto 16px;
+}
+.modal-title{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.2rem;margin-bottom:4px;
+}
+.modal-date{font-size:.8rem;color:var(--gray);margin-bottom:16px}
+.modal-practice{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;
+}
+.modal-practice-check{font-size:1rem}
+.modal-practice-name{font-size:.9rem}
+.modal-close{
+  margin-top:16px;width:100%;
+  background:#333;color:#fff;
+  padding:12px;border-radius:8px;
+  font-weight:600;
+}
+
+/* ─── LOADING ─── */
+.spinner{
+  width:24px;height:24px;
+  border:3px solid #333;
+  border-top-color:var(--yellow);
+  border-radius:50%;
+  animation:spin .6s linear infinite;
+  margin:0 auto;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-screen{
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-height:60vh;gap:16px;
+}
+.loading-screen .brand{font-size:1.5rem}
+
+/* ─── VIEW MANAGEMENT ─── */
+.view{display:none}
+.view.active{display:block}
+
+/* ─── RESET PASSWORD VIEW ─── */
+.reset-form{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOADING ═══ -->
+<div class="app">
+<div id="view-loading" class="view active">
+  <div class="loading-screen">
+    <div class="brand brand-lg">UGLY DOJO</div>
+    <div class="tagline">Q63 BIOCONGRUENCE TRACKER</div>
+    <div class="spinner" style="margin-top:20px"></div>
+  </div>
+</div>
+
+<!-- ═══ AUTH ═══ -->
+<div id="view-auth" class="view">
+  <div class="auth-header">
+    <div class="katana-icon">⚔️</div>
+    <div class="brand brand-lg">UGLY DOJO</div>
+    <div class="tagline">Q63 BIOCONGRUENCE TRACKER</div>
+  </div>
+
+  <div class="auth-tabs">
+    <button class="auth-tab active" data-tab="login">Enter the Dojo</button>
+    <button class="auth-tab" data-tab="register">Begin Your Forge</button>
+  </div>
+
+  <div id="auth-error" class="auth-error"></div>
+  <div id="auth-success" class="auth-success"></div>
+
+  <!-- Login form -->
+  <form id="form-login" class="auth-form">
+    <input type="email" id="login-email" placeholder="Email" autocomplete="email" required>
+    <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required>
+    <button type="submit" class="btn-primary">ENTER THE DOJO</button>
+    <button type="button" class="btn-link" id="btn-forgot">Forgot password?</button>
+  </form>
+
+  <!-- Register form -->
+  <form id="form-register" class="auth-form" style="display:none">
+    <input type="text" id="reg-name" placeholder="Your name" autocomplete="name" required>
+    <input type="email" id="reg-email" placeholder="Email" autocomplete="email" required>
+    <input type="password" id="reg-password" placeholder="Password (min 8 characters)" autocomplete="new-password" required minlength="8">
+    <button type="submit" class="btn-primary">BEGIN YOUR FORGE</button>
+  </form>
+
+  <!-- Forgot password form -->
+  <form id="form-forgot" class="auth-form" style="display:none">
+    <p style="color:var(--gray);font-size:.9rem;margin-bottom:4px">Enter your email and we'll send a reset link.</p>
+    <input type="email" id="forgot-email" placeholder="Email" autocomplete="email" required>
+    <button type="submit" class="btn-primary">SEND RESET LINK</button>
+    <button type="button" class="btn-link" id="btn-back-login">Back to login</button>
+  </form>
+</div>
+
+<!-- ═══ RESET CONFIRM ═══ -->
+<div id="view-reset" class="view">
+  <div class="auth-header">
+    <div class="brand brand-lg">UGLY DOJO</div>
+    <div class="tagline">RESET PASSWORD</div>
+  </div>
+  <div id="reset-error" class="auth-error"></div>
+  <div id="reset-success" class="auth-success"></div>
+  <form id="form-reset-confirm" class="reset-form">
+    <input type="password" id="reset-new-pw" placeholder="New password (min 8 characters)" autocomplete="new-password" required minlength="8">
+    <input type="password" id="reset-confirm-pw" placeholder="Confirm new password" autocomplete="new-password" required minlength="8">
+    <button type="submit" class="btn-primary">RESET PASSWORD</button>
+    <button type="button" class="btn-link" onclick="navigate('login')">Back to login</button>
+  </form>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div id="view-dashboard" class="view">
+  <div class="dash-greeting" id="dash-greeting">Welcome back</div>
+  <div class="dash-day">Day <span id="dash-day-num">1</span> of 63</div>
+
+  <div class="katana-bar">
+    <div class="katana-fill" id="katana-fill" style="width:0%">
+      <span class="katana-fill-label" id="katana-pct"></span>
+    </div>
+    <span class="katana-label" id="katana-label-right">Forge your blade</span>
+  </div>
+
+  <div class="rank-card">
+    <div class="rank-icon" id="rank-icon">🤍</div>
+    <div>
+      <div class="rank-name" id="rank-name">Initiate</div>
+      <div class="rank-subtitle" id="rank-subtitle">白帯 — Week 1</div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value" id="dash-today-score">—</div>
+      <div class="stat-label">Today</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="dash-streak">0</div>
+      <div class="stat-label">Unbroken Edge</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="dash-perfect">0</div>
+      <div class="stat-label">Perfect Strikes</div>
+    </div>
+  </div>
+
+  <button class="btn-cta" id="btn-train" onclick="navigate('checkin')">⚔️ TODAY'S TRAINING</button>
+</div>
+
+<!-- ═══ CHECK-IN ═══ -->
+<div id="view-checkin" class="view">
+  <div class="checkin-header">
+    <div class="checkin-title">Today's Training</div>
+    <div class="checkin-score">Score: <span id="checkin-score">0</span> / 7</div>
+  </div>
+
+  <div id="practice-list"></div>
+
+  <button class="btn-save-checkin" id="btn-save-checkin">SAVE TRAINING</button>
+</div>
+
+<!-- ═══ 63-DAY GRID ═══ -->
+<div id="view-grid" class="view">
+  <div class="grid-title">63-Day Journey</div>
+  <div id="grid-container"></div>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<div id="view-stats" class="view">
+  <div class="stats-title">Your Forge</div>
+
+  <div class="sharpness-gauge">
+    <div class="sharpness-value" id="sharpness-value">0%</div>
+    <div class="sharpness-label">Blade Sharpness</div>
+    <div class="sharpness-bar">
+      <div class="sharpness-fill" id="sharpness-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value" id="stat-total">0</div>
+      <div class="stat-label">Practices Done</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-best-streak">0</div>
+      <div class="stat-label">Best Streak</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-days-done">0</div>
+      <div class="stat-label">Days Logged</div>
+    </div>
+  </div>
+
+  <div class="stat-block">
+    <div class="stat-block-title">Practice Breakdown</div>
+    <div id="practice-breakdown"></div>
+  </div>
+
+  <button class="btn-logout" id="btn-logout">LOG OUT</button>
+</div>
+</div><!-- /.app -->
+
+<!-- ═══ BOTTOM NAV ═══ -->
+<nav class="bottom-nav" id="bottom-nav" style="display:none">
+  <button class="nav-btn active" data-view="dashboard">
+    <span class="nav-icon">🏯</span>Dojo
+  </button>
+  <button class="nav-btn" data-view="checkin">
+    <span class="nav-icon">⚔️</span>Train
+  </button>
+  <button class="nav-btn" data-view="grid">
+    <span class="nav-icon">📅</span>Journey
+  </button>
+  <button class="nav-btn" data-view="stats">
+    <span class="nav-icon">📊</span>Stats
+  </button>
+</nav>
+
+<!-- ═══ DAY DETAIL MODAL ═══ -->
+<div class="modal-overlay" id="day-modal">
+  <div class="modal-content">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-title">Day 1</div>
+    <div class="modal-date" id="modal-date"></div>
+    <div id="modal-practices"></div>
+    <button class="modal-close" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- ═══ PERFECT STRIKE OVERLAY ═══ -->
+<div class="perfect-overlay" id="perfect-overlay">
+  <div style="font-size:4rem">⚔️</div>
+  <div class="perfect-text">PERFECT STRIKE!</div>
+  <div class="perfect-sub">7/7 — All practices complete</div>
+  <button class="perfect-dismiss" onclick="dismissPerfect()">Continue</button>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   Q63 TRACKER — UGLY DOJO
+   ═══════════════════════════════════════════ */
+
+// ─── CONFIG ───
+const API = '/api';
+
+const PRACTICES = [
+  { key: 'exercise',   name: 'Exercise',    icon: '⚔️', req: '20 minutes daily' },
+  { key: 'breathing',  name: 'Breathing',   icon: '🌬️', req: '2 min box / double inhale' },
+  { key: 'meditation', name: 'Meditation',  icon: '🧘', req: '2 min self-guided affirmations' },
+  { key: 'sleep',      name: 'Sleep',       icon: '🌙', req: 'Minimum 7 hours' },
+  { key: 'gratitude',  name: 'Gratitude',   icon: '📜', req: 'Daily journal entry' },
+  { key: 'hydration',  name: 'Hydration',   icon: '💧', req: 'Adequate water intake' },
+  { key: 'nutrition',  name: 'Nutrition',   icon: '🔥', req: 'Follow the meal plan' },
+];
+
+const RANKS = [
+  { name: 'Initiate',   kanji: '白帯',  icon: '🤍', week: 1 },
+  { name: 'Student',    kanji: '学生',  icon: '📖', week: 2 },
+  { name: 'Apprentice', kanji: '弟子',  icon: '🔨', week: 3 },
+  { name: 'Warrior',    kanji: '武士',  icon: '⚔️', week: 4 },
+  { name: 'Guardian',   kanji: '守護者', icon: '🛡️', week: 5 },
+  { name: 'Ronin',      kanji: '浪人',  icon: '🗡️', week: 6 },
+  { name: 'Sensei',     kanji: '先生',  icon: '🎓', week: 7 },
+  { name: 'Master',     kanji: '達人',  icon: '👑', week: 8 },
+  { name: 'Shogun',     kanji: '将軍',  icon: '🏯', week: 9 },
+];
+
+// ─── STATE ───
+let state = {
+  token: localStorage.getItem('q63_token') || null,
+  user: JSON.parse(localStorage.getItem('q63_user') || 'null'),
+  startDate: null,
+  progress: { days: {} },
+  currentView: 'loading',
+  checkinState: {}, // temp toggle state for current check-in
+};
+
+// ─── API HELPERS ───
+async function api(endpoint, method = 'GET', body = null) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (state.token) headers['Authorization'] = `Bearer ${state.token}`;
+
+  const opts = { method, headers };
+  if (body) opts.body = JSON.stringify(body);
+
+  const res = await fetch(`${API}/${endpoint}`, opts);
+  const data = await res.json();
+
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+// ─── NAVIGATION ───
+function navigate(view) {
+  // Hide all views
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+
+  // Show target
+  const el = document.getElementById(`view-${view}`);
+  if (el) el.classList.add('active');
+
+  // Update nav
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+
+  // Show/hide nav
+  const authedViews = ['dashboard', 'checkin', 'grid', 'stats'];
+  document.getElementById('bottom-nav').style.display =
+    authedViews.includes(view) ? 'flex' : 'none';
+
+  state.currentView = view;
+
+  // Render view-specific content
+  if (view === 'dashboard') renderDashboard();
+  if (view === 'checkin') renderCheckin();
+  if (view === 'grid') renderGrid();
+  if (view === 'stats') renderStats();
+
+  // Update hash without triggering hashchange
+  const newHash = `#${view}`;
+  if (location.hash !== newHash) {
+    history.replaceState(null, '', newHash);
+  }
+}
+
+// ─── CURRENT DAY CALCULATION ───
+function getCurrentDay() {
+  if (!state.startDate) return 1;
+  const start = new Date(state.startDate + 'T00:00:00');
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diff = Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
+  return Math.max(1, Math.min(63, diff));
+}
+
+function getRank(day) {
+  const week = Math.min(9, Math.ceil(day / 7));
+  return RANKS[week - 1];
+}
+
+// ─── STREAK CALCULATION ───
+function calcStreak() {
+  const currentDay = getCurrentDay();
+  let streak = 0;
+  for (let d = currentDay; d >= 1; d--) {
+    const dayData = state.progress.days[String(d)];
+    if (dayData && dayData.score === 7) {
+      streak++;
+    } else if (d === currentDay && !dayData) {
+      // Today hasn't been logged yet — don't break streak, just skip
+      continue;
+    } else {
+      break;
+    }
+  }
+  return streak;
+}
+
+function calcBestStreak() {
+  let best = 0, current = 0;
+  for (let d = 1; d <= 63; d++) {
+    const dayData = state.progress.days[String(d)];
+    if (dayData && dayData.score === 7) {
+      current++;
+      if (current > best) best = current;
+    } else {
+      current = 0;
+    }
+  }
+  return best;
+}
+
+function countPerfectDays() {
+  let count = 0;
+  for (const d of Object.values(state.progress.days)) {
+    if (d.score === 7) count++;
+  }
+  return count;
+}
+
+// ─── RENDER: DASHBOARD ───
+function renderDashboard() {
+  const day = getCurrentDay();
+  const rank = getRank(day);
+  const streak = calcStreak();
+  const perfects = countPerfectDays();
+  const daysLogged = Object.keys(state.progress.days).length;
+  const pct = Math.round((daysLogged / 63) * 100);
+  const todayData = state.progress.days[String(day)];
+
+  document.getElementById('dash-greeting').textContent =
+    state.user ? `Welcome back, ${state.user.name}` : 'Welcome back';
+  document.getElementById('dash-day-num').textContent = day;
+
+  // Katana bar
+  const fill = document.getElementById('katana-fill');
+  const label = document.getElementById('katana-label-right');
+  fill.style.width = `${pct}%`;
+  document.getElementById('katana-pct').textContent = pct > 8 ? `${pct}%` : '';
+  label.textContent = pct > 0 ? '' : 'Forge your blade';
+
+  // Rank
+  document.getElementById('rank-icon').textContent = rank.icon;
+  document.getElementById('rank-name').textContent = rank.name;
+  document.getElementById('rank-subtitle').textContent = `${rank.kanji} — Week ${rank.week}`;
+
+  // Stats
+  document.getElementById('dash-today-score').textContent =
+    todayData ? `${todayData.score}/7` : '—';
+  document.getElementById('dash-streak').textContent = streak;
+  document.getElementById('dash-perfect').textContent = perfects;
+
+  // CTA text
+  document.getElementById('btn-train').textContent =
+    todayData ? '⚔️ UPDATE TRAINING' : '⚔️ TODAY\'S TRAINING';
+}
+
+// ─── RENDER: CHECK-IN ───
+function renderCheckin() {
+  const day = getCurrentDay();
+  const existing = state.progress.days[String(day)];
+
+  // Initialize checkin state from existing data or empty
+  if (existing) {
+    state.checkinState = { ...existing.practices };
+  } else {
+    state.checkinState = {};
+    PRACTICES.forEach(p => state.checkinState[p.key] = false);
+  }
+
+  renderPracticeCards();
+}
+
+function renderPracticeCards() {
+  const list = document.getElementById('practice-list');
+  const score = Object.values(state.checkinState).filter(Boolean).length;
+  document.getElementById('checkin-score').textContent = score;
+
+  list.innerHTML = PRACTICES.map(p => `
+    <div class="practice-card ${state.checkinState[p.key] ? 'checked' : ''}" data-key="${p.key}">
+      <div class="practice-icon">${p.icon}</div>
+      <div class="practice-info">
+        <div class="practice-name">${p.name}</div>
+        <div class="practice-req">${p.req}</div>
+      </div>
+      <div class="practice-toggle"></div>
+    </div>
+  `).join('');
+
+  // Attach click handlers
+  list.querySelectorAll('.practice-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const key = card.dataset.key;
+      state.checkinState[key] = !state.checkinState[key];
+      card.classList.toggle('checked');
+      const newScore = Object.values(state.checkinState).filter(Boolean).length;
+      document.getElementById('checkin-score').textContent = newScore;
+    });
+  });
+}
+
+// ─── SAVE CHECK-IN ───
+async function saveCheckin() {
+  const btn = document.getElementById('btn-save-checkin');
+  btn.disabled = true;
+  btn.textContent = 'SAVING...';
+
+  try {
+    const day = getCurrentDay();
+
+    // Set start date if first time
+    if (!state.startDate) {
+      state.startDate = new Date().toISOString().split('T')[0];
+    }
+
+    const result = await api('progress', 'PUT', {
+      day,
+      practices: state.checkinState,
+    });
+
+    // Update local state
+    state.progress.days[String(day)] = {
+      practices: result.practices,
+      score: result.score,
+      date: new Date().toISOString(),
+    };
+
+    btn.textContent = 'SAVED ✓';
+    setTimeout(() => {
+      btn.textContent = 'SAVE TRAINING';
+      btn.disabled = false;
+    }, 1500);
+
+    // Show perfect strike animation if 7/7
+    if (result.score === 7) {
+      document.getElementById('perfect-overlay').classList.add('show');
+    }
+  } catch (err) {
+    btn.textContent = 'SAVE TRAINING';
+    btn.disabled = false;
+    alert(err.message);
+  }
+}
+
+function dismissPerfect() {
+  document.getElementById('perfect-overlay').classList.remove('show');
+}
+
+// ─── RENDER: 63-DAY GRID ───
+function renderGrid() {
+  const container = document.getElementById('grid-container');
+  const currentDay = getCurrentDay();
+  let html = '';
+
+  for (let week = 0; week < 9; week++) {
+    const rank = RANKS[week];
+    html += `<div class="week-section">`;
+    html += `<div class="week-label">${rank.icon} ${rank.name} (${rank.kanji})</div>`;
+    html += `<div class="day-grid">`;
+
+    for (let d = 0; d < 7; d++) {
+      const dayNum = week * 7 + d + 1;
+      const dayData = state.progress.days[String(dayNum)];
+      const score = dayData ? dayData.score : -1;
+
+      let cls = 'day-cell';
+      if (dayNum === currentDay) cls += ' today';
+      else if (dayNum > currentDay && !dayData) cls += ' future';
+
+      if (dayData) {
+        cls += ` score-${score}`;
+      } else if (dayNum <= currentDay) {
+        cls += ' score-0';
+      } else {
+        cls += ' empty';
+      }
+
+      html += `<div class="${cls}" data-day="${dayNum}" onclick="showDayDetail(${dayNum})">${dayNum}</div>`;
+    }
+
+    html += `</div></div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+// ─── DAY DETAIL MODAL ───
+function showDayDetail(dayNum) {
+  const dayData = state.progress.days[String(dayNum)];
+  if (!dayData) return;
+
+  document.getElementById('modal-title').textContent = `Day ${dayNum}`;
+  document.getElementById('modal-date').textContent =
+    dayData.date ? new Date(dayData.date).toLocaleDateString() : '';
+
+  const practicesHtml = PRACTICES.map(p => {
+    const done = dayData.practices[p.key];
+    return `<div class="modal-practice">
+      <span class="modal-practice-check">${done ? '✅' : '⬛'}</span>
+      <span class="modal-practice-name">${p.icon} ${p.name}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('modal-practices').innerHTML = practicesHtml;
+  document.getElementById('day-modal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('day-modal').classList.remove('show');
+}
+
+// ─── RENDER: STATS ───
+function renderStats() {
+  const days = state.progress.days;
+  const daysLogged = Object.keys(days).length;
+  const totalPossible = daysLogged * 7;
+  let totalDone = 0;
+
+  // Per-practice counts
+  const practiceCounts = {};
+  PRACTICES.forEach(p => practiceCounts[p.key] = 0);
+
+  for (const d of Object.values(days)) {
+    totalDone += d.score;
+    for (const p of PRACTICES) {
+      if (d.practices[p.key]) practiceCounts[p.key]++;
+    }
+  }
+
+  const sharpness = totalPossible > 0 ? Math.round((totalDone / totalPossible) * 100) : 0;
+
+  document.getElementById('sharpness-value').textContent = `${sharpness}%`;
+  document.getElementById('sharpness-fill').style.width = `${sharpness}%`;
+  document.getElementById('stat-total').textContent = totalDone;
+  document.getElementById('stat-best-streak').textContent = calcBestStreak();
+  document.getElementById('stat-days-done').textContent = daysLogged;
+
+  // Practice breakdown
+  const breakdown = document.getElementById('practice-breakdown');
+  breakdown.innerHTML = PRACTICES.map(p => {
+    const pct = daysLogged > 0 ? Math.round((practiceCounts[p.key] / daysLogged) * 100) : 0;
+    return `<div class="practice-stat">
+      <span class="practice-stat-icon">${p.icon}</span>
+      <span class="practice-stat-name">${p.name}</span>
+      <div class="practice-stat-bar"><div class="practice-stat-fill" style="width:${pct}%"></div></div>
+      <span class="practice-stat-pct">${pct}%</span>
+    </div>`;
+  }).join('');
+}
+
+// ─── AUTH HANDLERS ───
+document.querySelectorAll('.auth-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const which = tab.dataset.tab;
+    document.getElementById('form-login').style.display = which === 'login' ? 'flex' : 'none';
+    document.getElementById('form-register').style.display = which === 'register' ? 'flex' : 'none';
+    document.getElementById('form-forgot').style.display = 'none';
+    hideAuthMessages();
+  });
+});
+
+document.getElementById('btn-forgot').addEventListener('click', () => {
+  document.getElementById('form-login').style.display = 'none';
+  document.getElementById('form-register').style.display = 'none';
+  document.getElementById('form-forgot').style.display = 'flex';
+  hideAuthMessages();
+});
+
+document.getElementById('btn-back-login').addEventListener('click', () => {
+  document.getElementById('form-login').style.display = 'flex';
+  document.getElementById('form-forgot').style.display = 'none';
+  hideAuthMessages();
+});
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg;
+  el.classList.add('show');
+  document.getElementById('auth-success').classList.remove('show');
+}
+
+function showAuthSuccess(msg) {
+  const el = document.getElementById('auth-success');
+  el.textContent = msg;
+  el.classList.add('show');
+  document.getElementById('auth-error').classList.remove('show');
+}
+
+function hideAuthMessages() {
+  document.getElementById('auth-error').classList.remove('show');
+  document.getElementById('auth-success').classList.remove('show');
+}
+
+// Login
+document.getElementById('form-login').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideAuthMessages();
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+
+  try {
+    const data = await api('login', 'POST', { email, password });
+    loginSuccess(data);
+  } catch (err) {
+    showAuthError(err.message);
+  }
+});
+
+// Register
+document.getElementById('form-register').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideAuthMessages();
+  const name = document.getElementById('reg-name').value;
+  const email = document.getElementById('reg-email').value;
+  const password = document.getElementById('reg-password').value;
+
+  try {
+    const data = await api('register', 'POST', { email, name, password });
+    loginSuccess(data);
+  } catch (err) {
+    showAuthError(err.message);
+  }
+});
+
+// Forgot password
+document.getElementById('form-forgot').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideAuthMessages();
+  const email = document.getElementById('forgot-email').value;
+
+  try {
+    await api('reset-request', 'POST', { email });
+    showAuthSuccess('If an account exists with that email, a reset link has been sent.');
+  } catch (err) {
+    showAuthError(err.message);
+  }
+});
+
+// Reset confirm
+document.getElementById('form-reset-confirm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const pw = document.getElementById('reset-new-pw').value;
+  const confirm = document.getElementById('reset-confirm-pw').value;
+  const resetError = document.getElementById('reset-error');
+  const resetSuccess = document.getElementById('reset-success');
+
+  resetError.classList.remove('show');
+  resetSuccess.classList.remove('show');
+
+  if (pw !== confirm) {
+    resetError.textContent = 'Passwords do not match.';
+    resetError.classList.add('show');
+    return;
+  }
+
+  // Get token from hash
+  const hash = location.hash;
+  const tokenMatch = hash.match(/token=([a-f0-9]+)/);
+  if (!tokenMatch) {
+    resetError.textContent = 'Invalid reset link.';
+    resetError.classList.add('show');
+    return;
+  }
+
+  try {
+    const data = await api('reset-confirm', 'POST', {
+      token: tokenMatch[1],
+      newPassword: pw,
+    });
+    resetSuccess.textContent = data.message;
+    resetSuccess.classList.add('show');
+    setTimeout(() => navigate('login'), 2000);
+  } catch (err) {
+    resetError.textContent = err.message;
+    resetError.classList.add('show');
+  }
+});
+
+function loginSuccess(data) {
+  state.token = data.token;
+  state.user = data.user;
+  localStorage.setItem('q63_token', data.token);
+  localStorage.setItem('q63_user', JSON.stringify(data.user));
+  loadProgress();
+}
+
+// Logout
+document.getElementById('btn-logout').addEventListener('click', () => {
+  state.token = null;
+  state.user = null;
+  state.progress = { days: {} };
+  state.startDate = null;
+  localStorage.removeItem('q63_token');
+  localStorage.removeItem('q63_user');
+  navigate('auth');
+});
+
+// Save check-in
+document.getElementById('btn-save-checkin').addEventListener('click', saveCheckin);
+
+// ─── BOTTOM NAV ───
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => navigate(btn.dataset.view));
+});
+
+// ─── CLOSE MODAL ON OVERLAY CLICK ───
+document.getElementById('day-modal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+// ─── LOAD PROGRESS FROM SERVER ───
+async function loadProgress() {
+  try {
+    const data = await api('progress', 'GET');
+    state.progress = data.progress || { days: {} };
+    state.startDate = data.startDate || null;
+    if (data.name && state.user) state.user.name = data.name;
+    navigate('dashboard');
+  } catch (err) {
+    // Session expired
+    if (err.message.includes('Unauthorized')) {
+      state.token = null;
+      localStorage.removeItem('q63_token');
+      navigate('auth');
+    } else {
+      navigate('dashboard');
+    }
+  }
+}
+
+// ─── INIT ───
+function init() {
+  const hash = location.hash.slice(1);
+
+  // Handle password reset deep link
+  if (hash.startsWith('reset-confirm')) {
+    navigate('reset');
+    return;
+  }
+
+  if (state.token) {
+    loadProgress();
+  } else {
+    navigate('auth');
+  }
+}
+
+init();
+</script>
+</body>
+</html>
