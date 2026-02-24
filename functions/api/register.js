@@ -114,6 +114,6 @@ export async function onRequestPost({ request, env }) {
       user: { email: normalizedEmail, name: name.trim() },
     });
   } catch (err) {
-    return json({ error: 'Registration failed. Please try again.' }, 500);
+    return json({ error: 'Registration failed: ' + (err.message || String(err)) }, 500);
   }
 }
