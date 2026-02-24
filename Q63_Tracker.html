@@ -463,7 +463,7 @@ input::placeholder{color:#555}
 <!-- ═══ AUTH ═══ -->
 <div id="view-auth" class="view">
   <div class="auth-header">
-    <div class="katana-icon">⚔️</div>
+    <div class="katana-icon">👺</div>
     <div class="brand brand-lg">UGLY DOJO</div>
     <div class="tagline">Q63 BIOCONGRUENCE TRACKER</div>
   </div>
@@ -552,7 +552,7 @@ input::placeholder{color:#555}
     </div>
   </div>
 
-  <button class="btn-cta" id="btn-train" onclick="navigate('checkin')">⚔️ TODAY'S TRAINING</button>
+  <button class="btn-cta" id="btn-train" onclick="navigate('checkin')">🗡️ TODAY'S TRAINING</button>
 </div>
 
 <!-- ═══ CHECK-IN ═══ -->
@@ -615,7 +615,7 @@ input::placeholder{color:#555}
     <span class="nav-icon">🏯</span>Dojo
   </button>
   <button class="nav-btn" data-view="checkin">
-    <span class="nav-icon">⚔️</span>Train
+    <span class="nav-icon">🗡️</span>Train
   </button>
   <button class="nav-btn" data-view="grid">
     <span class="nav-icon">📅</span>Journey
@@ -638,7 +638,7 @@ input::placeholder{color:#555}
 
 <!-- ═══ PERFECT STRIKE OVERLAY ═══ -->
 <div class="perfect-overlay" id="perfect-overlay">
-  <div style="font-size:4rem">⚔️</div>
+  <div style="font-size:4rem">👺</div>
   <div class="perfect-text">PERFECT STRIKE!</div>
   <div class="perfect-sub">7/7 — All practices complete</div>
   <button class="perfect-dismiss" onclick="dismissPerfect()">Continue</button>
@@ -653,7 +653,7 @@ input::placeholder{color:#555}
 const API = '/api';
 
 const PRACTICES = [
-  { key: 'exercise',   name: 'Exercise',    icon: '⚔️', req: '20 minutes daily' },
+  { key: 'exercise',   name: 'Exercise',    icon: '🗡️', req: '20 minutes daily' },
   { key: 'breathing',  name: 'Breathing',   icon: '🌬️', req: '2 min box / double inhale' },
   { key: 'meditation', name: 'Meditation',  icon: '🧘', req: '2 min self-guided affirmations' },
   { key: 'sleep',      name: 'Sleep',       icon: '🌙', req: 'Minimum 7 hours' },
@@ -666,7 +666,7 @@ const RANKS = [
   { name: 'Initiate',   kanji: '白帯',  icon: '🤍', week: 1 },
   { name: 'Student',    kanji: '学生',  icon: '📖', week: 2 },
   { name: 'Apprentice', kanji: '弟子',  icon: '🔨', week: 3 },
-  { name: 'Warrior',    kanji: '武士',  icon: '⚔️', week: 4 },
+  { name: 'Warrior',    kanji: '武士',  icon: '🗡️', week: 4 },
   { name: 'Guardian',   kanji: '守護者', icon: '🛡️', week: 5 },
   { name: 'Ronin',      kanji: '浪人',  icon: '🗡️', week: 6 },
   { name: 'Sensei',     kanji: '先生',  icon: '🎓', week: 7 },
@@ -822,7 +822,7 @@ function renderDashboard() {
 
   // CTA text
   document.getElementById('btn-train').textContent =
-    todayData ? '⚔️ UPDATE TRAINING' : '⚔️ TODAY\'S TRAINING';
+    todayData ? '🗡️ UPDATE TRAINING' : '🗡️ TODAY\'S TRAINING';
 }
 
 // ─── RENDER: CHECK-IN ───
