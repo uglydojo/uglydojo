@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <title>Train With The Best - Ugly Dojo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Work+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-pattern {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(204, 0, 0, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(255, 204, 0, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(204, 0, 0, 0.05) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Brand header */
+        .brand {
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 1rem;
+            color: #ffcc00;
+            letter-spacing: 6px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: #cc0000;
+            margin: 0 auto 32px;
+        }
+
+        /* Hero */
+        .hero h1 {
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 3rem;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .hero h1 span {
+            color: #ffcc00;
+            display: block;
+        }
+
+        .hero .subtitle {
+            font-family: 'Work Sans', sans-serif;
+            font-weight: 300;
+            font-size: 1.15rem;
+            color: #aaa;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        /* Stats bar */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 2rem;
+            color: #ffcc00;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #666;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Form */
+        .form-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 36px 28px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-title {
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .form-subtitle {
+            font-size: 0.85rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #888;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: #555;
+        }
+
+        .form-group input:focus {
+            border-color: #ffcc00;
+            background: rgba(255, 204, 0, 0.03);
+            box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #cc0000, #990000);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 1.15rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #e60000, #b30000);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(204, 0, 0, 0.35);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .guarantee {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .guarantee span {
+            color: #ffcc00;
+        }
+
+        /* Thank you state */
+        .thank-you {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .thank-you.active {
+            display: block;
+        }
+
+        .thank-you .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #cc0000, #990000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 2.5rem;
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        .thank-you h2 {
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 12px;
+            color: #ffcc00;
+        }
+
+        .thank-you p {
+            color: #aaa;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .thank-you .submitted-info {
+            margin-top: 24px;
+            padding: 20px;
+            background: rgba(255, 204, 0, 0.05);
+            border: 1px solid #333;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .thank-you .submitted-info div {
+            padding: 8px 0;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 0.9rem;
+        }
+
+        .thank-you .submitted-info div:last-child {
+            border-bottom: none;
+        }
+
+        .thank-you .submitted-info span.label {
+            color: #666;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .thank-you .submitted-info span.value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .footer-brand {
+            font-family: 'Black Han Sans', sans-serif;
+            color: #ffcc00;
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            margin-bottom: 4px;
+        }
+
+        .footer p {
+            font-size: 0.75rem;
+            color: #444;
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.2rem; }
+            .stats { gap: 20px; }
+            .stat-number { font-size: 1.5rem; }
+            .form-card { padding: 28px 20px; }
+            .container { padding: 24px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+
+    <div class="container">
+        <div class="brand">UGLY DOJO</div>
+        <div class="divider"></div>
+
+        <div class="hero">
+            <h1>ENTRENA CON <span>LOS MEJORES</span></h1>
+            <p class="subtitle">
+                Reserva tu clase gratis. Experimenta el entrenamiento que ha formado campeones y cinturones negros por mas de 20 anos.
+            </p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number">20+</span>
+                <span class="stat-label">ANOS</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">500+</span>
+                <span class="stat-label">ESTUDIANTES</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">BLACK BELTS</span>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div class="form-card" id="formCard">
+            <div class="form-title">RESERVA TU CLASE GRATIS</div>
+            <p class="form-subtitle">Completa el formulario y te contactamos en menos de 24 horas</p>
+
+            <form id="leadForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Nombre Completo</label>
+                    <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo Electronico</label>
+                    <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Numero de Telefono</label>
+                    <input type="tel" id="phone" name="phone" placeholder="(787) 555-1234" required>
+                </div>
+                <button type="submit" class="submit-btn">RESERVAR MI CLASE GRATIS</button>
+            </form>
+            <p class="guarantee"><span>&#9733;</span> Sin compromiso. Cancela cuando quieras.</p>
+        </div>
+
+        <!-- Thank You -->
+        <div class="thank-you" id="thankYou">
+            <div class="checkmark">&#10003;</div>
+            <h2>RESERVACION CONFIRMADA</h2>
+            <p>Gracias por registrarte. Un miembro de nuestro equipo te va a contactar para confirmar tu clase gratis.</p>
+            <div class="submitted-info">
+                <div>
+                    <span class="label">Nombre</span>
+                    <span class="value" id="confirmedName"></span>
+                </div>
+                <div>
+                    <span class="label">Email</span>
+                    <span class="value" id="confirmedEmail"></span>
+                </div>
+                <div>
+                    <span class="label">Telefono</span>
+                    <span class="value" id="confirmedPhone"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-brand">UGLY DOJO</div>
+            <p>Version 1.0 | Published: February 28, 2026</p>
+        </div>
+    </div>
+
+    <script>
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+
+            // Show confirmation
+            document.getElementById('confirmedName').textContent = name;
+            document.getElementById('confirmedEmail').textContent = email;
+            document.getElementById('confirmedPhone').textContent = phone;
+
+            // Animate transition
+            const formCard = document.getElementById('formCard');
+            formCard.style.opacity = '0';
+            formCard.style.transform = 'translateY(-20px)';
+            formCard.style.transition = 'all 0.4s ease';
+
+            setTimeout(() => {
+                formCard.style.display = 'none';
+                const thankYou = document.getElementById('thankYou');
+                thankYou.classList.add('active');
+                thankYou.style.opacity = '0';
+                thankYou.style.transform = 'translateY(20px)';
+                thankYou.style.transition = 'all 0.5s ease';
+
+                setTimeout(() => {
+                    thankYou.style.opacity = '1';
+                    thankYou.style.transform = 'translateY(0)';
+                }, 50);
+            }, 400);
+        }
+    </script>
+</body>
+</html>
