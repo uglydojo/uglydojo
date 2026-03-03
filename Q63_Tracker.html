@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <style>
 /* ─── RESET & BASE ─── */
 *{margin:0;padding:0;box-sizing:border-box}
@@ -23,7 +24,7 @@ button{
   cursor:pointer;border:none;outline:none;
   font-size:.95rem;font-weight:600;
 }
-input{
+input,select,textarea{
   font-family:'Work Sans',sans-serif;
   font-size:1rem;
   background:#1a1a1a;color:#fff;
@@ -31,8 +32,10 @@ input{
   padding:14px 16px;width:100%;
   transition:border-color .2s;
 }
-input:focus{border-color:#ffcc00;outline:none}
-input::placeholder{color:#555}
+input:focus,select:focus,textarea:focus{border-color:#ffcc00;outline:none}
+input::placeholder,textarea::placeholder{color:#555}
+textarea{resize:vertical;min-height:60px}
+select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 
 /* ─── VARIABLES ─── */
 :root{
@@ -62,8 +65,13 @@ input::placeholder{color:#555}
 }
 
 /* ─── AUTH SCREEN ─── */
-.auth-header{text-align:center;padding:40px 0 30px}
+.auth-header{text-align:center;padding:40px 0 20px}
 .auth-header .katana-icon{font-size:3rem;margin-bottom:12px}
+.auth-explainer{
+  color:var(--gray);font-size:.9rem;
+  line-height:1.5;text-align:center;
+  margin-bottom:24px;padding:0 8px;
+}
 .auth-tabs{display:flex;margin-bottom:24px;border-bottom:1px solid #333}
 .auth-tab{
   flex:1;padding:12px;text-align:center;
@@ -129,10 +137,11 @@ input::placeholder{color:#555}
 .dash-greeting{font-size:.9rem;color:var(--gray);margin-bottom:4px}
 .dash-day{
   font-family:'Black Han Sans',sans-serif;
-  font-size:1.8rem;color:#fff;
-  margin-bottom:20px;
+  font-size:1.6rem;color:#fff;
+  margin-bottom:4px;
 }
 .dash-day span{color:var(--yellow)}
+.dash-date{font-size:.85rem;color:var(--gray);margin-bottom:20px}
 
 /* Katana progress bar */
 .katana-bar{
@@ -203,66 +212,129 @@ input::placeholder{color:#555}
 }
 .btn-cta:active{transform:scale(.98)}
 
-/* ─── CHECK-IN ─── */
+/* ─── CHECK-IN v2 (Flow State) ─── */
 .checkin-header{
-  text-align:center;margin-bottom:24px;
+  text-align:center;margin-bottom:8px;
 }
 .checkin-title{
   font-family:'Black Han Sans',sans-serif;
-  font-size:1.5rem;margin-bottom:4px;
+  font-size:1.3rem;margin-bottom:2px;
+}
+.checkin-date{
+  font-size:.85rem;color:var(--gray);margin-bottom:8px;
 }
 .checkin-score{
   font-size:.9rem;color:var(--gray);
 }
 .checkin-score span{color:var(--yellow);font-weight:700}
 
+/* Progress ring at top */
+.progress-ring-container{
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;position:relative;
+}
+.progress-ring-text{
+  position:absolute;
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.3rem;color:var(--yellow);
+}
+
+/* Practice card v2 — long-press circle fill */
 .practice-card{
   background:var(--dark);border-radius:12px;
   padding:16px;margin-bottom:10px;
-  display:flex;align-items:center;gap:14px;
   border:1px solid #333;
-  transition:all .3s;
+  transition:all .3s cubic-bezier(0.34, 1.56, 0.64, 1);
   cursor:pointer;
   -webkit-user-select:none;user-select:none;
+  position:relative;
+  overflow:hidden;
+}
+.practice-card.next-up{
+  border-color:rgba(255,204,0,.4);
+  box-shadow:0 0 16px rgba(255,204,0,.12);
 }
 .practice-card.checked{
   border-color:var(--yellow);
-  box-shadow:0 0 12px rgba(255,204,0,.1);
+  box-shadow:0 0 12px rgba(255,204,0,.15);
 }
-.practice-icon{font-size:1.6rem;flex-shrink:0}
+.practice-card.completing{
+  transform:scale(1.02);
+}
+.practice-card-main{
+  display:flex;align-items:center;gap:14px;
+}
+.practice-ring{
+  width:48px;height:48px;flex-shrink:0;
+  position:relative;display:flex;
+  align-items:center;justify-content:center;
+}
+.practice-ring svg{
+  width:48px;height:48px;
+  transform:rotate(-90deg);
+}
+.practice-ring-bg{
+  fill:none;stroke:#333;stroke-width:3;
+}
+.practice-ring-fill{
+  fill:none;stroke:var(--yellow);stroke-width:3;
+  stroke-linecap:round;
+  transition:stroke-dashoffset 0s linear;
+}
+.practice-ring-icon{
+  position:absolute;font-size:1.2rem;
+}
+.practice-card.checked .practice-ring-icon{
+  animation:checkBounce .4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes checkBounce{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.3)}
+  100%{transform:scale(1)}
+}
 .practice-info{flex:1}
 .practice-name{font-weight:600;font-size:.95rem}
 .practice-req{font-size:.75rem;color:var(--gray);margin-top:2px}
-.practice-toggle{
-  width:48px;height:28px;
-  border-radius:14px;
-  background:#333;
-  position:relative;
-  flex-shrink:0;
-  transition:background .3s;
+.practice-check-mark{
+  font-size:1.2rem;opacity:0;
+  transition:opacity .3s, transform .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform:scale(0.5);
 }
-.practice-toggle::after{
-  content:'';position:absolute;
-  top:3px;left:3px;
-  width:22px;height:22px;
-  border-radius:50%;background:#666;
-  transition:all .3s;
+.practice-card.checked .practice-check-mark{
+  opacity:1;transform:scale(1);
 }
-.practice-card.checked .practice-toggle{background:var(--yellow)}
-.practice-card.checked .practice-toggle::after{
-  transform:translateX(20px);
-  background:#000;
+
+/* Expandable detail area */
+.practice-detail{
+  max-height:0;overflow:hidden;
+  transition:max-height .3s ease, padding .3s ease;
+  padding:0 0;
 }
-.btn-save-checkin{
-  margin-top:20px;
-  display:block;width:100%;
-  background:var(--yellow);color:#000;
-  padding:16px;border-radius:12px;
-  font-size:1rem;font-weight:700;
-  transition:all .2s;
+.practice-detail.open{
+  max-height:300px;
+  padding:14px 0 4px;
 }
-.btn-save-checkin:active{transform:scale(.98)}
-.btn-save-checkin:disabled{opacity:.5;cursor:not-allowed}
+.practice-detail-inner{
+  display:flex;flex-direction:column;gap:10px;
+  border-top:1px solid #333;
+  padding-top:12px;
+}
+.detail-row{
+  display:flex;align-items:center;gap:10px;
+}
+.detail-label{
+  font-size:.8rem;color:var(--gray);
+  min-width:50px;flex-shrink:0;
+}
+.detail-row input,.detail-row select,.detail-row textarea{
+  padding:10px 12px;font-size:.85rem;
+}
+
+/* Long-press hint */
+.press-hint{
+  text-align:center;font-size:.75rem;
+  color:#555;margin-bottom:16px;
+}
 
 /* Perfect strike overlay */
 .perfect-overlay{
@@ -372,6 +444,37 @@ input::placeholder{color:#555}
 }
 .practice-stat-fill{height:100%;background:var(--yellow);border-radius:3px;transition:width .5s}
 .practice-stat-pct{font-size:.75rem;color:var(--gray);width:36px;text-align:right}
+
+/* Sleep trend bars */
+.sleep-trend{display:flex;align-items:flex-end;gap:4px;height:80px;padding:8px 0}
+.sleep-bar{
+  flex:1;background:var(--yellow);border-radius:3px 3px 0 0;
+  min-height:2px;position:relative;
+  transition:height .3s;
+}
+.sleep-bar-label{
+  position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+  font-size:.6rem;color:var(--gray);white-space:nowrap;
+}
+
+/* Exercise type breakdown */
+.exercise-breakdown{display:flex;flex-direction:column;gap:6px}
+.exercise-type-row{display:flex;align-items:center;gap:8px}
+.exercise-type-name{font-size:.8rem;width:60px;color:var(--gray)}
+.exercise-type-bar{flex:1;height:8px;background:#333;border-radius:4px;overflow:hidden}
+.exercise-type-fill{height:100%;background:var(--yellow);border-radius:4px}
+.exercise-type-count{font-size:.75rem;color:var(--gray);width:24px;text-align:right}
+
+/* Notes viewer */
+.notes-list{max-height:300px;overflow-y:auto}
+.note-entry{
+  padding:10px 0;border-bottom:1px solid #222;
+}
+.note-entry:last-child{border-bottom:none}
+.note-date{font-size:.7rem;color:var(--yellow);margin-bottom:4px}
+.note-practice{font-size:.7rem;color:var(--gray)}
+.note-text{font-size:.85rem;color:#ccc;margin-top:4px}
+
 .btn-logout{
   margin-top:20px;display:block;width:100%;
   background:none;color:var(--red);
@@ -381,6 +484,11 @@ input::placeholder{color:#555}
   transition:all .2s;
 }
 .btn-logout:active{background:rgba(204,0,0,.1)}
+
+.version-footer{
+  text-align:center;font-size:.7rem;
+  color:#333;margin-top:16px;
+}
 
 /* ─── DAY DETAIL MODAL ─── */
 .modal-overlay{
@@ -399,6 +507,7 @@ input::placeholder{color:#555}
   width:100%;max-width:480px;
   transform:translateY(100%);
   transition:transform .3s;
+  max-height:80vh;overflow-y:auto;
 }
 .modal-overlay.show .modal-content{transform:translateY(0)}
 .modal-handle{
@@ -416,6 +525,10 @@ input::placeholder{color:#555}
 }
 .modal-practice-check{font-size:1rem}
 .modal-practice-name{font-size:.9rem}
+.modal-practice-detail{
+  font-size:.75rem;color:var(--gray);margin-left:34px;
+  margin-top:-4px;padding-bottom:4px;
+}
 .modal-close{
   margin-top:16px;width:100%;
   background:#333;color:#fff;
@@ -465,12 +578,14 @@ input::placeholder{color:#555}
   <div class="auth-header">
     <div class="katana-icon">👺</div>
     <div class="brand brand-lg">UGLY DOJO</div>
-    <div class="tagline">Q63 BIOCONGRUENCE TRACKER</div>
+    <div class="tagline">Q63 BIOCONGRUENCE CHALLENGE</div>
   </div>
 
+  <p class="auth-explainer">63 days. 7 daily practices. Track your exercise, breathing, meditation, sleep, gratitude, hydration, and nutrition. Build unbreakable habits.</p>
+
   <div class="auth-tabs">
-    <button class="auth-tab active" data-tab="login">Enter the Dojo</button>
-    <button class="auth-tab" data-tab="register">Begin Your Forge</button>
+    <button class="auth-tab active" data-tab="login">Log In</button>
+    <button class="auth-tab" data-tab="register">Join the Challenge</button>
   </div>
 
   <div id="auth-error" class="auth-error"></div>
@@ -480,7 +595,7 @@ input::placeholder{color:#555}
   <form id="form-login" class="auth-form">
     <input type="email" id="login-email" placeholder="Email" autocomplete="email" required>
     <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required>
-    <button type="submit" class="btn-primary">ENTER THE DOJO</button>
+    <button type="submit" class="btn-primary">LOG IN</button>
     <button type="button" class="btn-link" id="btn-forgot">Forgot password?</button>
   </form>
 
@@ -489,7 +604,7 @@ input::placeholder{color:#555}
     <input type="text" id="reg-name" placeholder="Your name" autocomplete="name" required>
     <input type="email" id="reg-email" placeholder="Email" autocomplete="email" required>
     <input type="password" id="reg-password" placeholder="Password (min 8 characters)" autocomplete="new-password" required minlength="8">
-    <button type="submit" class="btn-primary">BEGIN YOUR FORGE</button>
+    <button type="submit" class="btn-primary">START MY 63 DAYS</button>
   </form>
 
   <!-- Forgot password form -->
@@ -521,12 +636,13 @@ input::placeholder{color:#555}
 <div id="view-dashboard" class="view">
   <div class="dash-greeting" id="dash-greeting">Welcome back</div>
   <div class="dash-day">Day <span id="dash-day-num">1</span> of 63</div>
+  <div class="dash-date" id="dash-date"></div>
 
   <div class="katana-bar">
     <div class="katana-fill" id="katana-fill" style="width:0%">
       <span class="katana-fill-label" id="katana-pct"></span>
     </div>
-    <span class="katana-label" id="katana-label-right">Forge your blade</span>
+    <span class="katana-label" id="katana-label-right"></span>
   </div>
 
   <div class="rank-card">
@@ -558,13 +674,24 @@ input::placeholder{color:#555}
 <!-- ═══ CHECK-IN ═══ -->
 <div id="view-checkin" class="view">
   <div class="checkin-header">
-    <div class="checkin-title">Today's Training</div>
+    <div class="checkin-title" id="checkin-title">Today's Training</div>
+    <div class="checkin-date" id="checkin-date"></div>
     <div class="checkin-score">Score: <span id="checkin-score">0</span> / 7</div>
   </div>
 
-  <div id="practice-list"></div>
+  <!-- Top progress ring -->
+  <div class="progress-ring-container">
+    <svg width="80" height="80">
+      <circle cx="40" cy="40" r="34" fill="none" stroke="#333" stroke-width="5"/>
+      <circle id="top-progress-ring" cx="40" cy="40" r="34" fill="none" stroke="var(--yellow)" stroke-width="5" stroke-linecap="round"
+        stroke-dasharray="213.6" stroke-dashoffset="213.6" style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .4s ease"/>
+    </svg>
+    <div class="progress-ring-text" id="progress-ring-text">0/7</div>
+  </div>
 
-  <button class="btn-save-checkin" id="btn-save-checkin">SAVE TRAINING</button>
+  <div class="press-hint">Press and hold to complete a practice</div>
+
+  <div id="practice-list"></div>
 </div>
 
 <!-- ═══ 63-DAY GRID ═══ -->
@@ -605,7 +732,23 @@ input::placeholder{color:#555}
     <div id="practice-breakdown"></div>
   </div>
 
+  <div class="stat-block" id="sleep-trend-block" style="display:none">
+    <div class="stat-block-title">Sleep Trend (hours/night)</div>
+    <div class="sleep-trend" id="sleep-trend"></div>
+  </div>
+
+  <div class="stat-block" id="exercise-breakdown-block" style="display:none">
+    <div class="stat-block-title">Exercise Breakdown</div>
+    <div class="exercise-breakdown" id="exercise-breakdown"></div>
+  </div>
+
+  <div class="stat-block" id="notes-block" style="display:none">
+    <div class="stat-block-title">Reflections & Notes</div>
+    <div class="notes-list" id="notes-list"></div>
+  </div>
+
   <button class="btn-logout" id="btn-logout">LOG OUT</button>
+  <div class="version-footer">Q63 Tracker v2.0</div>
 </div>
 </div><!-- /.app -->
 
@@ -646,8 +789,10 @@ input::placeholder{color:#555}
 
 <script>
 /* ═══════════════════════════════════════════
-   Q63 TRACKER — UGLY DOJO
+   Q63 TRACKER v2.0 — UGLY DOJO
    ═══════════════════════════════════════════ */
+
+const APP_VERSION = '2.0';
 
 // ─── CONFIG ───
 const API = '/api';
@@ -662,6 +807,8 @@ const PRACTICES = [
   { key: 'nutrition',  name: 'Nutrition',   icon: '🔥', req: 'Follow the meal plan' },
 ];
 
+const EXERCISE_TYPES = ['Walk', 'Weights', 'Run', 'Yoga', 'Sport', 'Other'];
+
 const RANKS = [
   { name: 'Initiate',   kanji: '白帯',  icon: '🤍', week: 1 },
   { name: 'Student',    kanji: '学生',  icon: '📖', week: 2 },
@@ -674,15 +821,40 @@ const RANKS = [
   { name: 'Shogun',     kanji: '将軍',  icon: '🏯', week: 9 },
 ];
 
+const LONG_PRESS_MS = 800;
+const RING_CIRCUMFERENCE = 2 * Math.PI * 20; // r=20 for practice rings
+
 // ─── STATE ───
 let state = {
   token: localStorage.getItem('q63_token') || null,
   user: JSON.parse(localStorage.getItem('q63_user') || 'null'),
   startDate: null,
+  timezone: null,
   progress: { days: {} },
   currentView: 'loading',
-  checkinState: {}, // temp toggle state for current check-in
+  checkinState: {}, // v2 practice objects for current check-in
 };
+
+// ─── NORMALIZE PRACTICES (v1 booleans → v2 objects) ───
+function normalizePractices(practices) {
+  const result = {};
+  for (const [key, val] of Object.entries(practices)) {
+    if (typeof val === 'boolean') {
+      result[key] = { done: val, notes: '' };
+    } else if (val && typeof val === 'object') {
+      result[key] = { ...val };
+    } else {
+      result[key] = { done: false, notes: '' };
+    }
+  }
+  // Ensure all practices exist
+  for (const p of PRACTICES) {
+    if (!result[p.key]) {
+      result[p.key] = { done: false, notes: '' };
+    }
+  }
+  return result;
+}
 
 // ─── API HELPERS ───
 async function api(endpoint, method = 'GET', body = null) {
@@ -699,34 +871,60 @@ async function api(endpoint, method = 'GET', body = null) {
   return data;
 }
 
+// ─── DATE HELPERS ───
+function getUserTimezone() {
+  return state.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
+
+function getTodayString() {
+  // Get today's date in user's timezone as YYYY-MM-DD
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: getUserTimezone(),
+    year: 'numeric', month: '2-digit', day: '2-digit',
+  });
+  return formatter.format(now);
+}
+
+function formatDateDisplay(dateStr) {
+  // "Feb 25, 2026" or "Tuesday, Feb 25"
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-US', {
+    weekday: 'long', month: 'short', day: 'numeric',
+  });
+}
+
+function getCalendarDateForDay(dayNum) {
+  if (!state.startDate) return null;
+  const start = new Date(state.startDate + 'T12:00:00');
+  start.setDate(start.getDate() + (dayNum - 1));
+  const y = start.getFullYear();
+  const m = String(start.getMonth() + 1).padStart(2, '0');
+  const d = String(start.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
 // ─── NAVIGATION ───
 function navigate(view) {
-  // Hide all views
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-
-  // Show target
   const el = document.getElementById(`view-${view}`);
   if (el) el.classList.add('active');
 
-  // Update nav
   document.querySelectorAll('.nav-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.view === view);
   });
 
-  // Show/hide nav
   const authedViews = ['dashboard', 'checkin', 'grid', 'stats'];
   document.getElementById('bottom-nav').style.display =
     authedViews.includes(view) ? 'flex' : 'none';
 
   state.currentView = view;
 
-  // Render view-specific content
   if (view === 'dashboard') renderDashboard();
   if (view === 'checkin') renderCheckin();
   if (view === 'grid') renderGrid();
   if (view === 'stats') renderStats();
 
-  // Update hash without triggering hashchange
   const newHash = `#${view}`;
   if (location.hash !== newHash) {
     history.replaceState(null, '', newHash);
@@ -737,8 +935,8 @@ function navigate(view) {
 function getCurrentDay() {
   if (!state.startDate) return 1;
   const start = new Date(state.startDate + 'T00:00:00');
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const todayStr = getTodayString();
+  const today = new Date(todayStr + 'T00:00:00');
   const diff = Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
   return Math.max(1, Math.min(63, diff));
 }
@@ -749,15 +947,24 @@ function getRank(day) {
 }
 
 // ─── STREAK CALCULATION ───
+function getScore(dayData) {
+  if (!dayData) return 0;
+  if (typeof dayData.score === 'number') return dayData.score;
+  // Fallback: count done practices
+  const practices = dayData.practices || {};
+  return Object.values(practices).filter(v =>
+    (typeof v === 'boolean' && v) || (v && v.done)
+  ).length;
+}
+
 function calcStreak() {
   const currentDay = getCurrentDay();
   let streak = 0;
   for (let d = currentDay; d >= 1; d--) {
     const dayData = state.progress.days[String(d)];
-    if (dayData && dayData.score === 7) {
+    if (dayData && getScore(dayData) === 7) {
       streak++;
     } else if (d === currentDay && !dayData) {
-      // Today hasn't been logged yet — don't break streak, just skip
       continue;
     } else {
       break;
@@ -770,7 +977,7 @@ function calcBestStreak() {
   let best = 0, current = 0;
   for (let d = 1; d <= 63; d++) {
     const dayData = state.progress.days[String(d)];
-    if (dayData && dayData.score === 7) {
+    if (dayData && getScore(dayData) === 7) {
       current++;
       if (current > best) best = current;
     } else {
@@ -783,7 +990,7 @@ function calcBestStreak() {
 function countPerfectDays() {
   let count = 0;
   for (const d of Object.values(state.progress.days)) {
-    if (d.score === 7) count++;
+    if (getScore(d) === 7) count++;
   }
   return count;
 }
@@ -802,12 +1009,17 @@ function renderDashboard() {
     state.user ? `Welcome back, ${state.user.name}` : 'Welcome back';
   document.getElementById('dash-day-num').textContent = day;
 
+  // Date display
+  const calDate = getCalendarDateForDay(day);
+  document.getElementById('dash-date').textContent =
+    calDate ? formatDateDisplay(calDate) : getTodayString();
+
   // Katana bar
   const fill = document.getElementById('katana-fill');
   const label = document.getElementById('katana-label-right');
   fill.style.width = `${pct}%`;
   document.getElementById('katana-pct').textContent = pct > 8 ? `${pct}%` : '';
-  label.textContent = pct > 0 ? '' : 'Forge your blade';
+  label.textContent = pct > 0 ? '' : `0% complete — start your first day`;
 
   // Rank
   document.getElementById('rank-icon').textContent = rank.icon;
@@ -816,7 +1028,7 @@ function renderDashboard() {
 
   // Stats
   document.getElementById('dash-today-score').textContent =
-    todayData ? `${todayData.score}/7` : '—';
+    todayData ? `${getScore(todayData)}/7` : '—';
   document.getElementById('dash-streak').textContent = streak;
   document.getElementById('dash-perfect').textContent = perfects;
 
@@ -825,17 +1037,31 @@ function renderDashboard() {
     todayData ? '🗡️ UPDATE TRAINING' : '🗡️ TODAY\'S TRAINING';
 }
 
-// ─── RENDER: CHECK-IN ───
+// ─── RENDER: CHECK-IN v2 (Flow State) ───
+let longPressTimer = null;
+let longPressStartTime = null;
+let longPressKey = null;
+let ringAnimFrame = null;
+let saveDebounceTimer = null;
+
 function renderCheckin() {
   const day = getCurrentDay();
   const existing = state.progress.days[String(day)];
 
+  // Show day info in header
+  const calDate = getCalendarDateForDay(day) || getTodayString();
+  document.getElementById('checkin-title').textContent = `Day ${day} of 63`;
+  document.getElementById('checkin-date').textContent = formatDateDisplay(calDate);
+
   // Initialize checkin state from existing data or empty
   if (existing) {
-    state.checkinState = { ...existing.practices };
+    const normalized = normalizePractices(existing.practices || {});
+    state.checkinState = normalized;
   } else {
     state.checkinState = {};
-    PRACTICES.forEach(p => state.checkinState[p.key] = false);
+    PRACTICES.forEach(p => {
+      state.checkinState[p.key] = { done: false, notes: '' };
+    });
   }
 
   renderPracticeCards();
@@ -843,72 +1069,313 @@ function renderCheckin() {
 
 function renderPracticeCards() {
   const list = document.getElementById('practice-list');
-  const score = Object.values(state.checkinState).filter(Boolean).length;
+  const score = PRACTICES.filter(p => state.checkinState[p.key]?.done).length;
   document.getElementById('checkin-score').textContent = score;
+  updateTopProgressRing(score);
 
-  list.innerHTML = PRACTICES.map(p => `
-    <div class="practice-card ${state.checkinState[p.key] ? 'checked' : ''}" data-key="${p.key}">
-      <div class="practice-icon">${p.icon}</div>
-      <div class="practice-info">
-        <div class="practice-name">${p.name}</div>
-        <div class="practice-req">${p.req}</div>
+  // Find first uncompleted practice for "next-up" highlight
+  const nextUp = PRACTICES.find(p => !state.checkinState[p.key]?.done);
+
+  list.innerHTML = PRACTICES.map(p => {
+    const data = state.checkinState[p.key] || { done: false, notes: '' };
+    const checked = data.done;
+    const isNext = nextUp && nextUp.key === p.key && !checked;
+    const circumference = RING_CIRCUMFERENCE;
+
+    return `
+    <div class="practice-card ${checked ? 'checked' : ''} ${isNext ? 'next-up' : ''}" data-key="${p.key}">
+      <div class="practice-card-main">
+        <div class="practice-ring">
+          <svg viewBox="0 0 44 44">
+            <circle class="practice-ring-bg" cx="22" cy="22" r="20"/>
+            <circle class="practice-ring-fill" cx="22" cy="22" r="20"
+              stroke-dasharray="${circumference}"
+              stroke-dashoffset="${checked ? 0 : circumference}"/>
+          </svg>
+          <span class="practice-ring-icon">${checked ? '✓' : p.icon}</span>
+        </div>
+        <div class="practice-info">
+          <div class="practice-name">${p.name}</div>
+          <div class="practice-req">${p.req}</div>
+        </div>
+        <span class="practice-check-mark">${checked ? '✅' : ''}</span>
       </div>
-      <div class="practice-toggle"></div>
-    </div>
-  `).join('');
+      <div class="practice-detail ${checked ? 'open' : ''}" data-detail="${p.key}">
+        <div class="practice-detail-inner">
+          ${renderDetailFields(p, data)}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
 
-  // Attach click handlers
+  // Attach long-press handlers
   list.querySelectorAll('.practice-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const key = card.dataset.key;
-      state.checkinState[key] = !state.checkinState[key];
-      card.classList.toggle('checked');
-      const newScore = Object.values(state.checkinState).filter(Boolean).length;
-      document.getElementById('checkin-score').textContent = newScore;
-    });
+    const key = card.dataset.key;
+
+    const onStart = (e) => {
+      // Don't trigger long-press on input/select/textarea interactions
+      if (e.target.closest('.practice-detail') && (
+        e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA'
+      )) return;
+
+      const data = state.checkinState[key];
+      // If already checked, tapping toggles detail open/close
+      if (data?.done) {
+        // Only on quick taps, not long press
+        longPressKey = key;
+        longPressStartTime = Date.now();
+        longPressTimer = setTimeout(() => {
+          // Long press on completed = uncomplete
+          uncompleteWithAnimation(card, key);
+          longPressKey = null;
+        }, LONG_PRESS_MS);
+        return;
+      }
+
+      // Start ring fill animation
+      longPressKey = key;
+      longPressStartTime = Date.now();
+      card.classList.add('completing');
+
+      const ringFill = card.querySelector('.practice-ring-fill');
+      ringFill.style.transition = `stroke-dashoffset ${LONG_PRESS_MS}ms linear`;
+      ringFill.style.strokeDashoffset = '0';
+
+      longPressTimer = setTimeout(() => {
+        completeWithAnimation(card, key);
+        longPressKey = null;
+      }, LONG_PRESS_MS);
+    };
+
+    const onEnd = () => {
+      if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+      }
+
+      const data = state.checkinState[key];
+      const elapsed = Date.now() - (longPressStartTime || 0);
+
+      // Quick tap on completed card → toggle detail
+      if (data?.done && elapsed < 300) {
+        const detail = card.querySelector('.practice-detail');
+        detail.classList.toggle('open');
+        longPressKey = null;
+        return;
+      }
+
+      // Released too early on uncompleted card → reset ring
+      if (!data?.done && longPressKey === key) {
+        card.classList.remove('completing');
+        const ringFill = card.querySelector('.practice-ring-fill');
+        ringFill.style.transition = 'stroke-dashoffset 0.2s ease';
+        ringFill.style.strokeDashoffset = String(RING_CIRCUMFERENCE);
+      }
+
+      longPressKey = null;
+    };
+
+    card.addEventListener('mousedown', onStart);
+    card.addEventListener('mouseup', onEnd);
+    card.addEventListener('mouseleave', onEnd);
+    card.addEventListener('touchstart', onStart, { passive: true });
+    card.addEventListener('touchend', onEnd);
+    card.addEventListener('touchcancel', onEnd);
+  });
+
+  // Attach detail field change handlers
+  list.querySelectorAll('[data-field]').forEach(field => {
+    const handler = () => {
+      const key = field.closest('.practice-card').dataset.key;
+      const fieldName = field.dataset.field;
+      let value = field.value;
+      if (field.type === 'number') value = parseFloat(value) || 0;
+      state.checkinState[key][fieldName] = value;
+      debouncedSave();
+    };
+    field.addEventListener('change', handler);
+    field.addEventListener('blur', handler);
   });
 }
 
-// ─── SAVE CHECK-IN ───
-async function saveCheckin() {
-  const btn = document.getElementById('btn-save-checkin');
-  btn.disabled = true;
-  btn.textContent = 'SAVING...';
+function renderDetailFields(practice, data) {
+  let html = '';
 
+  if (practice.key === 'sleep') {
+    html += `
+      <div class="detail-row">
+        <span class="detail-label">Hours</span>
+        <input type="number" data-field="hours" value="${data.hours || ''}" placeholder="7.5" step="0.5" min="0" max="24" style="width:80px">
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Score</span>
+        <input type="number" data-field="score" value="${data.score || ''}" placeholder="0-100" min="0" max="100" style="width:80px">
+      </div>`;
+  }
+
+  if (practice.key === 'exercise') {
+    html += `
+      <div class="detail-row">
+        <span class="detail-label">Type</span>
+        <select data-field="type">
+          <option value="">Select type...</option>
+          ${EXERCISE_TYPES.map(t => `<option value="${t}" ${data.type === t ? 'selected' : ''}>${t}</option>`).join('')}
+        </select>
+      </div>`;
+  }
+
+  // All practices get notes
+  html += `
+    <div class="detail-row">
+      <span class="detail-label">Notes</span>
+      <textarea data-field="notes" placeholder="Optional reflection..." rows="2">${data.notes || ''}</textarea>
+    </div>`;
+
+  return html;
+}
+
+function completeWithAnimation(card, key) {
+  state.checkinState[key].done = true;
+  card.classList.remove('completing');
+  card.classList.add('checked');
+  card.classList.remove('next-up');
+
+  // Update ring icon
+  const icon = card.querySelector('.practice-ring-icon');
+  icon.textContent = '✓';
+
+  // Check mark
+  const checkMark = card.querySelector('.practice-check-mark');
+  checkMark.textContent = '✅';
+
+  // Open detail area
+  const detail = card.querySelector('.practice-detail');
+  detail.classList.add('open');
+
+  // Confetti burst from card position
+  const rect = card.getBoundingClientRect();
+  const x = (rect.left + rect.width / 2) / window.innerWidth;
+  const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+  if (typeof confetti === 'function') {
+    confetti({
+      particleCount: 30,
+      spread: 50,
+      origin: { x, y },
+      colors: ['#ffcc00', '#ff6600', '#cc0000'],
+      gravity: 1.2,
+      scalar: 0.8,
+      ticks: 80,
+    });
+  }
+
+  // Haptic
+  if (navigator.vibrate) navigator.vibrate(50);
+
+  // Update score
+  const score = PRACTICES.filter(p => state.checkinState[p.key]?.done).length;
+  document.getElementById('checkin-score').textContent = score;
+  updateTopProgressRing(score);
+
+  // Update next-up highlight
+  updateNextUpHighlight();
+
+  // Auto-save
+  debouncedSave();
+
+  // Check for perfect strike
+  if (score === 7) {
+    setTimeout(() => {
+      document.getElementById('perfect-overlay').classList.add('show');
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 200,
+          spread: 120,
+          origin: { x: 0.5, y: 0.4 },
+          colors: ['#ffcc00', '#ff6600', '#cc0000', '#fff'],
+          gravity: 0.8,
+          ticks: 150,
+        });
+      }
+      if (navigator.vibrate) navigator.vibrate([50, 50, 100]);
+    }, 300);
+  }
+}
+
+function uncompleteWithAnimation(card, key) {
+  state.checkinState[key].done = false;
+  card.classList.remove('checked');
+
+  const icon = card.querySelector('.practice-ring-icon');
+  const practice = PRACTICES.find(p => p.key === key);
+  icon.textContent = practice ? practice.icon : '';
+
+  const ringFill = card.querySelector('.practice-ring-fill');
+  ringFill.style.transition = 'stroke-dashoffset 0.3s ease';
+  ringFill.style.strokeDashoffset = String(RING_CIRCUMFERENCE);
+
+  const checkMark = card.querySelector('.practice-check-mark');
+  checkMark.textContent = '';
+
+  const detail = card.querySelector('.practice-detail');
+  detail.classList.remove('open');
+
+  const score = PRACTICES.filter(p => state.checkinState[p.key]?.done).length;
+  document.getElementById('checkin-score').textContent = score;
+  updateTopProgressRing(score);
+  updateNextUpHighlight();
+  debouncedSave();
+}
+
+function updateTopProgressRing(score) {
+  const circumference = 2 * Math.PI * 34;
+  const offset = circumference - (score / 7) * circumference;
+  const ring = document.getElementById('top-progress-ring');
+  if (ring) ring.style.strokeDashoffset = String(offset);
+  const text = document.getElementById('progress-ring-text');
+  if (text) text.textContent = `${score}/7`;
+}
+
+function updateNextUpHighlight() {
+  const cards = document.querySelectorAll('#practice-list .practice-card');
+  const nextUp = PRACTICES.find(p => !state.checkinState[p.key]?.done);
+  cards.forEach(c => {
+    c.classList.toggle('next-up', nextUp && c.dataset.key === nextUp.key && !state.checkinState[c.dataset.key]?.done);
+  });
+}
+
+// ─── AUTO-SAVE (debounced) ───
+function debouncedSave() {
+  if (saveDebounceTimer) clearTimeout(saveDebounceTimer);
+  saveDebounceTimer = setTimeout(autoSave, 500);
+}
+
+async function autoSave() {
   try {
     const day = getCurrentDay();
+    const calendarDate = getCalendarDateForDay(day) || getTodayString();
 
     // Set start date if first time
     if (!state.startDate) {
-      state.startDate = new Date().toISOString().split('T')[0];
+      state.startDate = calendarDate;
     }
 
     const result = await api('progress', 'PUT', {
       day,
       practices: state.checkinState,
+      calendarDate,
     });
 
     // Update local state
     state.progress.days[String(day)] = {
-      practices: result.practices,
+      practices: result.practices || state.checkinState,
       score: result.score,
       date: new Date().toISOString(),
+      calendarDate,
     };
-
-    btn.textContent = 'SAVED ✓';
-    setTimeout(() => {
-      btn.textContent = 'SAVE TRAINING';
-      btn.disabled = false;
-    }, 1500);
-
-    // Show perfect strike animation if 7/7
-    if (result.score === 7) {
-      document.getElementById('perfect-overlay').classList.add('show');
-    }
   } catch (err) {
-    btn.textContent = 'SAVE TRAINING';
-    btn.disabled = false;
-    alert(err.message);
+    // Silent fail — data will be retried on next interaction
+    console.warn('Auto-save failed:', err.message);
   }
 }
 
@@ -931,7 +1398,7 @@ function renderGrid() {
     for (let d = 0; d < 7; d++) {
       const dayNum = week * 7 + d + 1;
       const dayData = state.progress.days[String(dayNum)];
-      const score = dayData ? dayData.score : -1;
+      const score = dayData ? getScore(dayData) : -1;
 
       let cls = 'day-cell';
       if (dayNum === currentDay) cls += ' today';
@@ -959,16 +1426,33 @@ function showDayDetail(dayNum) {
   const dayData = state.progress.days[String(dayNum)];
   if (!dayData) return;
 
+  const calDate = dayData.calendarDate || getCalendarDateForDay(dayNum);
+
   document.getElementById('modal-title').textContent = `Day ${dayNum}`;
   document.getElementById('modal-date').textContent =
-    dayData.date ? new Date(dayData.date).toLocaleDateString() : '';
+    calDate ? formatDateDisplay(calDate) : (dayData.date ? new Date(dayData.date).toLocaleDateString() : '');
+
+  const practices = normalizePractices(dayData.practices || {});
 
   const practicesHtml = PRACTICES.map(p => {
-    const done = dayData.practices[p.key];
+    const data = practices[p.key] || { done: false };
+    let detailHtml = '';
+
+    // Show details if available
+    const details = [];
+    if (p.key === 'sleep' && data.hours) details.push(`${data.hours}h`);
+    if (p.key === 'sleep' && data.score) details.push(`Score: ${data.score}`);
+    if (p.key === 'exercise' && data.type) details.push(data.type);
+    if (data.notes) details.push(data.notes);
+
+    if (details.length > 0) {
+      detailHtml = `<div class="modal-practice-detail">${details.join(' · ')}</div>`;
+    }
+
     return `<div class="modal-practice">
-      <span class="modal-practice-check">${done ? '✅' : '⬛'}</span>
+      <span class="modal-practice-check">${data.done ? '✅' : '⬛'}</span>
       <span class="modal-practice-name">${p.icon} ${p.name}</span>
-    </div>`;
+    </div>${detailHtml}`;
   }).join('');
 
   document.getElementById('modal-practices').innerHTML = practicesHtml;
@@ -990,10 +1474,43 @@ function renderStats() {
   const practiceCounts = {};
   PRACTICES.forEach(p => practiceCounts[p.key] = 0);
 
-  for (const d of Object.values(days)) {
-    totalDone += d.score;
+  // Sleep trend data
+  const sleepData = [];
+  // Exercise type breakdown
+  const exerciseCounts = {};
+  // Notes collection
+  const allNotes = [];
+
+  for (const [dayNum, d] of Object.entries(days)) {
+    const normalized = normalizePractices(d.practices || {});
+    const score = getScore(d);
+    totalDone += score;
+
     for (const p of PRACTICES) {
-      if (d.practices[p.key]) practiceCounts[p.key]++;
+      const pData = normalized[p.key];
+      if (pData?.done) practiceCounts[p.key]++;
+
+      // Sleep hours
+      if (p.key === 'sleep' && pData?.hours) {
+        sleepData.push({ day: parseInt(dayNum), hours: pData.hours });
+      }
+
+      // Exercise type
+      if (p.key === 'exercise' && pData?.done && pData?.type) {
+        exerciseCounts[pData.type] = (exerciseCounts[pData.type] || 0) + 1;
+      }
+
+      // Notes
+      if (pData?.notes) {
+        const calDate = d.calendarDate || getCalendarDateForDay(parseInt(dayNum));
+        allNotes.push({
+          day: parseInt(dayNum),
+          date: calDate,
+          practice: p.name,
+          icon: p.icon,
+          text: pData.notes,
+        });
+      }
     }
   }
 
@@ -1016,6 +1533,99 @@ function renderStats() {
       <span class="practice-stat-pct">${pct}%</span>
     </div>`;
   }).join('');
+
+  // Sleep trend
+  const sleepBlock = document.getElementById('sleep-trend-block');
+  if (sleepData.length > 0) {
+    sleepBlock.style.display = '';
+    renderSleepTrend(sleepData);
+  } else {
+    sleepBlock.style.display = 'none';
+  }
+
+  // Exercise breakdown
+  const exerciseBlock = document.getElementById('exercise-breakdown-block');
+  const exerciseTypes = Object.keys(exerciseCounts);
+  if (exerciseTypes.length > 0) {
+    exerciseBlock.style.display = '';
+    renderExerciseBreakdown(exerciseCounts);
+  } else {
+    exerciseBlock.style.display = 'none';
+  }
+
+  // Notes
+  const notesBlock = document.getElementById('notes-block');
+  if (allNotes.length > 0) {
+    notesBlock.style.display = '';
+    renderNotesList(allNotes);
+  } else {
+    notesBlock.style.display = 'none';
+  }
+}
+
+function renderSleepTrend(sleepData) {
+  const container = document.getElementById('sleep-trend');
+  // Sort by day
+  sleepData.sort((a, b) => a.day - b.day);
+
+  // Group by week for readability if many days
+  const maxHours = Math.max(...sleepData.map(d => d.hours), 8);
+  const avgHours = sleepData.reduce((s, d) => s + d.hours, 0) / sleepData.length;
+
+  let html = '';
+  // Show last 14 entries max
+  const recent = sleepData.slice(-14);
+  for (const entry of recent) {
+    const heightPct = (entry.hours / maxHours) * 100;
+    html += `<div class="sleep-bar" style="height:${heightPct}%">
+      <span class="sleep-bar-label">${entry.hours}h</span>
+    </div>`;
+  }
+
+  container.innerHTML = html;
+
+  // Update title with average
+  const block = document.getElementById('sleep-trend-block');
+  block.querySelector('.stat-block-title').textContent =
+    `Sleep Trend (avg ${avgHours.toFixed(1)}h/night)`;
+}
+
+function renderExerciseBreakdown(counts) {
+  const container = document.getElementById('exercise-breakdown');
+  const maxCount = Math.max(...Object.values(counts));
+
+  container.innerHTML = Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([type, count]) => {
+      const pct = (count / maxCount) * 100;
+      return `<div class="exercise-type-row">
+        <span class="exercise-type-name">${type}</span>
+        <div class="exercise-type-bar"><div class="exercise-type-fill" style="width:${pct}%"></div></div>
+        <span class="exercise-type-count">${count}</span>
+      </div>`;
+    }).join('');
+}
+
+function renderNotesList(notes) {
+  const container = document.getElementById('notes-list');
+  // Show most recent first
+  notes.sort((a, b) => b.day - a.day);
+  // Limit to last 20
+  const recent = notes.slice(0, 20);
+
+  container.innerHTML = recent.map(n => `
+    <div class="note-entry">
+      <span class="note-date">Day ${n.day}${n.date ? ' — ' + formatDateDisplay(n.date) : ''}</span>
+      <span class="note-practice">${n.icon} ${n.practice}</span>
+      <div class="note-text">${escapeHtml(n.text)}</div>
+    </div>
+  `).join('');
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
 
 // ─── AUTH HANDLERS ───
@@ -1085,9 +1695,10 @@ document.getElementById('form-register').addEventListener('submit', async (e) =>
   const name = document.getElementById('reg-name').value;
   const email = document.getElementById('reg-email').value;
   const password = document.getElementById('reg-password').value;
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   try {
-    const data = await api('register', 'POST', { email, name, password });
+    const data = await api('register', 'POST', { email, name, password, timezone });
     loginSuccess(data);
   } catch (err) {
     showAuthError(err.message);
@@ -1125,7 +1736,6 @@ document.getElementById('form-reset-confirm').addEventListener('submit', async (
     return;
   }
 
-  // Get token from hash
   const hash = location.hash;
   const tokenMatch = hash.match(/token=([a-f0-9]+)/);
   if (!tokenMatch) {
@@ -1162,13 +1772,11 @@ document.getElementById('btn-logout').addEventListener('click', () => {
   state.user = null;
   state.progress = { days: {} };
   state.startDate = null;
+  state.timezone = null;
   localStorage.removeItem('q63_token');
   localStorage.removeItem('q63_user');
   navigate('auth');
 });
-
-// Save check-in
-document.getElementById('btn-save-checkin').addEventListener('click', saveCheckin);
 
 // ─── BOTTOM NAV ───
 document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -1186,10 +1794,10 @@ async function loadProgress() {
     const data = await api('progress', 'GET');
     state.progress = data.progress || { days: {} };
     state.startDate = data.startDate || null;
+    state.timezone = data.timezone || null;
     if (data.name && state.user) state.user.name = data.name;
     navigate('dashboard');
   } catch (err) {
-    // Session expired
     if (err.message.includes('Unauthorized')) {
       state.token = null;
       localStorage.removeItem('q63_token');
@@ -1204,7 +1812,6 @@ async function loadProgress() {
 function init() {
   const hash = location.hash.slice(1);
 
-  // Handle password reset deep link
   if (hash.startsWith('reset-confirm')) {
     navigate('reset');
     return;
