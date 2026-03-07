@@ -1,5 +1,5 @@
 // POST /api/register — Create new account
-// Body: { email, name, password }
+// Body: { email, name, password, timezone? }
 
 function corsHeaders() {
   return {
@@ -41,7 +41,7 @@ export async function onRequestOptions() {
 
 export async function onRequestPost({ request, env }) {
   try {
-    const { email, name, password } = await request.json();
+    const { email, name, password, timezone } = await request.json();
 
     if (!email || !name || !password) {
       return json({ error: 'Email, name, and password are required.' }, 400);
@@ -72,12 +72,14 @@ export async function onRequestPost({ request, env }) {
     const passwordHash = await hashPassword(password, salt);
 
     // Create user
+    const trimmedName = name.trim();
     const user = {
       email: normalizedEmail,
-      name: name.trim(),
+      name: trimmedName,
       passwordHash,
       salt,
       startDate: null, // Set when they first check in
+      timezone: typeof timezone === 'string' ? timezone.slice(0, 100) : null,
       createdAt: new Date().toISOString(),
     };
 
@@ -108,10 +110,40 @@ export async function onRequestPost({ request, env }) {
       expirationTtl: 30 * 24 * 60 * 60,
     });
 
+    // ─── NOTIFICATIONS (fire-and-forget, never block registration) ───
+
+    // Slack webhook
+    if (env.SLACK_WEBHOOK_URL) {
+      fetch(env.SLACK_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: `🆕 New Q63 member: *${trimmedName}* (${normalizedEmail}) just joined the challenge!`,
+        }),
+      }).catch(() => {});
+    }
+
+    // Email to admin via Resend
+    if (env.RESEND_API_KEY && env.ADMIN_EMAIL) {
+      fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'Ugly Dojo <noreply@uglydojo.com>',
+          to: [env.ADMIN_EMAIL],
+          subject: `New Q63 Member: ${trimmedName}`,
+          html: `<p><strong>${trimmedName}</strong> (${normalizedEmail}) just joined the Q63 Challenge.</p>`,
+        }),
+      }).catch(() => {});
+    }
+
     return json({
       success: true,
       token,
-      user: { email: normalizedEmail, name: name.trim() },
+      user: { email: normalizedEmail, name: trimmedName },
     });
   } catch (err) {
     return json({ error: 'Registration failed. Please try again.' }, 500);

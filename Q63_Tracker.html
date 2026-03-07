@@ -336,6 +336,17 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
   color:#555;margin-bottom:16px;
 }
 
+/* Save status indicator */
+.save-status{
+  text-align:center;font-size:.7rem;
+  margin-bottom:8px;height:18px;
+  transition:opacity .3s ease;
+}
+.save-status.saving{color:#ffcc00}
+.save-status.saved{color:#4caf50}
+.save-status.error{color:#ff4444}
+.save-status.fade{opacity:0}
+
 /* Perfect strike overlay */
 .perfect-overlay{
   position:fixed;inset:0;
@@ -690,6 +701,7 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
   </div>
 
   <div class="press-hint">Press and hold to complete a practice</div>
+  <div id="save-status" class="save-status"></div>
 
   <div id="practice-list"></div>
 </div>
@@ -1344,13 +1356,33 @@ function updateNextUpHighlight() {
   });
 }
 
-// ─── AUTO-SAVE (debounced) ───
+// ─── SAVE STATUS INDICATOR ───
+let saveStatusTimer = null;
+
+function showSaveStatus(text, type) {
+  const el = document.getElementById('save-status');
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'save-status ' + type;
+  if (saveStatusTimer) clearTimeout(saveStatusTimer);
+  if (type === 'saved') {
+    saveStatusTimer = setTimeout(() => { el.classList.add('fade'); }, 2000);
+  }
+}
+
+// ─── AUTO-SAVE (debounced + retry) ───
+let saveRetryCount = 0;
+const MAX_SAVE_RETRIES = 3;
+
 function debouncedSave() {
   if (saveDebounceTimer) clearTimeout(saveDebounceTimer);
+  saveRetryCount = 0;
   saveDebounceTimer = setTimeout(autoSave, 500);
 }
 
 async function autoSave() {
+  showSaveStatus('Saving...', 'saving');
+
   try {
     const day = getCurrentDay();
     const calendarDate = getCalendarDateForDay(day) || getTodayString();
@@ -1373,9 +1405,35 @@ async function autoSave() {
       date: new Date().toISOString(),
       calendarDate,
     };
+
+    saveRetryCount = 0;
+    showSaveStatus('Saved', 'saved');
   } catch (err) {
-    // Silent fail — data will be retried on next interaction
     console.warn('Auto-save failed:', err.message);
+
+    // Session expired — prompt re-login
+    if (err.message && err.message.includes('Unauthorized')) {
+      showSaveStatus('Session expired — please log in again', 'error');
+      setTimeout(() => {
+        localStorage.removeItem('q63_token');
+        localStorage.removeItem('q63_user');
+        state.token = null;
+        state.user = null;
+        showView('login');
+      }, 2000);
+      return;
+    }
+
+    // Retry logic
+    if (saveRetryCount < MAX_SAVE_RETRIES) {
+      saveRetryCount++;
+      const delay = 1000 * saveRetryCount;
+      showSaveStatus(`Save failed — retrying (${saveRetryCount}/${MAX_SAVE_RETRIES})...`, 'error');
+      setTimeout(autoSave, delay);
+    } else {
+      showSaveStatus('Could not save — check your connection', 'error');
+      saveRetryCount = 0;
+    }
   }
 }
 
