@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Q63 Tracker — Ugly Dojo</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="Q63 Tracker — Ugly Dojo">
+<meta property="og:description" content="63-day biocongruence challenge. Track 7 daily practices. Become unbreakable.">
+<meta property="og:image" content="assets/logo.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Q63 Tracker — Ugly Dojo">
+<meta name="twitter:description" content="63-day biocongruence challenge. Track 7 daily practices. Become unbreakable.">
+<meta name="twitter:image" content="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -563,6 +574,9 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
   min-height:60vh;gap:16px;
 }
 .loading-screen .brand{font-size:1.5rem}
+.logo-img{width:140px;height:140px;object-fit:contain;border-radius:16px}
+.logo-img-sm{width:72px;height:72px;object-fit:contain;border-radius:10px}
+.logo-img-loading{width:120px;height:120px;object-fit:contain;border-radius:16px;margin-bottom:8px}
 
 /* ─── VIEW MANAGEMENT ─── */
 .view{display:none}
@@ -578,6 +592,7 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
 <div class="app">
 <div id="view-loading" class="view active">
   <div class="loading-screen">
+    <img src="assets/logo.png" alt="Ugly Dojo" class="logo-img-loading">
     <div class="brand brand-lg">UGLY DOJO</div>
     <div class="tagline">Q63 BIOCONGRUENCE TRACKER</div>
     <div class="spinner" style="margin-top:20px"></div>
@@ -587,7 +602,7 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
 <!-- ═══ AUTH ═══ -->
 <div id="view-auth" class="view">
   <div class="auth-header">
-    <div class="katana-icon">👺</div>
+    <img src="assets/logo.png" alt="Ugly Dojo" class="logo-img" style="margin-bottom:12px">
     <div class="brand brand-lg">UGLY DOJO</div>
     <div class="tagline">Q63 BIOCONGRUENCE CHALLENGE</div>
   </div>
@@ -630,6 +645,7 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
 <!-- ═══ RESET CONFIRM ═══ -->
 <div id="view-reset" class="view">
   <div class="auth-header">
+    <img src="assets/logo.png" alt="Ugly Dojo" class="logo-img-sm" style="margin-bottom:8px">
     <div class="brand brand-lg">UGLY DOJO</div>
     <div class="tagline">RESET PASSWORD</div>
   </div>
@@ -793,7 +809,7 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
 
 <!-- ═══ PERFECT STRIKE OVERLAY ═══ -->
 <div class="perfect-overlay" id="perfect-overlay">
-  <div style="font-size:4rem">👺</div>
+  <img src="assets/logo.png" alt="Ugly Dojo" class="logo-img" style="margin-bottom:8px">
   <div class="perfect-text">PERFECT STRIKE!</div>
   <div class="perfect-sub">7/7 — All practices complete</div>
   <button class="perfect-dismiss" onclick="dismissPerfect()">Continue</button>
@@ -804,7 +820,7 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
    Q63 TRACKER v2.0 — UGLY DOJO
    ═══════════════════════════════════════════ */
 
-const APP_VERSION = '2.0';
+const APP_VERSION = '2.2';
 
 // ─── CONFIG ───
 const API = '/api';
