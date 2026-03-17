@@ -123,9 +123,12 @@ function sanitizePractice(key, val) {
   if (extraFields.includes('symptoms') && val.symptoms && typeof val.symptoms === 'object') {
     sanitized.symptoms = {
       bloating: val.symptoms.bloating === true,
-      tiredness: val.symptoms.tiredness === true,
-      cravings: val.symptoms.cravings === true,
+      stomachPain: val.symptoms.stomachPain === true,
+      constipation: val.symptoms.constipation === true,
       acidReflux: val.symptoms.acidReflux === true,
+      tiredness: val.symptoms.tiredness === true,
+      hunger: val.symptoms.hunger === true,
+      cravings: val.symptoms.cravings === true,
     };
   }
 
