@@ -868,6 +868,10 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
   <div class="nutr-header">
     <h2>🔥 Fuel Tracker</h2>
     <div class="nutr-day" id="nutr-day-label">Day 1 of 63</div>
+    <div style="display:flex;justify-content:center;gap:6px;margin-top:8px">
+      <button class="chip" id="fuel-gender-m" onclick="setFuelGender('male')">Male</button>
+      <button class="chip" id="fuel-gender-f" onclick="setFuelGender('female')">Female</button>
+    </div>
   </div>
   <div class="nutr-tabs">
     <div class="nutr-tab active" data-ntab="today">Today</div>
@@ -947,7 +951,28 @@ const EXERCISE_TYPES = ['Walk', 'Weights', 'Run', 'Yoga', 'Sport', 'Other'];
 
 // ─── NUTRITION / FUEL CONSTANTS ───
 const PROTEIN_CHOICES = ['Chicken Thigh', 'Beef', 'Steak', 'Mince', 'Pork', 'Lamb', 'Salmon', 'Mackerel', 'Sardines'];
-const FAT_CHOICES = ['Avocado', 'Olives (20)', 'Nuts (60g)', 'Cheese (60g)', 'Butter (25g)', 'Avocado Oil', 'EVOO', 'Bacon*', 'Hummus*', 'Falafel*', 'Sour Cream*', 'Heavy Cream*', 'Cottage Cheese*', 'Coconut Butter*'];
+const FUEL_PORTIONS = {
+  male:   { eggs: 6, meat: 200, avocado: '1 whole', olives: 20, nuts: 60, cheese: 60, butter: 25, sourCream: 60, heavyCream: 30, cottageCheese: 100, coconutButter: 25 },
+  female: { eggs: 4, meat: 150, avocado: '½',       olives: 16, nuts: 40, cheese: 40, butter: 20, sourCream: 40, heavyCream: 20, cottageCheese: 75,  coconutButter: 20 },
+};
+function getFuelGender() { return localStorage.getItem('q63_fuel_gender') || 'male'; }
+function setFuelGender(g) {
+  localStorage.setItem('q63_fuel_gender', g);
+  document.getElementById('fuel-gender-m').classList.toggle('selected', g === 'male');
+  document.getElementById('fuel-gender-f').classList.toggle('selected', g === 'female');
+  renderNutrToday();
+  renderNutrPlan();
+  renderNutrShopping();
+}
+function getFatChoices() {
+  const p = FUEL_PORTIONS[getFuelGender()];
+  return [
+    `Avocado (${p.avocado})`, `Olives (${p.olives})`, `Nuts (${p.nuts}g)`, `Cheese (${p.cheese}g)`,
+    `Butter (${p.butter}g)`, 'Avocado Oil', 'EVOO', 'Bacon*', 'Hummus*', 'Falafel*',
+    `Sour Cream* (${p.sourCream}g)`, `Heavy Cream* (${p.heavyCream}ml)`,
+    `Cottage Cheese* (${p.cottageCheese}g)`, `Coconut Butter* (${p.coconutButter}g)`,
+  ];
+}
 const COOKING_OILS = ['Butter', 'Lard', 'Butter Ghee', 'Coconut Oil', 'Beef Dripping', 'Beef Tallow', 'Goose Fat', 'Duck Fat'];
 const VEGETABLES = ['Broccoli', 'Cauliflower', 'Cabbage', 'Brussels Sprouts', 'Kale', 'Spinach', 'Asparagus'];
 const SYMPTOMS = [
@@ -1877,6 +1902,11 @@ function renderNutrition() {
   const day = getCurrentDay();
   document.getElementById('nutr-day-label').textContent = `Day ${day} of 63`;
 
+  // Set gender toggle state
+  const g = getFuelGender();
+  document.getElementById('fuel-gender-m').classList.toggle('selected', g === 'male');
+  document.getElementById('fuel-gender-f').classList.toggle('selected', g === 'female');
+
   // Sub-tab navigation
   document.querySelectorAll('.nutr-tab').forEach(tab => {
     tab.onclick = () => {
@@ -1895,16 +1925,18 @@ function renderNutrition() {
 
 function renderNutrToday() {
   const data = getNutrData();
+  const p = FUEL_PORTIONS[getFuelGender()];
+  const fatChoices = getFatChoices();
   const container = document.getElementById('ntab-today');
 
   container.innerHTML = `
     <!-- MEAL 1 -->
     <div class="meal-card">
       <h3>🍳 Meal 1 — 12-1pm</h3>
-      <div class="meal-time">6 Eggs + 1 Fat Choice + Mushrooms (optional)</div>
+      <div class="meal-time">${p.eggs} Eggs + 1 Fat Choice + Mushrooms (optional)</div>
       <div style="margin-bottom:6px;font-size:.75rem;color:var(--gray)">Fat choice (pick 1):</div>
       <div class="chip-group" id="m1-fats">
-        ${FAT_CHOICES.map(f => `<div class="chip ${data.meal1.fatChoice === f ? 'selected' : ''}" data-val="${f}">${f}</div>`).join('')}
+        ${fatChoices.map(f => `<div class="chip ${data.meal1.fatChoice === f ? 'selected' : ''}" data-val="${f}">${f}</div>`).join('')}
       </div>
       <div class="nutr-toggle-row" style="background:transparent;padding:4px 0">
         <span style="font-size:.8rem">🍄 Mushrooms (optional)</span>
@@ -1918,13 +1950,13 @@ function renderNutrToday() {
     <!-- MEAL 2 -->
     <div class="meal-card">
       <h3>🥩 Meal 2 — 6-7pm</h3>
-      <div style="margin-bottom:6px;font-size:.75rem;color:var(--gray)">Protein — 200g (pick 1):</div>
+      <div style="margin-bottom:6px;font-size:.75rem;color:var(--gray)">Protein — ${p.meat}g (pick 1):</div>
       <div class="chip-group" id="m2-proteins">
-        ${PROTEIN_CHOICES.map(p => `<div class="chip ${data.meal2.protein === p ? 'selected' : ''}" data-val="${p}">${p}</div>`).join('')}
+        ${PROTEIN_CHOICES.map(pr => `<div class="chip ${data.meal2.protein === pr ? 'selected' : ''}" data-val="${pr}">${pr}</div>`).join('')}
       </div>
       <div style="margin-bottom:6px;font-size:.75rem;color:var(--gray)">Fat choices (pick 2):</div>
       <div class="chip-group" id="m2-fats">
-        ${FAT_CHOICES.map(f => `<div class="chip ${(data.meal2.fatChoices || []).includes(f) ? 'selected' : ''}" data-val="${f}">${f}</div>`).join('')}
+        ${fatChoices.map(f => `<div class="chip ${(data.meal2.fatChoices || []).includes(f) ? 'selected' : ''}" data-val="${f}">${f}</div>`).join('')}
       </div>
       <div style="margin-bottom:6px;font-size:.75rem;color:var(--gray)">Vegetables:</div>
       <div class="chip-group" id="m2-veg">
@@ -2076,6 +2108,7 @@ function renderNutrToday() {
 }
 
 function renderNutrPlan() {
+  const p = FUEL_PORTIONS[getFuelGender()];
   document.getElementById('ntab-plan').innerHTML = `
     <div class="nutr-plan-card">
       <h4>Ugly Dojo Fat Loss Protocol</h4>
@@ -2084,7 +2117,7 @@ function renderNutrPlan() {
     <div class="nutr-plan-card">
       <h4>🍳 Meal 1 (12-1pm)</h4>
       <ul>
-        <li>6 eggs</li>
+        <li>${p.eggs} eggs</li>
         <li>1 fat choice</li>
         <li>Mushrooms (if preferred)</li>
       </ul>
@@ -2092,7 +2125,7 @@ function renderNutrPlan() {
     <div class="nutr-plan-card">
       <h4>🥩 Meal 2 (6-7pm)</h4>
       <ul>
-        <li>200g meat/fish — chicken thighs/legs/wings (skin on), beef, steak, mince, pork, lamb, salmon, mackerel, sardines (all high fat %)</li>
+        <li>${p.meat}g meat/fish — chicken thighs/legs/wings (skin on), beef, steak, mince, pork, lamb, salmon, mackerel, sardines (all high fat %)</li>
         <li>2 fat choices</li>
         <li>Cruciferous vegetables</li>
       </ul>
@@ -2100,13 +2133,13 @@ function renderNutrPlan() {
     <div class="nutr-plan-card">
       <h4>🧈 Fat Choices</h4>
       <ul>
-        <li>1 avocado</li>
-        <li>20 olives</li>
-        <li>60g nuts (macadamia, walnuts, pecans, almonds)</li>
-        <li>60g cheese (check no added starch)</li>
-        <li>25g butter</li>
+        <li>${p.avocado} avocado</li>
+        <li>${p.olives} olives</li>
+        <li>${p.nuts}g nuts (macadamia, walnuts, pecans, almonds)</li>
+        <li>${p.cheese}g cheese (check no added starch)</li>
+        <li>${p.butter}g butter</li>
         <li>Avocado oil / Extra virgin olive oil</li>
-        <li>Sour cream* / Heavy cream* / Cottage cheese* / Coconut butter*</li>
+        <li>${p.sourCream}g sour cream* / ${p.heavyCream}ml heavy cream* / ${p.cottageCheese}g cottage cheese* / ${p.coconutButter}g coconut butter*</li>
         <li>Bacon* / Hummus* / Falafel*</li>
         <li><span style="color:var(--gray)">* added for variety — single-ingredient, real food only</span></li>
       </ul>
@@ -2129,6 +2162,9 @@ function renderNutrPlan() {
 }
 
 function renderNutrShopping() {
+  const p = FUEL_PORTIONS[getFuelGender()];
+  const weeklyEggs = p.eggs * 7;
+  const weeklyMeat = (p.meat * 7 / 1000).toFixed(1);
   document.getElementById('ntab-shop').innerHTML = `
     <div class="nutr-plan-card">
       <h4>🛒 Weekly Shopping List</h4>
@@ -2136,12 +2172,9 @@ function renderNutrShopping() {
     </div>
     <div class="shop-category">
       <h4>Proteins</h4>
-      <div class="shop-item">• Eggs — organic, free-range (42/week)</div>
-      <div class="shop-item">• Chicken thighs/legs/wings — free-range, skin on</div>
-      <div class="shop-item">• Beef — grass-fed, high fat % (ribeye, sirloin, mince, brisket)</div>
-      <div class="shop-item">• Pork — chops, belly, bacon (no added sugars)</div>
-      <div class="shop-item">• Lamb — grass-fed chops, leg, mince</div>
-      <div class="shop-item">• Fish — wild-caught salmon, mackerel, sardines</div>
+      <div class="shop-item">• Eggs — organic, free-range (${weeklyEggs}/week)</div>
+      <div class="shop-item">• Meat/fish — ${weeklyMeat}kg/week (high fat %, skin on)</div>
+      <div class="shop-item">• Options: chicken thighs, beef, steak, mince, pork, lamb, salmon, mackerel, sardines</div>
     </div>
     <div class="shop-category">
       <h4>Fats</h4>
