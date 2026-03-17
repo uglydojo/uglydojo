@@ -43,6 +43,7 @@ const VALID_PRACTICES = ['exercise', 'breathing', 'meditation', 'sleep', 'gratit
 const PRACTICE_FIELDS = {
   exercise: ['type'],
   sleep: ['hours', 'score'],
+  breathing: ['coldPlunge', 'sauna'],
   nutrition: ['meal1', 'meal2', 'symptoms', 'snacking', 'cookingOil', 'salt'],
 };
 
@@ -97,6 +98,14 @@ function sanitizePractice(key, val) {
 
   if (extraFields.includes('score') && typeof val.score === 'number') {
     sanitized.score = Math.max(0, Math.min(100, Math.round(val.score)));
+  }
+
+  // Breathing advanced fields
+  if (extraFields.includes('coldPlunge')) {
+    sanitized.coldPlunge = val.coldPlunge === true;
+  }
+  if (extraFields.includes('sauna')) {
+    sanitized.sauna = val.sauna === true;
   }
 
   // Nutrition-specific fields

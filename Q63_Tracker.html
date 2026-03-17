@@ -947,7 +947,7 @@ const PRACTICES = [
   { key: 'nutrition',  name: 'Nutrition',   icon: '🔥', req: 'Follow the meal plan' },
 ];
 
-const EXERCISE_TYPES = ['Walk', 'Weights', 'Run', 'Yoga', 'Sport', 'Other'];
+const EXERCISE_TYPES = ['Walk', 'Weights', 'Run', 'Ruck', 'Tonal', 'Peloton', 'Yoga', 'Sport', 'Other'];
 
 // ─── NUTRITION / FUEL CONSTANTS ───
 const PROTEIN_CHOICES = ['Chicken Thigh', 'Beef', 'Steak', 'Mince', 'Pork', 'Lamb', 'Salmon', 'Mackerel', 'Sardines'];
@@ -1366,7 +1366,8 @@ function renderPracticeCards() {
       const key = field.closest('.practice-card').dataset.key;
       const fieldName = field.dataset.field;
       let value = field.value;
-      if (field.type === 'number') value = parseFloat(value) || 0;
+      if (field.type === 'checkbox') value = field.checked;
+      else if (field.type === 'number') value = parseFloat(value) || 0;
       state.checkinState[key][fieldName] = value;
       debouncedSave();
     };
@@ -1398,6 +1399,19 @@ function renderDetailFields(practice, data) {
           <option value="">Select type...</option>
           ${EXERCISE_TYPES.map(t => `<option value="${t}" ${data.type === t ? 'selected' : ''}>${t}</option>`).join('')}
         </select>
+      </div>`;
+  }
+
+  if (practice.key === 'breathing') {
+    html += `
+      <div class="detail-row" style="flex-direction:column;align-items:flex-start;gap:6px;margin-top:6px">
+        <span class="detail-label" style="font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:.5px">Advanced (optional)</span>
+        <label style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:#ccc">
+          <input type="checkbox" data-field="coldPlunge" ${data.coldPlunge ? 'checked' : ''} style="width:18px;height:18px"> 🧊 Cold Plunge
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:#ccc">
+          <input type="checkbox" data-field="sauna" ${data.sauna ? 'checked' : ''} style="width:18px;height:18px"> 🔥 Sauna (20 min)
+        </label>
       </div>`;
   }
 
