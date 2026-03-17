@@ -947,7 +947,7 @@ const EXERCISE_TYPES = ['Walk', 'Weights', 'Run', 'Yoga', 'Sport', 'Other'];
 
 // ─── NUTRITION / FUEL CONSTANTS ───
 const PROTEIN_CHOICES = ['Chicken Thigh', 'Beef', 'Steak', 'Mince', 'Pork', 'Lamb', 'Salmon', 'Mackerel', 'Sardines'];
-const FAT_CHOICES = ['Avocado', 'Olives (20)', 'Nuts (60g)', 'Cheese (60g)', 'Butter (25g)', 'Avocado Oil', 'EVOO', 'Bacon*', 'Hummus*', 'Falafel*'];
+const FAT_CHOICES = ['Avocado', 'Olives (20)', 'Nuts (60g)', 'Cheese (60g)', 'Butter (25g)', 'Avocado Oil', 'EVOO', 'Bacon*', 'Hummus*', 'Falafel*', 'Sour Cream*', 'Heavy Cream*', 'Cottage Cheese*', 'Coconut Butter*'];
 const COOKING_OILS = ['Butter', 'Lard', 'Butter Ghee', 'Coconut Oil', 'Beef Dripping', 'Beef Tallow', 'Goose Fat', 'Duck Fat'];
 const VEGETABLES = ['Broccoli', 'Cauliflower', 'Cabbage', 'Brussels Sprouts', 'Kale', 'Spinach', 'Asparagus'];
 const SYMPTOMS = [
@@ -2078,8 +2078,8 @@ function renderNutrToday() {
 function renderNutrPlan() {
   document.getElementById('ntab-plan').innerHTML = `
     <div class="nutr-plan-card">
-      <h4>Eddie Abbew Fat Loss Protocol</h4>
-      <p>2 meals per day only. No snacking. Real food only — no UPFs, no seed oils, no hidden sugars.</p>
+      <h4>Ugly Dojo Fat Loss Protocol</h4>
+      <p>2 meals per day. No snacking. Real, single-ingredient food only — no ultra-processed foods, no seed oils, no hidden sugars. This is insulin regulation, not calorie counting.</p>
     </div>
     <div class="nutr-plan-card">
       <h4>🍳 Meal 1 (12-1pm)</h4>
@@ -2103,21 +2103,23 @@ function renderNutrPlan() {
         <li>1 avocado</li>
         <li>20 olives</li>
         <li>60g nuts (macadamia, walnuts, pecans, almonds)</li>
-        <li>60g cheese</li>
+        <li>60g cheese (check no added starch)</li>
         <li>25g butter</li>
         <li>Avocado oil / Extra virgin olive oil</li>
-        <li>Bacon* / Hummus* / Falafel* <span style="color:var(--gray)">(* not the best but available for variety)</span></li>
+        <li>Sour cream* / Heavy cream* / Cottage cheese* / Coconut butter*</li>
+        <li>Bacon* / Hummus* / Falafel*</li>
+        <li><span style="color:var(--gray)">* added for variety — single-ingredient, real food only</span></li>
       </ul>
     </div>
     <div class="nutr-plan-card">
-      <h4>🍳 Cooking Oils</h4>
-      <p>Butter, lard, butter ghee (not vegetable ghee), coconut oil, beef dripping, beef tallow, goose fat, duck fat.</p>
+      <h4>🍳 Cooking Fats</h4>
+      <p>Butter, lard, butter ghee (not vegetable ghee), coconut oil, beef dripping, beef tallow, goose fat, duck fat. No seed oils ever.</p>
     </div>
     <div class="nutr-plan-card">
       <h4>📋 Key Rules</h4>
       <ul>
         <li>No snacking — insulin is the fat storing hormone, regulate it</li>
-        <li>Make sure you eat enough salt!</li>
+        <li>Salt your food — your body needs it</li>
         <li>If you experience symptoms, investigate what you ate — your body does nothing without a reason</li>
         <li>Always check ingredients lists — sugar has many names</li>
         <li>Track: bloating, stomach pain, constipation/diarrhoea, acid reflux, tiredness, hunger, cravings</li>
@@ -2130,7 +2132,7 @@ function renderNutrShopping() {
   document.getElementById('ntab-shop').innerHTML = `
     <div class="nutr-plan-card">
       <h4>🛒 Weekly Shopping List</h4>
-      <p style="font-size:.75rem;color:var(--gray);margin-bottom:12px">Based on 7 days of the Eddie Abbew protocol</p>
+      <p style="font-size:.75rem;color:var(--gray);margin-bottom:12px">Based on 7 days of the Ugly Dojo Fat Loss Protocol</p>
     </div>
     <div class="shop-category">
       <h4>Proteins</h4>
@@ -2148,6 +2150,10 @@ function renderNutrShopping() {
       <div class="shop-item">• Nuts — macadamia, walnuts, pecans, almonds (raw, unsalted)</div>
       <div class="shop-item">• Cheese — hard cheeses, full-fat (check no added starch)</div>
       <div class="shop-item">• Butter — grass-fed</div>
+      <div class="shop-item">• Sour cream* — full-fat, single ingredient</div>
+      <div class="shop-item">• Heavy cream* — organic, grass-fed</div>
+      <div class="shop-item">• Cottage cheese* — full-fat, plain</div>
+      <div class="shop-item">• Coconut butter*</div>
     </div>
     <div class="shop-category">
       <h4>Vegetables</h4>

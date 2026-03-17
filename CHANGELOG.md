@@ -1,7 +1,7 @@
 # Changelog
 
 ## v2.3 — 2026-03-17
-- Added 🔥 Fuel tab — Eddie Abbew fat loss nutrition tracker
+- Added 🔥 Fuel tab — Ugly Dojo Fat Loss Protocol nutrition tracker
 - 4 sub-tabs: Today (meal logging), Plan (protocol reference), Shop (weekly list), Stats (adherence/symptoms)
 - Meal 1: 6 eggs + 1 fat + optional mushrooms; Meal 2: protein + 2 fats + cruciferous veg
 - Cooking oil, salt, snacking, and symptom tracking (bloating, tiredness, cravings, acid reflux)
