@@ -138,11 +138,95 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
   background:none;color:var(--gray);
   display:flex;flex-direction:column;
   align-items:center;gap:2px;
-  font-size:.65rem;padding:6px 12px;
+  font-size:.6rem;padding:6px 8px;
   transition:color .2s;
 }
 .nav-btn .nav-icon{font-size:1.3rem}
 .nav-btn.active{color:var(--yellow)}
+
+/* ─── FUEL / NUTRITION ─── */
+.nutr-header{text-align:center;padding:16px 0 8px}
+.nutr-header h2{font-family:'Black Han Sans',sans-serif;font-size:1.4rem;color:var(--yellow)}
+.nutr-header .nutr-day{font-size:.8rem;color:var(--gray);margin-top:2px}
+.nutr-tabs{display:flex;gap:4px;padding:0 16px 12px;overflow-x:auto}
+.nutr-tab{
+  flex:1;text-align:center;padding:8px 6px;
+  background:#111;border-radius:8px;font-size:.75rem;font-weight:600;
+  color:var(--gray);cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.nutr-tab.active{background:var(--yellow);color:#000}
+.nutr-content{padding:0 16px 100px}
+.nutr-subtab{display:none}
+.nutr-subtab.active{display:block}
+.meal-card{
+  background:#111;border-radius:12px;padding:14px;margin-bottom:12px;
+  border:1px solid #222;
+}
+.meal-card h3{font-size:.9rem;margin-bottom:10px;color:#fff}
+.meal-card .meal-time{font-size:.7rem;color:var(--gray);margin-bottom:8px}
+.chip-group{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chip{
+  padding:6px 12px;border-radius:16px;font-size:.75rem;font-weight:500;
+  background:#1a1a1a;color:var(--gray);border:1px solid #333;cursor:pointer;
+  transition:all .15s;
+}
+.chip.selected{background:var(--yellow);color:#000;border-color:var(--yellow)}
+.chip.selected-red{background:#cc3333;color:#fff;border-color:#cc3333}
+.symptom-toggle{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 0;border-bottom:1px solid #1a1a1a;
+}
+.symptom-toggle span{font-size:.8rem;color:#ccc}
+.symptom-dot{
+  width:28px;height:28px;border-radius:50%;border:2px solid #333;
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;
+  cursor:pointer;transition:all .15s;
+}
+.symptom-dot.active{background:#cc3333;border-color:#cc3333}
+.meal-done-btn{
+  width:100%;padding:10px;border-radius:8px;font-weight:700;
+  font-size:.85rem;margin-top:8px;transition:all .2s;
+}
+.meal-done-btn.incomplete{background:#1a1a1a;color:var(--gray);border:1px solid #333}
+.meal-done-btn.complete{background:#1a5c1a;color:#6f6;border:1px solid #0b0}
+.nutr-toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;background:#111;border-radius:10px;margin-bottom:8px;
+}
+.nutr-toggle-row span{font-size:.85rem}
+.nutr-toggle-row .toggle-btn{
+  width:44px;height:26px;border-radius:13px;background:#333;
+  position:relative;cursor:pointer;transition:background .2s;
+}
+.nutr-toggle-row .toggle-btn.on{background:#1a5c1a}
+.nutr-toggle-row .toggle-btn.on-red{background:#cc3333}
+.nutr-toggle-row .toggle-btn::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:20px;height:20px;border-radius:50%;background:#fff;
+  transition:transform .2s;
+}
+.nutr-toggle-row .toggle-btn.on::after,
+.nutr-toggle-row .toggle-btn.on-red::after{transform:translateX(18px)}
+.shop-category{margin-bottom:16px}
+.shop-category h4{font-size:.8rem;color:var(--yellow);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.shop-item{font-size:.8rem;color:#ccc;padding:3px 0}
+.nutr-stat-card{background:#111;border-radius:12px;padding:14px;margin-bottom:10px}
+.nutr-stat-card h4{font-size:.8rem;color:var(--yellow);margin-bottom:8px}
+.nutr-stat-card .stat-val{font-size:1.4rem;font-weight:700;color:#fff}
+.nutr-stat-card .stat-label{font-size:.7rem;color:var(--gray)}
+.nutr-day-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:4px}
+.nutr-day-dot{
+  width:100%;aspect-ratio:1;border-radius:4px;background:#1a1a1a;
+  display:flex;align-items:center;justify-content:center;font-size:.5rem;
+}
+.nutr-day-dot.full{background:#1a5c1a}
+.nutr-day-dot.partial{background:#554400}
+.nutr-day-dot.missed{background:#331111}
+.nutr-plan-card{background:#111;border-radius:12px;padding:16px;margin-bottom:12px;border:1px solid #222}
+.nutr-plan-card h4{color:var(--yellow);font-size:.85rem;margin-bottom:8px}
+.nutr-plan-card p,.nutr-plan-card li{font-size:.8rem;color:#ccc;line-height:1.5}
+.nutr-plan-card ul{padding-left:18px;margin:6px 0}
+.fuel-link{color:var(--yellow);font-size:.8rem;cursor:pointer;margin-top:4px;display:inline-block}
 
 /* ─── DASHBOARD ─── */
 .dash-greeting{font-size:.9rem;color:var(--gray);margin-bottom:4px}
@@ -776,8 +860,29 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
   </div>
 
   <button class="btn-logout" id="btn-logout">LOG OUT</button>
-  <div class="version-footer">Q63 Tracker v2.0</div>
+  <div class="version-footer">Q63 Tracker v2.3</div>
 </div>
+
+<!-- ═══ FUEL / NUTRITION ═══ -->
+<div id="view-nutrition" class="view">
+  <div class="nutr-header">
+    <h2>🔥 Fuel Tracker</h2>
+    <div class="nutr-day" id="nutr-day-label">Day 1 of 63</div>
+  </div>
+  <div class="nutr-tabs">
+    <div class="nutr-tab active" data-ntab="today">Today</div>
+    <div class="nutr-tab" data-ntab="plan">Plan</div>
+    <div class="nutr-tab" data-ntab="shop">Shop</div>
+    <div class="nutr-tab" data-ntab="stats">Stats</div>
+  </div>
+  <div class="nutr-content">
+    <div class="nutr-subtab active" id="ntab-today"></div>
+    <div class="nutr-subtab" id="ntab-plan"></div>
+    <div class="nutr-subtab" id="ntab-shop"></div>
+    <div class="nutr-subtab" id="ntab-stats"></div>
+  </div>
+</div>
+
 </div><!-- /.app -->
 
 <!-- ═══ BOTTOM NAV ═══ -->
@@ -793,6 +898,9 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
   </button>
   <button class="nav-btn" data-view="stats">
     <span class="nav-icon">📊</span>Stats
+  </button>
+  <button class="nav-btn" data-view="nutrition">
+    <span class="nav-icon">🔥</span>Fuel
   </button>
 </nav>
 
@@ -820,7 +928,7 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
    Q63 TRACKER v2.0 — UGLY DOJO
    ═══════════════════════════════════════════ */
 
-const APP_VERSION = '2.2';
+const APP_VERSION = '2.3';
 
 // ─── CONFIG ───
 const API = '/api';
@@ -836,6 +944,18 @@ const PRACTICES = [
 ];
 
 const EXERCISE_TYPES = ['Walk', 'Weights', 'Run', 'Yoga', 'Sport', 'Other'];
+
+// ─── NUTRITION / FUEL CONSTANTS ───
+const MEAL2_PROTEINS = ['Steak', 'Salmon', 'Chicken Thigh', 'Lamb', 'Pork Chop', 'Sardines', 'Prawns', 'Liver'];
+const FAT_CHOICES = ['Avocado', 'Cheese', 'Olives', 'Butter', 'Sour Cream', 'Bacon', 'Nuts'];
+const COOKING_OILS = ['Butter', 'Ghee', 'Tallow', 'Lard', 'Coconut Oil', 'Duck Fat', 'Goose Fat'];
+const VEGETABLES = ['Broccoli', 'Cauliflower', 'Cabbage', 'Brussels Sprouts', 'Kale', 'Spinach', 'Asparagus'];
+const SYMPTOMS = [
+  { key: 'bloating', label: 'Bloating', icon: '🫃' },
+  { key: 'tiredness', label: 'Tiredness', icon: '😴' },
+  { key: 'cravings', label: 'Cravings', icon: '🍫' },
+  { key: 'acidReflux', label: 'Acid Reflux', icon: '🔥' },
+];
 
 const RANKS = [
   { name: 'Initiate',   kanji: '白帯',  icon: '🤍', week: 1 },
@@ -942,7 +1062,7 @@ function navigate(view) {
     b.classList.toggle('active', b.dataset.view === view);
   });
 
-  const authedViews = ['dashboard', 'checkin', 'grid', 'stats'];
+  const authedViews = ['dashboard', 'checkin', 'grid', 'stats', 'nutrition'];
   document.getElementById('bottom-nav').style.display =
     authedViews.includes(view) ? 'flex' : 'none';
 
@@ -952,6 +1072,7 @@ function navigate(view) {
   if (view === 'checkin') renderCheckin();
   if (view === 'grid') renderGrid();
   if (view === 'stats') renderStats();
+  if (view === 'nutrition') renderNutrition();
 
   const newHash = `#${view}`;
   if (location.hash !== newHash) {
@@ -1249,6 +1370,17 @@ function renderDetailFields(practice, data) {
           <option value="">Select type...</option>
           ${EXERCISE_TYPES.map(t => `<option value="${t}" ${data.type === t ? 'selected' : ''}>${t}</option>`).join('')}
         </select>
+      </div>`;
+  }
+
+  if (practice.key === 'nutrition') {
+    const m1 = data.meal1?.done ? '✅' : '⬜';
+    const m2 = data.meal2?.done ? '✅' : '⬜';
+    const snack = data.snacking ? '🚫 Snacked' : '';
+    html += `
+      <div class="detail-row" style="flex-direction:column;align-items:flex-start;gap:4px">
+        <span style="font-size:.8rem;color:#ccc">${m1} Meal 1 &nbsp; ${m2} Meal 2 ${snack ? '&nbsp; ' + snack : ''}</span>
+        <span class="fuel-link" onclick="navigate('nutrition')">Open Fuel Tracker →</span>
       </div>`;
   }
 
@@ -1700,6 +1832,418 @@ function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
+}
+
+// ─── FUEL / NUTRITION TRACKER ───
+function getNutrData() {
+  const day = getCurrentDay();
+  const dayData = state.progress.days[String(day)];
+  const practices = dayData ? normalizePractices(dayData.practices || {}) : null;
+  const nutr = practices?.nutrition || state.checkinState?.nutrition || { done: false, notes: '' };
+  return {
+    meal1: nutr.meal1 || { protein: '6 Eggs', fatChoice: '', mushrooms: false, time: '', done: false },
+    meal2: nutr.meal2 || { protein: '', fatChoices: [], vegetables: '', time: '', done: false },
+    symptoms: nutr.symptoms || { bloating: false, tiredness: false, cravings: false, acidReflux: false },
+    snacking: nutr.snacking || false,
+    cookingOil: nutr.cookingOil || '',
+    salt: nutr.salt || false,
+    done: nutr.done || false,
+    notes: nutr.notes || '',
+  };
+}
+
+function setNutrData(updates) {
+  const day = getCurrentDay();
+  // Ensure checkinState is loaded for current day
+  if (!state.checkinState || !state.checkinState.nutrition) {
+    const dayData = state.progress.days[String(day)];
+    state.checkinState = dayData ? normalizePractices(dayData.practices || {}) : normalizePractices({});
+  }
+  const nutr = state.checkinState.nutrition;
+  Object.assign(nutr, updates);
+
+  // Auto-toggle: both meals done + no snacking = nutrition done
+  const m1 = nutr.meal1 || {};
+  const m2 = nutr.meal2 || {};
+  nutr.done = m1.done === true && m2.done === true && nutr.snacking !== true;
+
+  debouncedSave();
+}
+
+function renderNutrition() {
+  const day = getCurrentDay();
+  document.getElementById('nutr-day-label').textContent = `Day ${day} of 63`;
+
+  // Sub-tab navigation
+  document.querySelectorAll('.nutr-tab').forEach(tab => {
+    tab.onclick = () => {
+      document.querySelectorAll('.nutr-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.nutr-subtab').forEach(s => s.classList.remove('active'));
+      document.getElementById(`ntab-${tab.dataset.ntab}`).classList.add('active');
+    };
+  });
+
+  renderNutrToday();
+  renderNutrPlan();
+  renderNutrShopping();
+  renderNutrDashboard();
+}
+
+function renderNutrToday() {
+  const data = getNutrData();
+  const container = document.getElementById('ntab-today');
+
+  container.innerHTML = `
+    <!-- MEAL 1 -->
+    <div class="meal-card">
+      <h3>🍳 Meal 1 — 12-1pm</h3>
+      <div class="meal-time">Protein: 6 Eggs (fixed)</div>
+      <div style="margin-bottom:6px;font-size:.75rem;color:var(--gray)">Fat choice (pick 1):</div>
+      <div class="chip-group" id="m1-fats">
+        ${FAT_CHOICES.map(f => `<div class="chip ${data.meal1.fatChoice === f ? 'selected' : ''}" data-val="${f}">${f}</div>`).join('')}
+      </div>
+      <div class="nutr-toggle-row" style="background:transparent;padding:4px 0">
+        <span style="font-size:.8rem">🍄 Mushrooms</span>
+        <div class="toggle-btn ${data.meal1.mushrooms ? 'on' : ''}" id="m1-mushrooms"></div>
+      </div>
+      <button class="meal-done-btn ${data.meal1.done ? 'complete' : 'incomplete'}" id="m1-done">
+        ${data.meal1.done ? '✅ Meal 1 Done' : 'Mark Meal 1 Done'}
+      </button>
+    </div>
+
+    <!-- MEAL 2 -->
+    <div class="meal-card">
+      <h3>🥩 Meal 2 — 6-7pm</h3>
+      <div style="margin-bottom:6px;font-size:.75rem;color:var(--gray)">Protein (pick 1):</div>
+      <div class="chip-group" id="m2-proteins">
+        ${MEAL2_PROTEINS.map(p => `<div class="chip ${data.meal2.protein === p ? 'selected' : ''}" data-val="${p}">${p}</div>`).join('')}
+      </div>
+      <div style="margin-bottom:6px;font-size:.75rem;color:var(--gray)">Fat choices (pick up to 2):</div>
+      <div class="chip-group" id="m2-fats">
+        ${FAT_CHOICES.map(f => `<div class="chip ${(data.meal2.fatChoices || []).includes(f) ? 'selected' : ''}" data-val="${f}">${f}</div>`).join('')}
+      </div>
+      <div style="margin-bottom:6px;font-size:.75rem;color:var(--gray)">Vegetables:</div>
+      <div class="chip-group" id="m2-veg">
+        ${VEGETABLES.map(v => `<div class="chip ${data.meal2.vegetables === v ? 'selected' : ''}" data-val="${v}">${v}</div>`).join('')}
+      </div>
+      <button class="meal-done-btn ${data.meal2.done ? 'complete' : 'incomplete'}" id="m2-done">
+        ${data.meal2.done ? '✅ Meal 2 Done' : 'Mark Meal 2 Done'}
+      </button>
+    </div>
+
+    <!-- COOKING & EXTRAS -->
+    <div class="meal-card">
+      <h3>🧈 Cooking & Extras</h3>
+      <div style="margin-bottom:6px;font-size:.75rem;color:var(--gray)">Cooking fat:</div>
+      <div class="chip-group" id="nutr-oils">
+        ${COOKING_OILS.map(o => `<div class="chip ${data.cookingOil === o ? 'selected' : ''}" data-val="${o}">${o}</div>`).join('')}
+      </div>
+      <div class="nutr-toggle-row">
+        <span>🧂 Added salt</span>
+        <div class="toggle-btn ${data.salt ? 'on' : ''}" id="nutr-salt"></div>
+      </div>
+      <div class="nutr-toggle-row">
+        <span>🚫 Snacked today</span>
+        <div class="toggle-btn ${data.snacking ? 'on-red' : ''}" id="nutr-snacking"></div>
+      </div>
+    </div>
+
+    <!-- SYMPTOMS -->
+    <div class="meal-card">
+      <h3>📋 Symptoms</h3>
+      ${SYMPTOMS.map(s => `
+        <div class="symptom-toggle">
+          <span>${s.icon} ${s.label}</span>
+          <div class="symptom-dot ${data.symptoms[s.key] ? 'active' : ''}" data-symptom="${s.key}">
+            ${data.symptoms[s.key] ? '!' : ''}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  // Wire up Meal 1 fat chips (single select)
+  container.querySelectorAll('#m1-fats .chip').forEach(chip => {
+    chip.onclick = () => {
+      container.querySelectorAll('#m1-fats .chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      const d = getNutrData();
+      d.meal1.fatChoice = chip.dataset.val;
+      setNutrData({ meal1: d.meal1 });
+    };
+  });
+
+  // Wire up Meal 1 mushrooms toggle
+  document.getElementById('m1-mushrooms').onclick = function() {
+    this.classList.toggle('on');
+    const d = getNutrData();
+    d.meal1.mushrooms = this.classList.contains('on');
+    setNutrData({ meal1: d.meal1 });
+  };
+
+  // Wire up Meal 1 done
+  document.getElementById('m1-done').onclick = function() {
+    const d = getNutrData();
+    d.meal1.done = !d.meal1.done;
+    setNutrData({ meal1: d.meal1 });
+    this.className = 'meal-done-btn ' + (d.meal1.done ? 'complete' : 'incomplete');
+    this.textContent = d.meal1.done ? '✅ Meal 1 Done' : 'Mark Meal 1 Done';
+  };
+
+  // Wire up Meal 2 protein chips (single select)
+  container.querySelectorAll('#m2-proteins .chip').forEach(chip => {
+    chip.onclick = () => {
+      container.querySelectorAll('#m2-proteins .chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      const d = getNutrData();
+      d.meal2.protein = chip.dataset.val;
+      setNutrData({ meal2: d.meal2 });
+    };
+  });
+
+  // Wire up Meal 2 fat chips (multi-select, max 2)
+  container.querySelectorAll('#m2-fats .chip').forEach(chip => {
+    chip.onclick = () => {
+      const d = getNutrData();
+      const fats = d.meal2.fatChoices || [];
+      const val = chip.dataset.val;
+      if (fats.includes(val)) {
+        d.meal2.fatChoices = fats.filter(f => f !== val);
+        chip.classList.remove('selected');
+      } else if (fats.length < 2) {
+        d.meal2.fatChoices = [...fats, val];
+        chip.classList.add('selected');
+      }
+      setNutrData({ meal2: d.meal2 });
+    };
+  });
+
+  // Wire up Meal 2 vegetable chips (single select)
+  container.querySelectorAll('#m2-veg .chip').forEach(chip => {
+    chip.onclick = () => {
+      container.querySelectorAll('#m2-veg .chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      const d = getNutrData();
+      d.meal2.vegetables = chip.dataset.val;
+      setNutrData({ meal2: d.meal2 });
+    };
+  });
+
+  // Wire up Meal 2 done
+  document.getElementById('m2-done').onclick = function() {
+    const d = getNutrData();
+    d.meal2.done = !d.meal2.done;
+    setNutrData({ meal2: d.meal2 });
+    this.className = 'meal-done-btn ' + (d.meal2.done ? 'complete' : 'incomplete');
+    this.textContent = d.meal2.done ? '✅ Meal 2 Done' : 'Mark Meal 2 Done';
+  };
+
+  // Wire up cooking oil chips (single select)
+  container.querySelectorAll('#nutr-oils .chip').forEach(chip => {
+    chip.onclick = () => {
+      container.querySelectorAll('#nutr-oils .chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      setNutrData({ cookingOil: chip.dataset.val });
+    };
+  });
+
+  // Wire up salt toggle
+  document.getElementById('nutr-salt').onclick = function() {
+    this.classList.toggle('on');
+    setNutrData({ salt: this.classList.contains('on') });
+  };
+
+  // Wire up snacking toggle (red)
+  document.getElementById('nutr-snacking').onclick = function() {
+    this.classList.toggle('on-red');
+    setNutrData({ snacking: this.classList.contains('on-red') });
+  };
+
+  // Wire up symptom dots
+  container.querySelectorAll('.symptom-dot').forEach(dot => {
+    dot.onclick = () => {
+      dot.classList.toggle('active');
+      dot.textContent = dot.classList.contains('active') ? '!' : '';
+      const d = getNutrData();
+      d.symptoms[dot.dataset.symptom] = dot.classList.contains('active');
+      setNutrData({ symptoms: d.symptoms });
+    };
+  });
+}
+
+function renderNutrPlan() {
+  document.getElementById('ntab-plan').innerHTML = `
+    <div class="nutr-plan-card">
+      <h4>Eddie Abbew Fat Loss Protocol</h4>
+      <p>2 meals per day only. No snacking. Real food only — no UPFs, no seed oils, no hidden sugars.</p>
+    </div>
+    <div class="nutr-plan-card">
+      <h4>🍳 Meal 1 (12-1pm)</h4>
+      <ul>
+        <li>6 eggs (scrambled, fried, or omelette)</li>
+        <li>1 fat choice (avocado, cheese, olives, butter, sour cream, bacon, or nuts)</li>
+        <li>Mushrooms (optional)</li>
+      </ul>
+    </div>
+    <div class="nutr-plan-card">
+      <h4>🥩 Meal 2 (6-7pm)</h4>
+      <ul>
+        <li>200g meat or fish (steak, salmon, chicken thigh, lamb, pork chop, sardines, prawns, liver)</li>
+        <li>2 fat choices</li>
+        <li>Cruciferous vegetables (broccoli, cauliflower, cabbage, Brussels sprouts, kale, spinach, asparagus)</li>
+      </ul>
+    </div>
+    <div class="nutr-plan-card">
+      <h4>🧈 Cooking Fats (Saturated Only)</h4>
+      <p>Butter, ghee, tallow, lard, coconut oil, duck fat, goose fat. No seed oils ever.</p>
+    </div>
+    <div class="nutr-plan-card">
+      <h4>📋 Key Rules</h4>
+      <ul>
+        <li>No snacking between meals — insulin regulation, not calorie counting</li>
+        <li>Salt your food — salt is important</li>
+        <li>Track symptoms: bloating, tiredness, cravings, acid reflux</li>
+        <li>If symptoms persist, eliminate and reintroduce foods one at a time</li>
+        <li>Drink water, black coffee, or tea only</li>
+      </ul>
+    </div>
+  `;
+}
+
+function renderNutrShopping() {
+  document.getElementById('ntab-shop').innerHTML = `
+    <div class="nutr-plan-card">
+      <h4>🛒 Weekly Shopping List</h4>
+      <p style="font-size:.75rem;color:var(--gray);margin-bottom:12px">Based on 7 days of the Eddie Abbew protocol</p>
+    </div>
+    <div class="shop-category">
+      <h4>Protein</h4>
+      <div class="shop-item">• 42 eggs (6 boxes)</div>
+      <div class="shop-item">• 1.4 kg meat/fish (mix of your choices)</div>
+    </div>
+    <div class="shop-category">
+      <h4>Fats</h4>
+      <div class="shop-item">• 3-4 avocados</div>
+      <div class="shop-item">• Cheese block (200g+)</div>
+      <div class="shop-item">• Olives (1 jar)</div>
+      <div class="shop-item">• Bacon (1 pack)</div>
+      <div class="shop-item">• Sour cream (1 tub)</div>
+      <div class="shop-item">• Mixed nuts (1 bag)</div>
+    </div>
+    <div class="shop-category">
+      <h4>Vegetables</h4>
+      <div class="shop-item">• Broccoli (2-3 heads)</div>
+      <div class="shop-item">• Cauliflower (1-2 heads)</div>
+      <div class="shop-item">• Cabbage (1 head)</div>
+      <div class="shop-item">• Spinach / Kale (2 bags)</div>
+      <div class="shop-item">• Mushrooms (1 punnet)</div>
+    </div>
+    <div class="shop-category">
+      <h4>Cooking Fats</h4>
+      <div class="shop-item">• Butter (1 block)</div>
+      <div class="shop-item">• Ghee or coconut oil (1 jar)</div>
+    </div>
+    <div class="shop-category">
+      <h4>Essentials</h4>
+      <div class="shop-item">• Salt (sea salt / Himalayan)</div>
+      <div class="shop-item">• Black pepper</div>
+      <div class="shop-item">• Coffee / tea</div>
+    </div>
+  `;
+}
+
+function renderNutrDashboard() {
+  const container = document.getElementById('ntab-stats');
+  const days = state.progress.days;
+  let adherent = 0, totalLogged = 0, symptomCounts = { bloating: 0, tiredness: 0, cravings: 0, acidReflux: 0 };
+  let streak = 0, maxStreak = 0;
+  const proteinCounts = {};
+
+  for (let d = 1; d <= 63; d++) {
+    const dayData = days[String(d)];
+    if (!dayData) continue;
+    const nutr = (dayData.practices || {}).nutrition || {};
+    if (!nutr.meal1 && !nutr.meal2) continue;
+    totalLogged++;
+
+    const m1Done = nutr.meal1?.done === true;
+    const m2Done = nutr.meal2?.done === true;
+    const noSnack = nutr.snacking !== true;
+
+    if (m1Done && m2Done && noSnack) {
+      adherent++;
+      streak++;
+      if (streak > maxStreak) maxStreak = streak;
+    } else {
+      streak = 0;
+    }
+
+    if (nutr.meal2?.protein) {
+      proteinCounts[nutr.meal2.protein] = (proteinCounts[nutr.meal2.protein] || 0) + 1;
+    }
+
+    if (nutr.symptoms) {
+      for (const s of Object.keys(symptomCounts)) {
+        if (nutr.symptoms[s]) symptomCounts[s]++;
+      }
+    }
+  }
+
+  const adherencePct = totalLogged > 0 ? Math.round((adherent / totalLogged) * 100) : 0;
+  const topProtein = Object.entries(proteinCounts).sort((a, b) => b[1] - a[1])[0];
+
+  // 63-day dot grid
+  let dotGrid = '';
+  for (let d = 1; d <= 63; d++) {
+    const dayData = days[String(d)];
+    const nutr = dayData ? (dayData.practices || {}).nutrition || {} : {};
+    const m1 = nutr.meal1?.done === true;
+    const m2 = nutr.meal2?.done === true;
+    const noSnack = nutr.snacking !== true;
+    let cls = 'nutr-day-dot';
+    if (m1 && m2 && noSnack) cls += ' full';
+    else if (m1 || m2) cls += ' partial';
+    else if (dayData && d <= getCurrentDay()) cls += ' missed';
+    dotGrid += `<div class="${cls}">${d}</div>`;
+  }
+
+  container.innerHTML = `
+    <div class="nutr-stat-card">
+      <h4>Adherence</h4>
+      <div class="stat-val">${adherencePct}%</div>
+      <div class="stat-label">${adherent} of ${totalLogged} days fully adherent</div>
+    </div>
+    <div class="nutr-stat-card">
+      <h4>Current Streak</h4>
+      <div class="stat-val">${streak} days</div>
+      <div class="stat-label">Best streak: ${maxStreak} days</div>
+    </div>
+    <div class="nutr-stat-card">
+      <h4>Top Protein</h4>
+      <div class="stat-val">${topProtein ? topProtein[0] : '—'}</div>
+      <div class="stat-label">${topProtein ? topProtein[1] + ' times' : 'No data yet'}</div>
+    </div>
+    <div class="nutr-stat-card">
+      <h4>Symptom Frequency</h4>
+      ${SYMPTOMS.map(s => {
+        const count = symptomCounts[s.key];
+        return `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.8rem">
+          <span style="color:#ccc">${s.icon} ${s.label}</span>
+          <span style="color:${count > 0 ? '#cc3333' : '#666'}">${count} day${count !== 1 ? 's' : ''}</span>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="nutr-stat-card">
+      <h4>63-Day Overview</h4>
+      <div class="nutr-day-grid">${dotGrid}</div>
+      <div style="display:flex;gap:12px;margin-top:8px;font-size:.65rem;color:var(--gray)">
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#1a5c1a"></span> Full</span>
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#554400"></span> Partial</span>
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#331111"></span> Missed</span>
+      </div>
+    </div>
+  `;
 }
 
 // ─── AUTH HANDLERS ───

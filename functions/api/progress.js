@@ -43,6 +43,7 @@ const VALID_PRACTICES = ['exercise', 'breathing', 'meditation', 'sleep', 'gratit
 const PRACTICE_FIELDS = {
   exercise: ['type'],
   sleep: ['hours', 'score'],
+  nutrition: ['meal1', 'meal2', 'symptoms', 'snacking', 'cookingOil', 'salt'],
 };
 
 // Normalize v1 booleans to v2 objects
@@ -96,6 +97,48 @@ function sanitizePractice(key, val) {
 
   if (extraFields.includes('score') && typeof val.score === 'number') {
     sanitized.score = Math.max(0, Math.min(100, Math.round(val.score)));
+  }
+
+  // Nutrition-specific fields
+  if (extraFields.includes('meal1') && val.meal1 && typeof val.meal1 === 'object') {
+    sanitized.meal1 = {
+      protein: typeof val.meal1.protein === 'string' ? val.meal1.protein.slice(0, 50) : '6 Eggs',
+      fatChoice: typeof val.meal1.fatChoice === 'string' ? val.meal1.fatChoice.slice(0, 50) : '',
+      mushrooms: val.meal1.mushrooms === true,
+      time: typeof val.meal1.time === 'string' ? val.meal1.time.slice(0, 10) : '',
+      done: val.meal1.done === true,
+    };
+  }
+
+  if (extraFields.includes('meal2') && val.meal2 && typeof val.meal2 === 'object') {
+    sanitized.meal2 = {
+      protein: typeof val.meal2.protein === 'string' ? val.meal2.protein.slice(0, 50) : '',
+      fatChoices: Array.isArray(val.meal2.fatChoices) ? val.meal2.fatChoices.filter(f => typeof f === 'string').slice(0, 3).map(f => f.slice(0, 50)) : [],
+      vegetables: typeof val.meal2.vegetables === 'string' ? val.meal2.vegetables.slice(0, 100) : '',
+      time: typeof val.meal2.time === 'string' ? val.meal2.time.slice(0, 10) : '',
+      done: val.meal2.done === true,
+    };
+  }
+
+  if (extraFields.includes('symptoms') && val.symptoms && typeof val.symptoms === 'object') {
+    sanitized.symptoms = {
+      bloating: val.symptoms.bloating === true,
+      tiredness: val.symptoms.tiredness === true,
+      cravings: val.symptoms.cravings === true,
+      acidReflux: val.symptoms.acidReflux === true,
+    };
+  }
+
+  if (extraFields.includes('snacking')) {
+    sanitized.snacking = val.snacking === true;
+  }
+
+  if (extraFields.includes('cookingOil') && typeof val.cookingOil === 'string') {
+    sanitized.cookingOil = val.cookingOil.slice(0, 50);
+  }
+
+  if (extraFields.includes('salt')) {
+    sanitized.salt = val.salt === true;
   }
 
   return sanitized;
