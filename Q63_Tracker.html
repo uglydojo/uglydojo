@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="theme-color" content="#000000">
+<link rel="manifest" href="manifest.json">
 <meta property="og:title" content="Q63 Tracker — Ugly Dojo">
 <meta property="og:description" content="63-day biocongruence challenge. Track 7 daily practices. Become unbreakable.">
 <meta property="og:image" content="assets/logo.png">
@@ -2518,6 +2519,11 @@ function init() {
 }
 
 init();
+
+// ─── SERVICE WORKER REGISTRATION ───
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
 </script>
 </body>
 </html>

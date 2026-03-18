@@ -1,0 +1,29 @@
+{
+  "name": "Q63 Tracker — Ugly Dojo",
+  "short_name": "Q63",
+  "description": "63-day biocongruence challenge. Track 7 daily practices. Become unbreakable.",
+  "start_url": "/Q63_Tracker.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
