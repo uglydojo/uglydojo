@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>15-Day Reset — Ugly Dojo</title>
+<title>Q15 Reset — Ugly Dojo</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="theme-color" content="#000000">
 <link rel="manifest" href="manifest.json">
-<meta property="og:title" content="15-Day Reset — Ugly Dojo">
-<meta property="og:description" content="15-day cleanse reset. 3 meals. No excuses. Lose 20 lbs.">
+<meta property="og:title" content="Q15 Reset — Ugly Dojo">
+<meta property="og:description" content="Q15 cleanse reset. 3 meals. No excuses. Lose 20 lbs.">
 <meta property="og:image" content="assets/logo.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="15-Day Reset — Ugly Dojo">
-<meta name="twitter:description" content="15-day cleanse reset. 3 meals. No excuses. Lose 20 lbs.">
+<meta name="twitter:title" content="Q15 Reset — Ugly Dojo">
+<meta name="twitter:description" content="Q15 cleanse reset. 3 meals. No excuses. Lose 20 lbs.">
 <meta name="twitter:image" content="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -418,7 +418,7 @@ textarea{resize:vertical;min-height:60px}
   50%{transform:scale(1.05)}
 }
 
-/* ─── 15-DAY GRID ─── */
+/* ─── Q15 GRID ─── */
 .grid-title{
   font-family:'Black Han Sans',sans-serif;
   font-size:1.3rem;text-align:center;
@@ -747,10 +747,10 @@ textarea{resize:vertical;min-height:60px}
   <div class="auth-header">
     <img src="assets/logo.png" alt="Ugly Dojo" class="logo-img" style="margin-bottom:12px">
     <div class="brand brand-lg">UGLY DOJO</div>
-    <div class="tagline">15-DAY RESET</div>
+    <div class="tagline">Q15 RESET</div>
   </div>
 
-  <p class="auth-explainer">15-day cleanse reset. 3 meals. No excuses. Lose 20 lbs. Burn the old. Forge the new.</p>
+  <p class="auth-explainer">Q15 cleanse reset. 3 meals. No excuses. Lose 20 lbs. Burn the old. Forge the new.</p>
 
   <div class="auth-tabs">
     <button class="auth-tab active" data-tab="login">Log In</button>
@@ -807,12 +807,12 @@ textarea{resize:vertical;min-height:60px}
 <div id="view-setup" class="view">
   <div class="auth-header">
     <img src="assets/logo.png" alt="Ugly Dojo" class="logo-img-sm" style="margin-bottom:8px">
-    <div class="brand brand-lg">15-DAY RESET</div>
+    <div class="brand brand-lg">Q15 RESET</div>
     <div class="tagline">CONFIGURE YOUR CLEANSE</div>
   </div>
   <div class="setup-card">
     <h2>When does your reset start?</h2>
-    <p>Pick your Day 1. This locks your 15-day window.</p>
+    <p>Pick your Day 1. This locks your Q15 window.</p>
     <input type="date" id="setup-start-date">
   </div>
   <div class="setup-card">
@@ -898,9 +898,9 @@ textarea{resize:vertical;min-height:60px}
   </div>
 </div>
 
-<!-- ═══ 15-DAY GRID ═══ -->
+<!-- ═══ Q15 GRID ═══ -->
 <div id="view-grid" class="view">
-  <div class="grid-title">15-Day Journey</div>
+  <div class="grid-title">Q15 Journey</div>
   <div id="grid-container"></div>
 </div>
 
@@ -948,7 +948,7 @@ textarea{resize:vertical;min-height:60px}
 
   <button class="btn-logout" id="btn-logout">LOG OUT</button>
   <button class="btn-logout" id="btn-reset-data" style="margin-top:8px;color:var(--gray);border-color:#333">RESET ALL DATA</button>
-  <div class="version-footer">15-Day Reset v1.0</div>
+  <div class="version-footer">Q15 Reset v1.0</div>
 </div>
 
 <!-- ═══ SHOPPING LIST ═══ -->
@@ -1019,7 +1019,7 @@ textarea{resize:vertical;min-height:60px}
 
 <script>
 /* ═══════════════════════════════════════════
-   15-DAY RESET v1.0 — UGLY DOJO
+   Q15 RESET v1.0 — UGLY DOJO
    ═══════════════════════════════════════════ */
 
 const APP_VERSION = '1.0';
@@ -1029,7 +1029,7 @@ const PERFECT_SCORE = 6; // 3 meals + water + no-snacking + weight
 const LONG_PRESS_MS = 800;
 const RING_CIRCUMFERENCE = 2 * Math.PI * 20; // r=20 for practice rings
 
-// ─── 15-DAY MEAL PLAN ───
+// ─── Q15 MEAL PLAN ───
 const MEAL_PLAN = {
   1: {
     B: ['Fresh Fruit (any variety) OR 1/2 cantaloupe', '6oz tomato juice'],
@@ -1800,7 +1800,7 @@ function dismissPerfect() {
   document.getElementById('perfect-overlay').classList.remove('show');
 }
 
-// ─── RENDER: 15-DAY GRID ───
+// ─── RENDER: Q15 GRID ───
 function renderGrid() {
   const container = document.getElementById('grid-container');
   const currentDay = getCurrentDay();
@@ -2204,7 +2204,7 @@ document.getElementById('btn-logout').addEventListener('click', () => {
 
 // Reset all data
 document.getElementById('btn-reset-data').addEventListener('click', () => {
-  if (!confirm('This will erase ALL your 15-Day Reset data. Are you sure?')) return;
+  if (!confirm('This will erase ALL your Q15 Reset data. Are you sure?')) return;
   if (!confirm('Last chance — this cannot be undone. Proceed?')) return;
 
   state.progress = { days: {} };
