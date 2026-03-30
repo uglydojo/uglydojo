@@ -1,0 +1,2444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>15-Day Reset — Ugly Dojo</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#000000">
+<link rel="manifest" href="manifest.json">
+<meta property="og:title" content="15-Day Reset — Ugly Dojo">
+<meta property="og:description" content="15-day cleanse reset. 3 meals. No excuses. Lose 20 lbs.">
+<meta property="og:image" content="assets/logo.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="15-Day Reset — Ugly Dojo">
+<meta name="twitter:description" content="15-day cleanse reset. 3 meals. No excuses. Lose 20 lbs.">
+<meta name="twitter:image" content="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<style>
+/* ─── RESET & BASE ─── */
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:'Work Sans',sans-serif;
+  background:#000;color:#fff;
+  min-height:100vh;min-height:100dvh;
+  overflow-x:hidden;
+}
+a{color:#ffcc00;text-decoration:none}
+button{
+  font-family:'Work Sans',sans-serif;
+  cursor:pointer;border:none;outline:none;
+  font-size:.95rem;font-weight:600;
+}
+input,select,textarea{
+  font-family:'Work Sans',sans-serif;
+  font-size:1rem;
+  background:#1a1a1a;color:#fff;
+  border:1px solid #333;border-radius:8px;
+  padding:14px 16px;width:100%;
+  transition:border-color .2s;
+}
+input:focus,select:focus,textarea:focus{border-color:#ffcc00;outline:none}
+input::placeholder,textarea::placeholder{color:#555}
+textarea{resize:vertical;min-height:60px}
+
+/* ─── VARIABLES ─── */
+:root{
+  --yellow:#ffcc00;
+  --red:#cc0000;
+  --dark:#1a1a1a;
+  --darker:#111;
+  --gray:#888;
+  --glow:0 0 20px rgba(255,204,0,.15);
+  --green:#1a5c1a;
+}
+
+/* ─── LAYOUT ─── */
+.app{
+  max-width:480px;margin:0 auto;
+  padding:20px 16px 100px;
+  min-height:100vh;min-height:100dvh;
+}
+
+/* ─── BRAND ─── */
+.brand{font-family:'Black Han Sans',sans-serif;color:var(--yellow);letter-spacing:1px}
+.brand-lg{font-size:2.4rem}
+.brand-sm{font-size:1.2rem}
+.tagline{
+  font-size:.8rem;color:var(--red);
+  text-transform:uppercase;letter-spacing:3px;
+  font-weight:600;
+}
+
+/* ─── AUTH SCREEN ─── */
+.auth-header{text-align:center;padding:40px 0 20px}
+.auth-header .katana-icon{font-size:3rem;margin-bottom:12px}
+.auth-explainer{
+  color:var(--gray);font-size:.9rem;
+  line-height:1.5;text-align:center;
+  margin-bottom:24px;padding:0 8px;
+}
+.auth-tabs{display:flex;margin-bottom:24px;border-bottom:1px solid #333}
+.auth-tab{
+  flex:1;padding:12px;text-align:center;
+  background:none;color:var(--gray);
+  font-weight:600;font-size:.9rem;
+  border-bottom:2px solid transparent;
+  transition:all .2s;
+}
+.auth-tab.active{color:var(--yellow);border-bottom-color:var(--yellow)}
+.auth-form{display:flex;flex-direction:column;gap:12px}
+.auth-form input{margin:0}
+.btn-primary{
+  background:var(--yellow);color:#000;
+  padding:14px;border-radius:8px;
+  font-size:1rem;font-weight:700;
+  letter-spacing:.5px;
+  transition:all .2s;
+}
+.btn-primary:active{transform:scale(.98);opacity:.9}
+.btn-link{
+  background:none;color:var(--gray);
+  font-size:.85rem;padding:8px;
+  text-align:center;width:100%;
+}
+.btn-link:hover{color:#fff}
+.auth-error{
+  background:rgba(204,0,0,.15);
+  border:1px solid var(--red);
+  color:#ff6666;border-radius:8px;
+  padding:10px 14px;font-size:.85rem;
+  display:none;
+}
+.auth-error.show{display:block}
+.auth-success{
+  background:rgba(0,180,0,.15);
+  border:1px solid #0b0;
+  color:#6f6;border-radius:8px;
+  padding:10px 14px;font-size:.85rem;
+  display:none;
+}
+.auth-success.show{display:block}
+
+/* ─── BOTTOM NAV ─── */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:#0a0a0a;
+  border-top:1px solid #222;
+  display:flex;justify-content:space-around;
+  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+  z-index:100;
+}
+.nav-btn{
+  background:none;color:var(--gray);
+  display:flex;flex-direction:column;
+  align-items:center;gap:2px;
+  font-size:.6rem;padding:6px 8px;
+  transition:color .2s;
+}
+.nav-btn .nav-icon{font-size:1.3rem}
+.nav-btn.active{color:var(--yellow)}
+
+/* ─── DASHBOARD ─── */
+.dash-greeting{font-size:.9rem;color:var(--gray);margin-bottom:4px}
+.dash-day{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.6rem;color:#fff;
+  margin-bottom:4px;
+}
+.dash-day span{color:var(--yellow)}
+.dash-date{font-size:.85rem;color:var(--gray);margin-bottom:20px}
+
+/* Katana progress bar */
+.katana-bar{
+  position:relative;
+  background:var(--dark);
+  border-radius:12px;
+  height:56px;
+  margin-bottom:20px;
+  overflow:hidden;
+  border:1px solid #333;
+}
+.katana-fill{
+  height:100%;
+  background:linear-gradient(90deg,#cc0000,#ffcc00);
+  border-radius:12px;
+  transition:width .8s ease;
+  display:flex;align-items:center;
+  justify-content:flex-end;
+  padding-right:12px;
+  min-width:0;
+}
+.katana-fill-label{
+  font-weight:700;font-size:.85rem;
+  color:#000;white-space:nowrap;
+}
+.katana-label{
+  position:absolute;top:50%;right:12px;
+  transform:translateY(-50%);
+  font-size:.75rem;color:var(--gray);
+}
+
+/* Phase badge */
+.rank-card{
+  background:var(--dark);border-radius:12px;
+  padding:16px;margin-bottom:16px;
+  display:flex;align-items:center;gap:14px;
+  border:1px solid #333;
+}
+.rank-icon{font-size:2rem}
+.rank-name{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.1rem;color:var(--yellow);
+}
+.rank-subtitle{font-size:.8rem;color:var(--gray)}
+
+/* Stats row */
+.stats-row{display:flex;gap:10px;margin-bottom:20px}
+.stat-card{
+  flex:1;background:var(--dark);
+  border-radius:12px;padding:14px 10px;
+  text-align:center;border:1px solid #333;
+}
+.stat-value{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.5rem;color:var(--yellow);
+}
+.stat-label{font-size:.7rem;color:var(--gray);margin-top:2px}
+
+/* Weight goal card */
+.weight-goal-card{
+  background:linear-gradient(135deg,#1a1a0a,#1a1a1a);
+  border:1px solid #333;border-radius:12px;
+  padding:16px;margin-bottom:20px;
+  text-align:center;
+}
+.weight-goal-card .goal-title{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1rem;color:var(--yellow);margin-bottom:4px;
+}
+.weight-goal-card .goal-detail{font-size:.8rem;color:var(--gray)}
+.weight-goal-card .weight-lost{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:2rem;margin:8px 0 4px;
+}
+.weight-lost.positive{color:#44ff44}
+.weight-lost.negative{color:var(--red)}
+.weight-lost.neutral{color:var(--gray)}
+
+/* CTA button */
+.btn-cta{
+  display:block;width:100%;
+  background:var(--yellow);color:#000;
+  padding:16px;border-radius:12px;
+  font-size:1.1rem;font-weight:700;
+  text-align:center;letter-spacing:.5px;
+  transition:all .2s;
+  box-shadow:var(--glow);
+}
+.btn-cta:active{transform:scale(.98)}
+
+/* ─── CHECK-IN ─── */
+.checkin-header{
+  text-align:center;margin-bottom:8px;
+}
+.checkin-title{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.3rem;margin-bottom:2px;
+}
+.checkin-date{
+  font-size:.85rem;color:var(--gray);margin-bottom:8px;
+}
+.checkin-score{
+  font-size:.9rem;color:var(--gray);
+}
+.checkin-score span{color:var(--yellow);font-weight:700}
+
+/* Progress ring at top */
+.progress-ring-container{
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;position:relative;
+}
+.progress-ring-text{
+  position:absolute;
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.3rem;color:var(--yellow);
+}
+
+/* Practice/meal card — long-press circle fill */
+.practice-card{
+  background:var(--dark);border-radius:12px;
+  padding:16px;margin-bottom:10px;
+  border:1px solid #333;
+  transition:all .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor:pointer;
+  -webkit-user-select:none;user-select:none;
+  position:relative;
+  overflow:hidden;
+}
+.practice-card.next-up{
+  border-color:rgba(255,204,0,.4);
+  box-shadow:0 0 16px rgba(255,204,0,.12);
+}
+.practice-card.checked{
+  border-color:var(--yellow);
+  box-shadow:0 0 12px rgba(255,204,0,.15);
+}
+.practice-card.completing{
+  transform:scale(1.02);
+}
+.practice-card-main{
+  display:flex;align-items:center;gap:14px;
+}
+.practice-ring{
+  width:48px;height:48px;flex-shrink:0;
+  position:relative;display:flex;
+  align-items:center;justify-content:center;
+}
+.practice-ring svg{
+  width:48px;height:48px;
+  transform:rotate(-90deg);
+}
+.practice-ring-bg{
+  fill:none;stroke:#333;stroke-width:3;
+}
+.practice-ring-fill{
+  fill:none;stroke:var(--yellow);stroke-width:3;
+  stroke-linecap:round;
+  transition:stroke-dashoffset 0s linear;
+}
+.practice-ring-icon{
+  position:absolute;font-size:1.2rem;
+}
+.practice-card.checked .practice-ring-icon{
+  animation:checkBounce .4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes checkBounce{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.3)}
+  100%{transform:scale(1)}
+}
+.practice-info{flex:1}
+.practice-name{font-weight:600;font-size:.95rem}
+.practice-req{font-size:.75rem;color:var(--gray);margin-top:2px;line-height:1.4}
+.practice-check-mark{
+  font-size:1.2rem;opacity:0;
+  transition:opacity .3s, transform .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform:scale(0.5);
+}
+.practice-card.checked .practice-check-mark{
+  opacity:1;transform:scale(1);
+}
+
+/* Meal menu display */
+.meal-menu{
+  margin-top:8px;padding:10px 12px;
+  background:#111;border-radius:8px;
+  border:1px solid #222;
+}
+.meal-menu-title{
+  font-size:.7rem;color:var(--yellow);
+  text-transform:uppercase;letter-spacing:.5px;
+  margin-bottom:6px;font-weight:600;
+}
+.meal-menu-item{
+  font-size:.8rem;color:#ccc;
+  padding:2px 0;line-height:1.4;
+}
+
+/* Weight input card */
+.weight-input-card{
+  background:var(--dark);border-radius:12px;
+  padding:16px;margin-bottom:10px;
+  border:1px solid #333;
+}
+.weight-input-card .practice-card-main{
+  display:flex;align-items:center;gap:14px;
+}
+.weight-input-row{
+  display:flex;align-items:center;gap:10px;
+  margin-top:10px;
+}
+.weight-input-row input{
+  width:120px;padding:10px 12px;font-size:1rem;
+  text-align:center;
+}
+.weight-input-row .weight-unit{
+  font-size:.8rem;color:var(--gray);
+}
+
+/* Long-press hint */
+.press-hint{
+  text-align:center;font-size:.75rem;
+  color:#555;margin-bottom:16px;
+}
+
+/* Save status indicator */
+.save-status{
+  text-align:center;font-size:.7rem;
+  margin-bottom:8px;height:18px;
+  transition:opacity .3s ease;
+}
+.save-status.saving{color:#ffcc00}
+.save-status.saved{color:#4caf50}
+.save-status.error{color:#ff4444}
+.save-status.fade{opacity:0}
+
+/* Perfect strike overlay */
+.perfect-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.9);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:200;opacity:0;
+  pointer-events:none;
+  transition:opacity .4s;
+}
+.perfect-overlay.show{opacity:1;pointer-events:auto}
+.perfect-text{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:2.5rem;color:var(--yellow);
+  text-align:center;
+  animation:perfectPulse 1s ease infinite;
+}
+.perfect-sub{color:var(--gray);margin-top:8px;font-size:1rem}
+.perfect-dismiss{
+  margin-top:30px;background:var(--yellow);
+  color:#000;padding:12px 32px;border-radius:8px;
+  font-weight:700;
+}
+@keyframes perfectPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
+
+/* ─── 15-DAY GRID ─── */
+.grid-title{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.3rem;text-align:center;
+  margin-bottom:20px;
+}
+.phase-section{margin-bottom:16px}
+.phase-label{
+  font-size:.75rem;color:var(--yellow);
+  font-weight:600;margin-bottom:6px;
+  letter-spacing:1px;
+}
+.day-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.day-cell{
+  aspect-ratio:1;border-radius:8px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:600;
+  cursor:pointer;transition:all .2s;
+  border:1px solid transparent;
+  position:relative;gap:2px;
+}
+.day-cell .day-num{font-size:.85rem}
+.day-cell .day-score{font-size:.6rem;opacity:.7}
+.day-cell.empty{background:#111;color:#333}
+.day-cell.score-0{background:#1a1a1a;color:#555}
+.day-cell.score-1,.day-cell.score-2{background:#4a1010;color:#ff6666}
+.day-cell.score-3,.day-cell.score-4{background:#4a3010;color:#ffaa44}
+.day-cell.score-5{background:#1a3a1a;color:#66cc66}
+.day-cell.score-6{background:#0a3a0a;color:#44ff44;border-color:#44ff44}
+.day-cell.today{
+  border:2px solid var(--yellow);
+  animation:todayPulse 2s ease infinite;
+}
+.day-cell.future{background:#0a0a0a;color:#222}
+@keyframes todayPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,204,0,.3)}
+  50%{box-shadow:0 0 8px 2px rgba(255,204,0,.2)}
+}
+
+/* ─── STATS ─── */
+.stats-title{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.3rem;text-align:center;
+  margin-bottom:20px;
+}
+.sharpness-gauge{
+  text-align:center;margin-bottom:24px;
+}
+.sharpness-value{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:3rem;color:var(--yellow);
+}
+.sharpness-label{font-size:.8rem;color:var(--gray)}
+.sharpness-bar{
+  height:8px;background:var(--dark);
+  border-radius:4px;margin-top:8px;
+  overflow:hidden;
+}
+.sharpness-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--red),var(--yellow));
+  border-radius:4px;transition:width .8s;
+}
+.stat-block{
+  background:var(--dark);border-radius:12px;
+  padding:16px;margin-bottom:12px;
+  border:1px solid #333;
+}
+.stat-block-title{font-weight:600;font-size:.85rem;margin-bottom:10px}
+.practice-stat{
+  display:flex;align-items:center;gap:10px;
+  padding:6px 0;
+}
+.practice-stat-icon{font-size:1rem;width:24px;text-align:center}
+.practice-stat-name{flex:1;font-size:.85rem}
+.practice-stat-bar{
+  width:80px;height:6px;background:#333;
+  border-radius:3px;overflow:hidden;
+}
+.practice-stat-fill{height:100%;background:var(--yellow);border-radius:3px;transition:width .5s}
+.practice-stat-pct{font-size:.75rem;color:var(--gray);width:36px;text-align:right}
+
+/* Weight chart */
+.weight-chart{
+  position:relative;height:160px;
+  margin:12px 0;
+}
+.weight-chart svg{width:100%;height:100%}
+.weight-bar{
+  transition:height .3s;
+}
+.weight-label{
+  font-size:.55rem;fill:var(--gray);
+  text-anchor:middle;
+}
+.weight-value-label{
+  font-size:.6rem;fill:#fff;
+  text-anchor:middle;font-weight:600;
+}
+
+/* Rules card */
+.rules-card{
+  background:var(--dark);border-radius:12px;
+  padding:16px;margin-bottom:12px;
+  border:1px solid #333;
+}
+.rules-card h3{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:.95rem;color:var(--yellow);
+  margin-bottom:10px;
+}
+.rules-card li{
+  font-size:.8rem;color:#ccc;
+  line-height:1.5;padding:3px 0;
+  list-style:none;
+}
+.rules-card li::before{
+  content:'⚔ ';color:var(--red);
+}
+
+/* DAY DETAIL MODAL */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.85);
+  display:flex;align-items:flex-end;
+  justify-content:center;
+  z-index:150;opacity:0;
+  pointer-events:none;transition:opacity .3s;
+}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal-content{
+  background:var(--dark);
+  border-radius:16px 16px 0 0;
+  padding:24px 20px calc(24px + env(safe-area-inset-bottom));
+  width:100%;max-width:480px;
+  transform:translateY(100%);
+  transition:transform .3s;
+  max-height:80vh;overflow-y:auto;
+}
+.modal-overlay.show .modal-content{transform:translateY(0)}
+.modal-handle{
+  width:40px;height:4px;background:#444;
+  border-radius:2px;margin:0 auto 16px;
+}
+.modal-title{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.2rem;margin-bottom:4px;
+}
+.modal-date{font-size:.8rem;color:var(--gray);margin-bottom:16px}
+.modal-practice{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;
+}
+.modal-practice-check{font-size:1rem}
+.modal-practice-name{font-size:.9rem}
+.modal-practice-detail{
+  font-size:.75rem;color:var(--gray);margin-left:34px;
+  margin-top:-4px;padding-bottom:4px;
+}
+.modal-close{
+  margin-top:16px;width:100%;
+  background:#333;color:#fff;
+  padding:12px;border-radius:8px;
+  font-weight:600;
+}
+
+/* ─── LOADING ─── */
+.spinner{
+  width:24px;height:24px;
+  border:3px solid #333;
+  border-top-color:var(--yellow);
+  border-radius:50%;
+  animation:spin .6s linear infinite;
+  margin:0 auto;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-screen{
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-height:60vh;gap:16px;
+}
+.loading-screen .brand{font-size:1.5rem}
+.logo-img{width:140px;height:140px;object-fit:contain;border-radius:16px}
+.logo-img-sm{width:72px;height:72px;object-fit:contain;border-radius:10px}
+.logo-img-loading{width:120px;height:120px;object-fit:contain;border-radius:16px;margin-bottom:8px}
+
+/* ─── VIEW MANAGEMENT ─── */
+.view{display:none}
+.view.active{display:block}
+
+/* ─── RESET PASSWORD VIEW ─── */
+.reset-form{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+
+.btn-logout{
+  margin-top:20px;display:block;width:100%;
+  background:none;color:var(--red);
+  border:1px solid var(--red);
+  padding:12px;border-radius:8px;
+  font-size:.9rem;font-weight:600;
+  transition:all .2s;
+}
+.btn-logout:active{background:rgba(204,0,0,.1)}
+
+.version-footer{
+  text-align:center;font-size:.7rem;
+  color:#333;margin-top:16px;
+}
+
+/* ─── SHOPPING LIST ─── */
+.shop-range-bar{
+  display:flex;gap:6px;margin-bottom:20px;
+  flex-wrap:wrap;
+}
+.shop-range-btn{
+  background:var(--dark);color:var(--gray);
+  border:1px solid #333;border-radius:20px;
+  padding:8px 16px;font-size:.8rem;font-weight:600;
+  transition:all .2s;
+}
+.shop-range-btn.active{
+  background:var(--yellow);color:#000;
+  border-color:var(--yellow);
+}
+.shop-category{
+  background:var(--dark);border-radius:12px;
+  padding:16px;margin-bottom:12px;
+  border:1px solid #222;
+}
+.shop-category h4{
+  font-family:'Black Han Sans',sans-serif;
+  color:var(--yellow);font-size:.95rem;
+  margin-bottom:10px;letter-spacing:.5px;
+}
+.shop-item{
+  display:flex;justify-content:space-between;
+  align-items:center;
+  padding:8px 0;border-bottom:1px solid #1a1a1a;
+  font-size:.85rem;color:#ccc;
+}
+.shop-item:last-child{border-bottom:none}
+.shop-item .qty{
+  color:var(--yellow);font-weight:600;
+  font-size:.8rem;white-space:nowrap;
+  margin-left:12px;
+}
+.shop-rules-card{
+  background:var(--dark);border-radius:12px;
+  padding:16px;margin-top:12px;
+  border:1px solid #222;
+}
+.shop-rules-card h4{
+  font-family:'Black Han Sans',sans-serif;
+  color:var(--red);font-size:.85rem;
+  margin-bottom:10px;
+}
+.shop-rules-card ul{
+  list-style:none;padding:0;
+}
+.shop-rules-card li{
+  font-size:.78rem;color:var(--gray);
+  padding:4px 0;
+}
+.shop-rules-card li::before{
+  content:'⚠️ ';
+}
+
+/* ─── START DATE SETUP ─── */
+.setup-card{
+  background:var(--dark);border-radius:12px;
+  padding:24px;margin-bottom:16px;
+  border:1px solid #333;text-align:center;
+}
+.setup-card h2{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:1.3rem;color:var(--yellow);
+  margin-bottom:8px;
+}
+.setup-card p{font-size:.85rem;color:var(--gray);margin-bottom:16px;line-height:1.5}
+.setup-card input[type="date"]{
+  text-align:center;margin-bottom:12px;
+}
+.setup-card input[type="number"]{
+  text-align:center;margin-bottom:12px;
+}
+
+/* Toggle row (water, no-snacking) */
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;background:var(--dark);border-radius:12px;
+  margin-bottom:10px;border:1px solid #333;
+}
+.toggle-row .toggle-info{flex:1}
+.toggle-row .toggle-name{font-weight:600;font-size:.95rem}
+.toggle-row .toggle-req{font-size:.75rem;color:var(--gray);margin-top:2px}
+.toggle-btn{
+  width:52px;height:30px;border-radius:15px;background:#333;
+  position:relative;cursor:pointer;transition:background .2s;
+  flex-shrink:0;
+}
+.toggle-btn.on{background:var(--green)}
+.toggle-btn.on-red{background:var(--red)}
+.toggle-btn::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:24px;height:24px;border-radius:50%;background:#fff;
+  transition:transform .2s;
+}
+.toggle-btn.on::after,
+.toggle-btn.on-red::after{transform:translateX(22px)}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOADING ═══ -->
+<div class="app">
+<div id="view-loading" class="view active">
+  <div class="loading-screen">
+    <img src="assets/logo.png" alt="Ugly Dojo" class="logo-img-loading">
+    <div class="brand brand-lg">UGLY DOJO</div>
+    <div class="tagline">BURN THE OLD. FORGE THE NEW.</div>
+    <div class="spinner" style="margin-top:20px"></div>
+  </div>
+</div>
+
+<!-- ═══ AUTH ═══ -->
+<div id="view-auth" class="view">
+  <div class="auth-header">
+    <img src="assets/logo.png" alt="Ugly Dojo" class="logo-img" style="margin-bottom:12px">
+    <div class="brand brand-lg">UGLY DOJO</div>
+    <div class="tagline">15-DAY RESET</div>
+  </div>
+
+  <p class="auth-explainer">15-day cleanse reset. 3 meals. No excuses. Lose 20 lbs. Burn the old. Forge the new.</p>
+
+  <div class="auth-tabs">
+    <button class="auth-tab active" data-tab="login">Log In</button>
+    <button class="auth-tab" data-tab="register">Start Reset</button>
+  </div>
+
+  <div id="auth-error" class="auth-error"></div>
+  <div id="auth-success" class="auth-success"></div>
+
+  <!-- Login form -->
+  <form id="form-login" class="auth-form">
+    <input type="email" id="login-email" placeholder="Email" autocomplete="email" required>
+    <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required>
+    <button type="submit" class="btn-primary">LOG IN</button>
+    <button type="button" class="btn-link" id="btn-forgot">Forgot password?</button>
+  </form>
+
+
+  <!-- Register form -->
+  <form id="form-register" class="auth-form" style="display:none">
+    <input type="text" id="reg-name" placeholder="Your name" autocomplete="name" required>
+    <input type="email" id="reg-email" placeholder="Email" autocomplete="email" required>
+    <input type="password" id="reg-password" placeholder="Password (min 8 characters)" autocomplete="new-password" required minlength="8">
+    <button type="submit" class="btn-primary">START MY RESET</button>
+  </form>
+
+  <!-- Forgot password form -->
+  <form id="form-forgot" class="auth-form" style="display:none">
+    <p style="color:var(--gray);font-size:.9rem;margin-bottom:4px">Enter your email and we'll send a reset link.</p>
+    <input type="email" id="forgot-email" placeholder="Email" autocomplete="email" required>
+    <button type="submit" class="btn-primary">SEND RESET LINK</button>
+    <button type="button" class="btn-link" id="btn-back-login">Back to login</button>
+  </form>
+</div>
+
+<!-- ═══ RESET CONFIRM ═══ -->
+<div id="view-reset" class="view">
+  <div class="auth-header">
+    <img src="assets/logo.png" alt="Ugly Dojo" class="logo-img-sm" style="margin-bottom:8px">
+    <div class="brand brand-lg">UGLY DOJO</div>
+    <div class="tagline">RESET PASSWORD</div>
+  </div>
+  <div id="reset-error" class="auth-error"></div>
+  <div id="reset-success" class="auth-success"></div>
+  <form id="form-reset-confirm" class="reset-form">
+    <input type="password" id="reset-new-pw" placeholder="New password (min 8 characters)" autocomplete="new-password" required minlength="8">
+    <input type="password" id="reset-confirm-pw" placeholder="Confirm new password" autocomplete="new-password" required minlength="8">
+    <button type="submit" class="btn-primary">RESET PASSWORD</button>
+    <button type="button" class="btn-link" onclick="navigate('login')">Back to login</button>
+  </form>
+</div>
+
+<!-- ═══ SETUP (start date + starting weight) ═══ -->
+<div id="view-setup" class="view">
+  <div class="auth-header">
+    <img src="assets/logo.png" alt="Ugly Dojo" class="logo-img-sm" style="margin-bottom:8px">
+    <div class="brand brand-lg">15-DAY RESET</div>
+    <div class="tagline">CONFIGURE YOUR CLEANSE</div>
+  </div>
+  <div class="setup-card">
+    <h2>When does your reset start?</h2>
+    <p>Pick your Day 1. This locks your 15-day window.</p>
+    <input type="date" id="setup-start-date">
+  </div>
+  <div class="setup-card">
+    <h2>Starting Weight (lbs)</h2>
+    <p>Morning weigh-in before Day 1. Used to track progress.</p>
+    <input type="number" id="setup-start-weight" placeholder="e.g. 200" step="0.1" min="50" max="500">
+  </div>
+  <button class="btn-primary" id="btn-start-reset" style="width:100%;margin-top:8px">BEGIN THE RESET</button>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div id="view-dashboard" class="view">
+  <div class="dash-greeting" id="dash-greeting">Welcome back</div>
+  <div class="dash-day">Day <span id="dash-day-num">1</span> of 15</div>
+  <div class="dash-date" id="dash-date"></div>
+
+  <div class="katana-bar">
+    <div class="katana-fill" id="katana-fill" style="width:0%">
+      <span class="katana-fill-label" id="katana-pct"></span>
+    </div>
+    <span class="katana-label" id="katana-label-right"></span>
+  </div>
+
+  <div class="rank-card">
+    <div class="rank-icon" id="rank-icon">🔥</div>
+    <div>
+      <div class="rank-name" id="rank-name">Purge</div>
+      <div class="rank-subtitle" id="rank-subtitle">浄化 — Days 1-2</div>
+    </div>
+  </div>
+
+  <div class="weight-goal-card">
+    <div class="goal-title">TARGET: -20 LBS IN 15 DAYS</div>
+    <div class="weight-lost neutral" id="dash-weight-lost">--</div>
+    <div class="goal-detail" id="dash-weight-detail">Log your starting weight to begin</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value" id="dash-today-score">--</div>
+      <div class="stat-label">Today</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="dash-streak">0</div>
+      <div class="stat-label">Clean Streak</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="dash-perfect">0</div>
+      <div class="stat-label">Clean Strikes</div>
+    </div>
+  </div>
+
+  <button class="btn-cta" id="btn-train" onclick="navigate('checkin')">⚔️ TODAY'S MEALS</button>
+</div>
+
+<!-- ═══ CHECK-IN ═══ -->
+<div id="view-checkin" class="view">
+  <div class="checkin-header">
+    <div class="checkin-title" id="checkin-title">Today's Meals</div>
+    <div class="checkin-date" id="checkin-date"></div>
+    <div class="checkin-score">Score: <span id="checkin-score">0</span> / 6</div>
+  </div>
+
+  <!-- Top progress ring -->
+  <div class="progress-ring-container">
+    <svg width="80" height="80">
+      <circle cx="40" cy="40" r="34" fill="none" stroke="#333" stroke-width="5"/>
+      <circle id="top-progress-ring" cx="40" cy="40" r="34" fill="none" stroke="var(--yellow)" stroke-width="5" stroke-linecap="round"
+        stroke-dasharray="213.6" stroke-dashoffset="213.6" style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .4s ease"/>
+    </svg>
+    <div class="progress-ring-text" id="progress-ring-text">0/6</div>
+  </div>
+
+  <div class="press-hint">Press and hold to complete a meal</div>
+  <div id="save-status" class="save-status"></div>
+
+  <div id="practice-list"></div>
+
+  <!-- Rules reminder at bottom of check-in -->
+  <div class="rules-card" style="margin-top:16px">
+    <h3>Today's Rules</h3>
+    <ul id="rules-list"></ul>
+  </div>
+</div>
+
+<!-- ═══ 15-DAY GRID ═══ -->
+<div id="view-grid" class="view">
+  <div class="grid-title">15-Day Journey</div>
+  <div id="grid-container"></div>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<div id="view-stats" class="view">
+  <div class="stats-title">Your Forge</div>
+
+  <div class="sharpness-gauge">
+    <div class="sharpness-value" id="sharpness-value">0%</div>
+    <div class="sharpness-label">Adherence</div>
+    <div class="sharpness-bar">
+      <div class="sharpness-fill" id="sharpness-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value" id="stat-total">0</div>
+      <div class="stat-label">Items Done</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-best-streak">0</div>
+      <div class="stat-label">Best Streak</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-days-done">0</div>
+      <div class="stat-label">Days Logged</div>
+    </div>
+  </div>
+
+  <div class="stat-block">
+    <div class="stat-block-title">Completion Breakdown</div>
+    <div id="practice-breakdown"></div>
+  </div>
+
+  <div class="stat-block" id="weight-chart-block">
+    <div class="stat-block-title">Weight Progress</div>
+    <div class="weight-chart" id="weight-chart"></div>
+    <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--gray);margin-top:4px">
+      <span id="weight-start-label">Start: --</span>
+      <span id="weight-current-label">Current: --</span>
+      <span id="weight-change-label">Change: --</span>
+    </div>
+  </div>
+
+  <button class="btn-logout" id="btn-logout">LOG OUT</button>
+  <button class="btn-logout" id="btn-reset-data" style="margin-top:8px;color:var(--gray);border-color:#333">RESET ALL DATA</button>
+  <div class="version-footer">15-Day Reset v1.0</div>
+</div>
+
+<!-- ═══ SHOPPING LIST ═══ -->
+<div id="view-shop" class="view">
+  <div class="stats-title">Shopping List</div>
+  <div class="shop-range-bar" id="shop-range-bar"></div>
+  <div id="shop-list-container"></div>
+  <div class="shop-rules-card">
+    <h4>Cooking & Prep Rules</h4>
+    <ul>
+      <li>No sauces, spices, or seasonings — NOTHING. PLAIN.</li>
+      <li>No lemon, no garlic, no seasoning of any kind</li>
+      <li>Eggs: hard/soft boiled or poached only</li>
+      <li>No cooking oils, butter, or fats — roast, bake, grill only</li>
+      <li>Coffee: BLACK only</li>
+      <li>Toast: must be dry, NO white bread</li>
+    </ul>
+  </div>
+  <div class="shop-rules-card" style="border-color:#333">
+    <h4 style="color:var(--yellow)">Ugly Dojo Philosophy</h4>
+    <ul>
+      <li style="color:#ccc">Eat what you need — don't overthink it</li>
+      <li style="color:#ccc">2-3 slices of dry toast on days it appears is fine</li>
+      <li style="color:#ccc">The real enemies: snacking between meals, adding oils/butter, and breaking meal timing rules — not an extra slice of dry toast</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- /.app -->
+
+<!-- ═══ BOTTOM NAV ═══ -->
+<nav class="bottom-nav" id="bottom-nav" style="display:none">
+  <button class="nav-btn active" data-view="dashboard">
+    <span class="nav-icon">🏠</span>Home
+  </button>
+  <button class="nav-btn" data-view="checkin">
+    <span class="nav-icon">⚔️</span>Train
+  </button>
+  <button class="nav-btn" data-view="grid">
+    <span class="nav-icon">📅</span>Journey
+  </button>
+  <button class="nav-btn" data-view="stats">
+    <span class="nav-icon">📊</span>Stats
+  </button>
+  <button class="nav-btn" data-view="shop">
+    <span class="nav-icon">🛒</span>Shop
+  </button>
+</nav>
+
+<!-- ═══ DAY DETAIL MODAL ═══ -->
+<div class="modal-overlay" id="day-modal">
+  <div class="modal-content">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-title">Day 1</div>
+    <div class="modal-date" id="modal-date"></div>
+    <div id="modal-practices"></div>
+    <button class="modal-close" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- ═══ PERFECT / CLEAN STRIKE OVERLAY ═══ -->
+<div class="perfect-overlay" id="perfect-overlay">
+  <img src="assets/logo.png" alt="Ugly Dojo" class="logo-img" style="margin-bottom:8px">
+  <div class="perfect-text">CLEAN STRIKE!</div>
+  <div class="perfect-sub">6/6 — All items complete</div>
+  <button class="perfect-dismiss" onclick="dismissPerfect()">Continue</button>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   15-DAY RESET v1.0 — UGLY DOJO
+   ═══════════════════════════════════════════ */
+
+const APP_VERSION = '1.0';
+const API = '/api';
+const TOTAL_DAYS = 15;
+const PERFECT_SCORE = 6; // 3 meals + water + no-snacking + weight
+const LONG_PRESS_MS = 800;
+const RING_CIRCUMFERENCE = 2 * Math.PI * 20; // r=20 for practice rings
+
+// ─── 15-DAY MEAL PLAN ───
+const MEAL_PLAN = {
+  1: {
+    B: ['Fresh Fruit (any variety) OR 1/2 cantaloupe', '6oz tomato juice'],
+    L: ['Raw vegetables (any variety)', '1/2 cantaloupe', '6oz tomato juice'],
+    D: ['Raw vegetables (any variety)', 'Salad - 2 cups lettuce', '6oz tomato juice'],
+  },
+  2: {
+    B: ['Fresh Fruit (any variety) OR 1/2 cantaloupe', '6oz tomato juice'],
+    L: ['Raw vegetables (any variety)', '1/2 cantaloupe', '6oz tomato juice'],
+    D: ['Raw vegetables (any variety)', 'Salad - 2 cups lettuce', '6oz tomato juice'],
+  },
+  3: {
+    B: ['Grapefruit', '3 eggs', 'Coffee (black)'],
+    L: ['3 eggs', 'Tomatoes', 'Coffee (black)'],
+    D: ['3 eggs', 'Mixed salad (any veg)', 'Dry toast (no white)', 'Grapefruit'],
+  },
+  4: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['1-2 eggs', 'Grapefruit'],
+    D: ['Steak (lean cut only)', 'Tomatoes, lettuce, celery, olives, cucumbers', 'Coffee (black)'],
+  },
+  5: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['1-2 eggs', 'Tomatoes', 'Broccoli', 'Coffee (black)'],
+    D: ['2 Lamb chops or Chicken (breast only)', 'Tomatoes, celery, cucumbers', 'Coffee (black)'],
+  },
+  6: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['Mixed salad (any veg)', 'Grapefruit', 'Coffee (black)'],
+    D: ['Eggs', 'Cottage cheese', 'Broccoli', 'Dry toast (no white)', 'Coffee (black)'],
+  },
+  7: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['Eggs', 'Broccoli', 'Coffee (black)'],
+    D: ['Fish (your choice)', 'Mixed salad (any veg)', 'Dry toast (no white)', 'Coffee (black)'],
+  },
+  8: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['Fresh fruit (apples, pears, oranges, peaches)'],
+    D: ['Steak (lean cut only)', 'Celery, tomatoes, cucumbers', 'Coffee (black)'],
+  },
+  9: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['Cold chicken (breast meat)', 'Tomatoes', 'Grapefruit'],
+    D: ['Vegetable soup (homemade)', 'Chicken (breast meat)', 'Cooked cabbage', 'Cucumber & tomatoes', 'Grapefruit', 'Coffee (black)'],
+  },
+  10: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['3 eggs', 'Tomatoes', 'Coffee (black)'],
+    D: ['3 eggs', 'Mixed salad (any veg)', 'Dry toast (not white)', 'Grapefruit'],
+  },
+  11: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['1-2 eggs', 'Grapefruit'],
+    D: ['Steak (lean cut only)', 'Tomatoes, lettuce, celery, olives, cucumbers', 'Coffee (black)'],
+  },
+  12: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['1-2 eggs', 'Tomatoes', 'Broccoli', 'Coffee (black)'],
+    D: ['2 Lamb chops or Chicken (breast meat)', 'Tomatoes, celery, cucumbers', 'Coffee (black)'],
+  },
+  13: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['Mixed salad (any veg)', 'Grapefruit', 'Coffee (black)'],
+    D: ['Eggs', 'Cottage cheese', 'Broccoli', 'Dry toast (no white)', 'Coffee (black)'],
+  },
+  14: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['Eggs', 'Broccoli', 'Coffee (black)'],
+    D: ['Fish (your choice)', 'Mixed salad (any veg)', 'Dry toast (no white)', 'Coffee (black)'],
+  },
+  15: {
+    B: ['Grapefruit', '1-2 eggs', 'Coffee (black)'],
+    L: ['Cold chicken (breast meat)', 'Tomatoes', 'Grapefruit'],
+    D: ['Vegetable soup (homemade)', 'Chicken (breast meat)', 'Cooked cabbage', 'Cucumber & tomatoes', 'Grapefruit', 'Coffee (black)'],
+  },
+};
+
+// ─── TRACKING ITEMS (meals + water + no-snacking) ───
+// Weight is tracked separately (bonus, not scored)
+const ITEMS = [
+  { key: 'breakfast', name: 'Meal 1 — Breakfast', icon: '🍳', mealKey: 'B' },
+  { key: 'lunch',     name: 'Meal 2 — Lunch',     icon: '🥗', mealKey: 'L' },
+  { key: 'dinner',    name: 'Meal 3 — Dinner',     icon: '🥩', mealKey: 'D' },
+];
+
+// ─── PHASES (replaces Q63 ranks) ───
+const PHASES = [
+  { name: 'Purge',    kanji: '浄化',  icon: '🔥', startDay: 1,  endDay: 2  },
+  { name: 'Forge',    kanji: '鍛造',  icon: '🔨', startDay: 3,  endDay: 5  },
+  { name: 'Temper',   kanji: '焼入',  icon: '⚔️', startDay: 6,  endDay: 9  },
+  { name: 'Sharpen',  kanji: '研ぐ',  icon: '🗡️', startDay: 10, endDay: 12 },
+  { name: 'Strike',   kanji: '斬撃',  icon: '⚡', startDay: 13, endDay: 15 },
+];
+
+// ─── STATE ───
+let state = {
+  token: localStorage.getItem('r15_token') || null,
+  user: JSON.parse(localStorage.getItem('r15_user') || 'null'),
+  startDate: localStorage.getItem('r15_startDate') || null,
+  startWeight: parseFloat(localStorage.getItem('r15_startWeight')) || null,
+  progress: JSON.parse(localStorage.getItem('r15_progress') || '{"days":{}}'),
+  currentView: 'loading',
+  checkinState: {},
+};
+
+function saveLocal() {
+  localStorage.setItem('r15_progress', JSON.stringify(state.progress));
+  if (state.startDate) localStorage.setItem('r15_startDate', state.startDate);
+  if (state.startWeight) localStorage.setItem('r15_startWeight', String(state.startWeight));
+}
+
+// ─── API HELPERS (auth only) ───
+async function api(endpoint, method = 'GET', body = null) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (state.token) headers['Authorization'] = `Bearer ${state.token}`;
+
+  const opts = { method, headers };
+  if (body) opts.body = JSON.stringify(body);
+
+  const res = await fetch(`${API}/${endpoint}`, opts);
+  const data = await res.json();
+
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+// ─── DATE HELPERS ───
+function getTodayString() {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    year: 'numeric', month: '2-digit', day: '2-digit',
+  });
+  return formatter.format(now);
+}
+
+function formatDateDisplay(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-US', {
+    weekday: 'long', month: 'short', day: 'numeric',
+  });
+}
+
+function getCalendarDateForDay(dayNum) {
+  if (!state.startDate) return null;
+  const start = new Date(state.startDate + 'T12:00:00');
+  start.setDate(start.getDate() + (dayNum - 1));
+  const y = start.getFullYear();
+  const m = String(start.getMonth() + 1).padStart(2, '0');
+  const d = String(start.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+// ─── NAVIGATION ───
+function navigate(view) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const el = document.getElementById(`view-${view}`);
+  if (el) el.classList.add('active');
+
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+
+  const authedViews = ['dashboard', 'checkin', 'grid', 'stats', 'shop'];
+  document.getElementById('bottom-nav').style.display =
+    authedViews.includes(view) ? 'flex' : 'none';
+
+  state.currentView = view;
+
+  if (view === 'dashboard') renderDashboard();
+  if (view === 'checkin') renderCheckin();
+  if (view === 'grid') renderGrid();
+  if (view === 'stats') renderStats();
+  if (view === 'shop') renderShopping();
+
+  const newHash = `#${view}`;
+  if (location.hash !== newHash) {
+    history.replaceState(null, '', newHash);
+  }
+}
+
+// ─── CURRENT DAY CALCULATION ───
+function getCurrentDay() {
+  if (!state.startDate) return 1;
+  const start = new Date(state.startDate + 'T12:00:00');
+  const todayStr = getTodayString();
+  const today = new Date(todayStr + 'T12:00:00');
+  const diff = Math.round((today - start) / (1000 * 60 * 60 * 24)) + 1;
+  return Math.max(1, Math.min(TOTAL_DAYS, diff));
+}
+
+function getPhase(day) {
+  for (const phase of PHASES) {
+    if (day >= phase.startDay && day <= phase.endDay) return phase;
+  }
+  return PHASES[PHASES.length - 1];
+}
+
+// ─── SCORE CALCULATION ───
+function getScore(dayData) {
+  if (!dayData) return 0;
+  let score = 0;
+  const items = dayData.items || {};
+  if (items.breakfast) score++;
+  if (items.lunch) score++;
+  if (items.dinner) score++;
+  if (items.water) score++;
+  if (items.noSnacking) score++;
+  if (items.weight) score++;
+  // photo is not scored — it's a reminder on Day 1 + Mondays only
+  return score;
+}
+
+function calcStreak() {
+  const currentDay = getCurrentDay();
+  let streak = 0;
+  for (let d = currentDay; d >= 1; d--) {
+    const dayData = state.progress.days[String(d)];
+    if (dayData && getScore(dayData) === PERFECT_SCORE) {
+      streak++;
+    } else if (d === currentDay && !dayData) {
+      continue;
+    } else {
+      break;
+    }
+  }
+  return streak;
+}
+
+function calcBestStreak() {
+  let best = 0, current = 0;
+  for (let d = 1; d <= TOTAL_DAYS; d++) {
+    const dayData = state.progress.days[String(d)];
+    if (dayData && getScore(dayData) === PERFECT_SCORE) {
+      current++;
+      if (current > best) best = current;
+    } else {
+      current = 0;
+    }
+  }
+  return best;
+}
+
+function countPerfectDays() {
+  let count = 0;
+  for (const d of Object.values(state.progress.days)) {
+    if (getScore(d) === PERFECT_SCORE) count++;
+  }
+  return count;
+}
+
+// ─── WEIGHT HELPERS ───
+function getWeightData() {
+  const weights = [];
+  if (state.startWeight) {
+    weights.push({ day: 0, weight: state.startWeight, label: 'Start' });
+  }
+  for (let d = 1; d <= TOTAL_DAYS; d++) {
+    const dayData = state.progress.days[String(d)];
+    if (dayData && dayData.weight) {
+      weights.push({ day: d, weight: dayData.weight, label: `Day ${d}` });
+    }
+  }
+  return weights;
+}
+
+function getWeightLost() {
+  if (!state.startWeight) return null;
+  const weights = getWeightData();
+  if (weights.length < 2) return null;
+  const latest = weights[weights.length - 1];
+  return state.startWeight - latest.weight;
+}
+
+// ─── WATER RULE ───
+function getWaterRule(day) {
+  return day <= 2 ? 'Max 500ml water' : 'Max 2L water/day';
+}
+
+// ─── RENDER: DASHBOARD ───
+function renderDashboard() {
+  const day = getCurrentDay();
+  const phase = getPhase(day);
+  const streak = calcStreak();
+  const perfects = countPerfectDays();
+  const daysLogged = Object.keys(state.progress.days).length;
+  const pct = Math.round((daysLogged / TOTAL_DAYS) * 100);
+  const todayData = state.progress.days[String(day)];
+
+  document.getElementById('dash-greeting').textContent =
+    state.user ? `Welcome back, ${state.user.name}` : 'Welcome back';
+  document.getElementById('dash-day-num').textContent = day;
+
+  const calDate = getCalendarDateForDay(day);
+  document.getElementById('dash-date').textContent =
+    calDate ? formatDateDisplay(calDate) : getTodayString();
+
+  // Katana bar
+  const fill = document.getElementById('katana-fill');
+  const label = document.getElementById('katana-label-right');
+  fill.style.width = `${pct}%`;
+  document.getElementById('katana-pct').textContent = pct > 8 ? `${pct}%` : '';
+  label.textContent = pct > 0 ? '' : '0% complete — start your first day';
+
+  // Phase
+  document.getElementById('rank-icon').textContent = phase.icon;
+  document.getElementById('rank-name').textContent = phase.name;
+  document.getElementById('rank-subtitle').textContent = `${phase.kanji} — Days ${phase.startDay}-${phase.endDay}`;
+
+  // Weight
+  const weightLost = getWeightLost();
+  const weightEl = document.getElementById('dash-weight-lost');
+  const weightDetail = document.getElementById('dash-weight-detail');
+  if (weightLost !== null) {
+    const sign = weightLost > 0 ? '-' : '+';
+    weightEl.textContent = `${sign}${Math.abs(weightLost).toFixed(1)} lbs`;
+    weightEl.className = 'weight-lost ' + (weightLost > 0 ? 'positive' : weightLost < 0 ? 'negative' : 'neutral');
+    const weights = getWeightData();
+    const latest = weights[weights.length - 1];
+    weightDetail.textContent = `Started: ${state.startWeight} lbs | Current: ${latest.weight} lbs`;
+  } else if (state.startWeight) {
+    weightEl.textContent = '--';
+    weightEl.className = 'weight-lost neutral';
+    weightDetail.textContent = `Starting weight: ${state.startWeight} lbs — log today's weight`;
+  } else {
+    weightEl.textContent = '--';
+    weightEl.className = 'weight-lost neutral';
+    weightDetail.textContent = 'Log your starting weight to begin';
+  }
+
+  // Stats
+  document.getElementById('dash-today-score').textContent =
+    todayData ? `${getScore(todayData)}/6` : '--';
+  document.getElementById('dash-streak').textContent = streak;
+  document.getElementById('dash-perfect').textContent = perfects;
+
+  // CTA text
+  document.getElementById('btn-train').textContent =
+    todayData ? '⚔️ UPDATE MEALS' : '⚔️ TODAY\'S MEALS';
+}
+
+// ─── RENDER: CHECK-IN ───
+let longPressTimer = null;
+let longPressStartTime = null;
+let longPressKey = null;
+let saveDebounceTimer = null;
+
+function renderCheckin() {
+  const day = getCurrentDay();
+  const existing = state.progress.days[String(day)];
+  const calDate = getCalendarDateForDay(day) || getTodayString();
+  const phase = getPhase(day);
+  const meals = MEAL_PLAN[day];
+
+  document.getElementById('checkin-title').textContent = `Day ${day} of 15 — ${phase.icon} ${phase.name}`;
+  document.getElementById('checkin-date').textContent = formatDateDisplay(calDate);
+
+  // Initialize checkin state
+  if (existing) {
+    state.checkinState = { ...(existing.items || {}) };
+  } else {
+    state.checkinState = {
+      breakfast: false,
+      lunch: false,
+      dinner: false,
+      water: false,
+      noSnacking: false,
+      weight: false,
+      photo: false,
+    };
+  }
+
+  // Store weight value separately (the number)
+  state.checkinWeight = existing?.weight || '';
+
+  renderCheckinCards(day, meals);
+  renderRules(day);
+}
+
+function renderCheckinCards(day, meals) {
+  const list = document.getElementById('practice-list');
+  const score = calcCheckinScore();
+  document.getElementById('checkin-score').textContent = score;
+  updateTopProgressRing(score);
+
+  const nextUp = ITEMS.find(item => !state.checkinState[item.key]);
+
+  let html = '';
+
+  // 3 meal cards
+  for (const item of ITEMS) {
+    const checked = state.checkinState[item.key];
+    const isNext = nextUp && nextUp.key === item.key && !checked;
+    const circumference = RING_CIRCUMFERENCE;
+    const mealItems = meals[item.mealKey] || [];
+
+    html += `
+    <div class="practice-card ${checked ? 'checked' : ''} ${isNext ? 'next-up' : ''}" data-key="${item.key}">
+      <div class="practice-card-main">
+        <div class="practice-ring">
+          <svg viewBox="0 0 44 44">
+            <circle class="practice-ring-bg" cx="22" cy="22" r="20"/>
+            <circle class="practice-ring-fill" cx="22" cy="22" r="20"
+              stroke-dasharray="${circumference}"
+              stroke-dashoffset="${checked ? 0 : circumference}"/>
+          </svg>
+          <span class="practice-ring-icon">${checked ? '✓' : item.icon}</span>
+        </div>
+        <div class="practice-info">
+          <div class="practice-name">${item.name}</div>
+          <div class="practice-req">${mealItems[0] || ''}</div>
+        </div>
+        <span class="practice-check-mark">${checked ? '✅' : ''}</span>
+      </div>
+      <div class="meal-menu">
+        <div class="meal-menu-title">Prescribed Menu</div>
+        ${mealItems.map(m => `<div class="meal-menu-item">• ${m}</div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // Water toggle
+  const waterChecked = state.checkinState.water;
+  html += `
+  <div class="toggle-row" id="toggle-water">
+    <div class="toggle-info">
+      <div class="toggle-name">💧 Water</div>
+      <div class="toggle-req">${getWaterRule(day)}</div>
+    </div>
+    <div class="toggle-btn ${waterChecked ? 'on' : ''}" id="btn-water"></div>
+  </div>`;
+
+  // No Snacking toggle
+  const noSnackChecked = state.checkinState.noSnacking;
+  html += `
+  <div class="toggle-row" id="toggle-nosnack">
+    <div class="toggle-info">
+      <div class="toggle-name">🚫 No Snacking</div>
+      <div class="toggle-req">Confirm you didn't snack between meals</div>
+    </div>
+    <div class="toggle-btn ${noSnackChecked ? 'on' : ''}" id="btn-nosnack"></div>
+  </div>`;
+
+  // Weight toggle + input
+  const weightChecked = state.checkinState.weight;
+  html += `
+  <div class="toggle-row" id="toggle-weight">
+    <div class="toggle-info">
+      <div class="toggle-name">⚖️ Morning Weight</div>
+      <div class="toggle-req">Weigh first thing — after bathroom, before eating</div>
+    </div>
+    <div class="toggle-btn ${weightChecked ? 'on' : ''}" id="btn-weight"></div>
+  </div>
+  <div class="weight-input-row" style="margin:-8px 0 12px;padding:0 4px">
+    <input type="number" id="weight-input" value="${state.checkinWeight || ''}" placeholder="e.g. 195" step="0.1" min="50" max="500">
+    <span class="weight-unit">lbs</span>
+  </div>`;
+
+  // Photo reminder — Day 1 + Day 15 only, not scored
+  const isPhotoDay = day === 1 || day === 15;
+
+  if (isPhotoDay) {
+    const photoChecked = state.checkinState.photo;
+    html += `
+    <div class="toggle-row" id="toggle-photo" style="border-left:3px solid var(--yellow)">
+      <div class="toggle-info">
+        <div class="toggle-name">📸 Photo Day!</div>
+        <div class="toggle-req">${day === 1 ? 'Before photos — front, side, and back' : 'Final photos — front, side, and back. See your transformation!'}</div>
+      </div>
+      <div class="toggle-btn ${photoChecked ? 'on' : ''}" id="btn-photo"></div>
+    </div>`;
+  }
+
+  list.innerHTML = html;
+
+  // Attach long-press handlers for meal cards
+  list.querySelectorAll('.practice-card').forEach(card => {
+    const key = card.dataset.key;
+
+    const onStart = (e) => {
+      if (e.target.closest('.meal-menu')) return;
+
+      const checked = state.checkinState[key];
+      if (checked) {
+        longPressKey = key;
+        longPressStartTime = Date.now();
+        longPressTimer = setTimeout(() => {
+          uncompleteWithAnimation(card, key);
+          longPressKey = null;
+        }, LONG_PRESS_MS);
+        return;
+      }
+
+      longPressKey = key;
+      longPressStartTime = Date.now();
+      card.classList.add('completing');
+
+      const ringFill = card.querySelector('.practice-ring-fill');
+      ringFill.style.transition = `stroke-dashoffset ${LONG_PRESS_MS}ms linear`;
+      ringFill.style.strokeDashoffset = '0';
+
+      longPressTimer = setTimeout(() => {
+        completeWithAnimation(card, key);
+        longPressKey = null;
+      }, LONG_PRESS_MS);
+    };
+
+    const onEnd = () => {
+      if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+      }
+
+      const checked = state.checkinState[key];
+      const elapsed = Date.now() - (longPressStartTime || 0);
+
+      if (!checked && longPressKey === key) {
+        card.classList.remove('completing');
+        const ringFill = card.querySelector('.practice-ring-fill');
+        ringFill.style.transition = 'stroke-dashoffset 0.2s ease';
+        ringFill.style.strokeDashoffset = String(RING_CIRCUMFERENCE);
+      }
+
+      longPressKey = null;
+    };
+
+    card.addEventListener('mousedown', onStart);
+    card.addEventListener('mouseup', onEnd);
+    card.addEventListener('mouseleave', onEnd);
+    card.addEventListener('touchstart', onStart, { passive: true });
+    card.addEventListener('touchend', onEnd);
+    card.addEventListener('touchcancel', onEnd);
+  });
+
+  // Wire up water toggle
+  document.getElementById('btn-water').addEventListener('click', function() {
+    state.checkinState.water = !state.checkinState.water;
+    this.classList.toggle('on', state.checkinState.water);
+    if (state.checkinState.water && navigator.vibrate) navigator.vibrate(30);
+    updateScoreAndSave();
+  });
+
+  // Wire up no-snacking toggle
+  document.getElementById('btn-nosnack').addEventListener('click', function() {
+    state.checkinState.noSnacking = !state.checkinState.noSnacking;
+    this.classList.toggle('on', state.checkinState.noSnacking);
+    if (state.checkinState.noSnacking && navigator.vibrate) navigator.vibrate(30);
+    updateScoreAndSave();
+  });
+
+  // Wire up weight toggle
+  document.getElementById('btn-weight').addEventListener('click', function() {
+    state.checkinState.weight = !state.checkinState.weight;
+    this.classList.toggle('on', state.checkinState.weight);
+    if (state.checkinState.weight && navigator.vibrate) navigator.vibrate(30);
+    updateScoreAndSave();
+  });
+
+  // Wire up weight input (stores the actual number)
+  document.getElementById('weight-input').addEventListener('change', function() {
+    const val = parseFloat(this.value);
+    if (val && val > 0) {
+      state.checkinWeight = val;
+      // Auto-toggle weight as done when a value is entered
+      if (!state.checkinState.weight) {
+        state.checkinState.weight = true;
+        document.getElementById('btn-weight').classList.add('on');
+        updateScoreAndSave();
+        return;
+      }
+    } else {
+      state.checkinWeight = '';
+    }
+    debouncedSave();
+  });
+
+  // Wire up photo toggle (only exists on Day 1 + Mondays)
+  const btnPhoto = document.getElementById('btn-photo');
+  if (btnPhoto) {
+    btnPhoto.addEventListener('click', function() {
+      state.checkinState.photo = !state.checkinState.photo;
+      this.classList.toggle('on', state.checkinState.photo);
+      if (state.checkinState.photo && navigator.vibrate) navigator.vibrate(30);
+      debouncedSave(); // not updateScoreAndSave — photo isn't scored
+    });
+  }
+}
+
+function renderRules(day) {
+  const rules = [
+    'Eat within 30-45 minutes of waking',
+    'Spread meals throughout the day',
+    'Last meal by 6-7 PM',
+    'No sauces, spices, or seasonings — NOTHING. PLAIN.',
+    'Eggs: hard/soft boiled or poached only',
+    'No cooking with oils, butter, or fats not listed — roast, bake, grill only',
+    'Coffee is BLACK only',
+    day <= 2 ? 'Max 500ml water (Days 1-2 purge phase)' : 'Max 2L water per day',
+    'If you fall off, you start over',
+    'If no quantity specified, eat what you need — don\'t overthink it',
+    'The real enemies: snacking between meals, adding oils/butter, and breaking meal timing — not an extra slice of dry toast',
+  ];
+
+  document.getElementById('rules-list').innerHTML =
+    rules.map(r => `<li>${r}</li>`).join('');
+}
+
+function calcCheckinScore() {
+  let score = 0;
+  if (state.checkinState.breakfast) score++;
+  if (state.checkinState.lunch) score++;
+  if (state.checkinState.dinner) score++;
+  if (state.checkinState.water) score++;
+  if (state.checkinState.noSnacking) score++;
+  return score;
+}
+
+function updateScoreAndSave() {
+  const score = calcCheckinScore();
+  document.getElementById('checkin-score').textContent = score;
+  updateTopProgressRing(score);
+  debouncedSave();
+
+  if (score === PERFECT_SCORE) {
+    setTimeout(() => {
+      document.getElementById('perfect-overlay').classList.add('show');
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 200,
+          spread: 120,
+          origin: { x: 0.5, y: 0.4 },
+          colors: ['#ffcc00', '#ff6600', '#cc0000', '#fff'],
+          gravity: 0.8,
+          ticks: 150,
+        });
+      }
+      if (navigator.vibrate) navigator.vibrate([50, 50, 100]);
+    }, 300);
+  }
+}
+
+function completeWithAnimation(card, key) {
+  state.checkinState[key] = true;
+  card.classList.remove('completing');
+  card.classList.add('checked');
+  card.classList.remove('next-up');
+
+  const icon = card.querySelector('.practice-ring-icon');
+  icon.textContent = '✓';
+
+  const checkMark = card.querySelector('.practice-check-mark');
+  checkMark.textContent = '✅';
+
+  // Confetti burst
+  const rect = card.getBoundingClientRect();
+  const x = (rect.left + rect.width / 2) / window.innerWidth;
+  const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+  if (typeof confetti === 'function') {
+    confetti({
+      particleCount: 30,
+      spread: 50,
+      origin: { x, y },
+      colors: ['#ffcc00', '#ff6600', '#cc0000'],
+      gravity: 1.2,
+      scalar: 0.8,
+      ticks: 80,
+    });
+  }
+
+  if (navigator.vibrate) navigator.vibrate(50);
+
+  // Update next-up highlight
+  updateNextUpHighlight();
+  updateScoreAndSave();
+}
+
+function uncompleteWithAnimation(card, key) {
+  state.checkinState[key] = false;
+  card.classList.remove('checked');
+
+  const icon = card.querySelector('.practice-ring-icon');
+  const item = ITEMS.find(i => i.key === key);
+  icon.textContent = item ? item.icon : '';
+
+  const ringFill = card.querySelector('.practice-ring-fill');
+  ringFill.style.transition = 'stroke-dashoffset 0.3s ease';
+  ringFill.style.strokeDashoffset = String(RING_CIRCUMFERENCE);
+
+  const checkMark = card.querySelector('.practice-check-mark');
+  checkMark.textContent = '';
+
+  updateNextUpHighlight();
+  updateScoreAndSave();
+}
+
+function updateTopProgressRing(score) {
+  const circumference = 2 * Math.PI * 34;
+  const offset = circumference - (score / PERFECT_SCORE) * circumference;
+  const ring = document.getElementById('top-progress-ring');
+  if (ring) ring.style.strokeDashoffset = String(offset);
+  const text = document.getElementById('progress-ring-text');
+  if (text) text.textContent = `${score}/6`;
+}
+
+function updateNextUpHighlight() {
+  const cards = document.querySelectorAll('#practice-list .practice-card');
+  const nextUp = ITEMS.find(item => !state.checkinState[item.key]);
+  cards.forEach(c => {
+    c.classList.toggle('next-up', nextUp && c.dataset.key === nextUp.key && !state.checkinState[c.dataset.key]);
+  });
+}
+
+// ─── SAVE STATUS ───
+let saveStatusTimer = null;
+
+function showSaveStatus(text, type) {
+  const el = document.getElementById('save-status');
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'save-status ' + type;
+  if (saveStatusTimer) clearTimeout(saveStatusTimer);
+  if (type === 'saved') {
+    saveStatusTimer = setTimeout(() => { el.classList.add('fade'); }, 2000);
+  }
+}
+
+// ─── AUTO-SAVE (localStorage) ───
+function debouncedSave() {
+  if (saveDebounceTimer) clearTimeout(saveDebounceTimer);
+  saveDebounceTimer = setTimeout(autoSave, 300);
+}
+
+function autoSave() {
+  showSaveStatus('Saving...', 'saving');
+
+  try {
+    const day = getCurrentDay();
+
+    if (!state.startDate) {
+      state.startDate = getTodayString();
+      localStorage.setItem('r15_startDate', state.startDate);
+    }
+
+    const dayData = {
+      items: { ...state.checkinState },
+      score: calcCheckinScore(),
+      date: new Date().toISOString(),
+      calendarDate: getCalendarDateForDay(day) || getTodayString(),
+    };
+
+    if (state.checkinWeight) {
+      dayData.weight = parseFloat(state.checkinWeight);
+    }
+
+    state.progress.days[String(day)] = dayData;
+    saveLocal();
+
+    showSaveStatus('Saved', 'saved');
+  } catch (err) {
+    console.warn('Save failed:', err);
+    showSaveStatus('Save failed', 'error');
+  }
+}
+
+function dismissPerfect() {
+  document.getElementById('perfect-overlay').classList.remove('show');
+}
+
+// ─── RENDER: 15-DAY GRID ───
+function renderGrid() {
+  const container = document.getElementById('grid-container');
+  const currentDay = getCurrentDay();
+  let html = '';
+
+  for (const phase of PHASES) {
+    html += `<div class="phase-section">`;
+    html += `<div class="phase-label">${phase.icon} ${phase.name} (${phase.kanji}) — Days ${phase.startDay}-${phase.endDay}</div>`;
+    html += `<div class="day-grid">`;
+
+    for (let d = phase.startDay; d <= phase.endDay; d++) {
+      const dayData = state.progress.days[String(d)];
+      const score = dayData ? getScore(dayData) : -1;
+
+      let cls = 'day-cell';
+      if (d === currentDay) cls += ' today';
+      else if (d > currentDay && !dayData) cls += ' future';
+
+      if (dayData) {
+        cls += ` score-${score}`;
+      } else if (d <= currentDay) {
+        cls += ' score-0';
+      } else {
+        cls += ' empty';
+      }
+
+      const scoreLabel = dayData ? `${score}/6` : '';
+
+      html += `<div class="${cls}" data-day="${d}" onclick="showDayDetail(${d})">
+        <span class="day-num">${d}</span>
+        <span class="day-score">${scoreLabel}</span>
+      </div>`;
+    }
+
+    // Pad remaining cells to fill 5 columns
+    const daysInPhase = phase.endDay - phase.startDay + 1;
+    for (let i = daysInPhase; i < 5; i++) {
+      html += `<div class="day-cell empty" style="visibility:hidden"></div>`;
+    }
+
+    html += `</div></div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+// ─── DAY DETAIL MODAL ───
+function showDayDetail(dayNum) {
+  const dayData = state.progress.days[String(dayNum)];
+  if (!dayData) return;
+
+  const calDate = dayData.calendarDate || getCalendarDateForDay(dayNum);
+  const meals = MEAL_PLAN[dayNum];
+  const phase = getPhase(dayNum);
+
+  document.getElementById('modal-title').textContent = `Day ${dayNum} — ${phase.icon} ${phase.name}`;
+  document.getElementById('modal-date').textContent =
+    calDate ? formatDateDisplay(calDate) : '';
+
+  const items = dayData.items || {};
+
+  let html = '';
+
+  // Meals
+  for (const item of ITEMS) {
+    const done = items[item.key];
+    const mealItems = meals[item.mealKey] || [];
+    html += `<div class="modal-practice">
+      <span class="modal-practice-check">${done ? '✅' : '⬛'}</span>
+      <span class="modal-practice-name">${item.icon} ${item.name}</span>
+    </div>`;
+    if (mealItems.length > 0) {
+      html += `<div class="modal-practice-detail">${mealItems.join(' · ')}</div>`;
+    }
+  }
+
+  // Water
+  html += `<div class="modal-practice">
+    <span class="modal-practice-check">${items.water ? '✅' : '⬛'}</span>
+    <span class="modal-practice-name">💧 Water (${getWaterRule(dayNum)})</span>
+  </div>`;
+
+  // No Snacking
+  html += `<div class="modal-practice">
+    <span class="modal-practice-check">${items.noSnacking ? '✅' : '⬛'}</span>
+    <span class="modal-practice-name">🚫 No Snacking</span>
+  </div>`;
+
+  // Weight
+  html += `<div class="modal-practice">
+    <span class="modal-practice-check">${items.weight ? '✅' : '⬛'}</span>
+    <span class="modal-practice-name">⚖️ Morning Weight${dayData.weight ? ' — ' + dayData.weight + ' lbs' : ''}</span>
+  </div>`;
+
+  // Photo
+  html += `<div class="modal-practice">
+    <span class="modal-practice-check">${items.photo ? '✅' : '⬛'}</span>
+    <span class="modal-practice-name">📸 Daily Photo</span>
+  </div>`;
+
+  document.getElementById('modal-practices').innerHTML = html;
+  document.getElementById('day-modal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('day-modal').classList.remove('show');
+}
+
+// ─── RENDER: STATS ───
+function renderStats() {
+  const days = state.progress.days;
+  const daysLogged = Object.keys(days).length;
+  const totalPossible = daysLogged * PERFECT_SCORE;
+  let totalDone = 0;
+
+  const itemCounts = { breakfast: 0, lunch: 0, dinner: 0, water: 0, noSnacking: 0, weight: 0, photo: 0 };
+
+  for (const d of Object.values(days)) {
+    const score = getScore(d);
+    totalDone += score;
+    const items = d.items || {};
+    if (items.breakfast) itemCounts.breakfast++;
+    if (items.lunch) itemCounts.lunch++;
+    if (items.dinner) itemCounts.dinner++;
+    if (items.water) itemCounts.water++;
+    if (items.noSnacking) itemCounts.noSnacking++;
+    if (items.weight) itemCounts.weight++;
+    if (items.photo) itemCounts.photo++;
+  }
+
+  const adherence = totalPossible > 0 ? Math.round((totalDone / totalPossible) * 100) : 0;
+
+  document.getElementById('sharpness-value').textContent = `${adherence}%`;
+  document.getElementById('sharpness-fill').style.width = `${adherence}%`;
+  document.getElementById('stat-total').textContent = totalDone;
+  document.getElementById('stat-best-streak').textContent = calcBestStreak();
+  document.getElementById('stat-days-done').textContent = daysLogged;
+
+  // Breakdown
+  const breakdownItems = [
+    { icon: '🍳', name: 'Breakfast', key: 'breakfast' },
+    { icon: '🥗', name: 'Lunch', key: 'lunch' },
+    { icon: '🥩', name: 'Dinner', key: 'dinner' },
+    { icon: '💧', name: 'Water', key: 'water' },
+    { icon: '🚫', name: 'No Snacking', key: 'noSnacking' },
+    { icon: '⚖️', name: 'Morning Weight', key: 'weight' },
+    { icon: '📸', name: 'Photo', key: 'photo' },
+  ];
+
+  const breakdown = document.getElementById('practice-breakdown');
+  breakdown.innerHTML = breakdownItems.map(item => {
+    const pct = daysLogged > 0 ? Math.round((itemCounts[item.key] / daysLogged) * 100) : 0;
+    return `<div class="practice-stat">
+      <span class="practice-stat-icon">${item.icon}</span>
+      <span class="practice-stat-name">${item.name}</span>
+      <div class="practice-stat-bar"><div class="practice-stat-fill" style="width:${pct}%"></div></div>
+      <span class="practice-stat-pct">${pct}%</span>
+    </div>`;
+  }).join('');
+
+  // Weight chart
+  renderWeightChart();
+}
+
+function renderWeightChart() {
+  const container = document.getElementById('weight-chart');
+  const weights = getWeightData();
+
+  if (weights.length === 0) {
+    container.innerHTML = '<div style="text-align:center;color:var(--gray);font-size:.85rem;padding:40px 0">No weight data yet. Log your starting weight and daily weigh-ins.</div>';
+    document.getElementById('weight-start-label').textContent = 'Start: --';
+    document.getElementById('weight-current-label').textContent = 'Current: --';
+    document.getElementById('weight-change-label').textContent = 'Change: --';
+    return;
+  }
+
+  const minW = Math.min(...weights.map(w => w.weight)) - 2;
+  const maxW = Math.max(...weights.map(w => w.weight)) + 2;
+  const range = maxW - minW || 1;
+
+  const svgWidth = 320;
+  const svgHeight = 140;
+  const padding = { top: 20, bottom: 25, left: 10, right: 10 };
+  const chartWidth = svgWidth - padding.left - padding.right;
+  const chartHeight = svgHeight - padding.top - padding.bottom;
+
+  const barWidth = Math.min(30, (chartWidth / weights.length) - 4);
+  const gap = (chartWidth - barWidth * weights.length) / (weights.length + 1);
+
+  let svg = `<svg viewBox="0 0 ${svgWidth} ${svgHeight}" preserveAspectRatio="xMidYMid meet">`;
+
+  // Bars
+  weights.forEach((w, i) => {
+    const x = padding.left + gap + i * (barWidth + gap);
+    const normalizedH = ((w.weight - minW) / range) * chartHeight;
+    const y = padding.top + chartHeight - normalizedH;
+
+    // Color based on loss from start
+    let color = 'var(--yellow)';
+    if (state.startWeight && w.day > 0) {
+      color = w.weight < state.startWeight ? '#44ff44' : w.weight > state.startWeight ? 'var(--red)' : 'var(--yellow)';
+    }
+
+    svg += `<rect class="weight-bar" x="${x}" y="${y}" width="${barWidth}" height="${normalizedH}" fill="${color}" rx="3"/>`;
+    svg += `<text class="weight-value-label" x="${x + barWidth/2}" y="${y - 4}">${w.weight}</text>`;
+    svg += `<text class="weight-label" x="${x + barWidth/2}" y="${svgHeight - 4}">${w.label}</text>`;
+  });
+
+  svg += '</svg>';
+  container.innerHTML = svg;
+
+  // Labels
+  const startW = state.startWeight || weights[0].weight;
+  const currentW = weights[weights.length - 1].weight;
+  const change = startW - currentW;
+
+  document.getElementById('weight-start-label').textContent = `Start: ${startW} lbs`;
+  document.getElementById('weight-current-label').textContent = `Current: ${currentW} lbs`;
+  document.getElementById('weight-change-label').textContent = `Change: ${change > 0 ? '-' : '+'}${Math.abs(change).toFixed(1)} lbs`;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ─── AUTH HANDLERS ───
+document.querySelectorAll('.auth-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const which = tab.dataset.tab;
+    document.getElementById('form-login').style.display = which === 'login' ? 'flex' : 'none';
+    document.getElementById('form-register').style.display = which === 'register' ? 'flex' : 'none';
+    document.getElementById('form-forgot').style.display = 'none';
+    hideAuthMessages();
+  });
+});
+
+document.getElementById('btn-forgot').addEventListener('click', () => {
+  document.getElementById('form-login').style.display = 'none';
+  document.getElementById('form-register').style.display = 'none';
+  document.getElementById('form-forgot').style.display = 'flex';
+  hideAuthMessages();
+});
+
+document.getElementById('btn-back-login').addEventListener('click', () => {
+  document.getElementById('form-login').style.display = 'flex';
+  document.getElementById('form-forgot').style.display = 'none';
+  hideAuthMessages();
+});
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg;
+  el.classList.add('show');
+  document.getElementById('auth-success').classList.remove('show');
+}
+
+function showAuthSuccess(msg) {
+  const el = document.getElementById('auth-success');
+  el.textContent = msg;
+  el.classList.add('show');
+  document.getElementById('auth-error').classList.remove('show');
+}
+
+function hideAuthMessages() {
+  document.getElementById('auth-error').classList.remove('show');
+  document.getElementById('auth-success').classList.remove('show');
+}
+
+// Login
+document.getElementById('form-login').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideAuthMessages();
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+
+  try {
+    const data = await api('login', 'POST', { email, password });
+    loginSuccess(data);
+  } catch (err) {
+    showAuthError(err.message);
+  }
+});
+
+// Register
+document.getElementById('form-register').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideAuthMessages();
+  const name = document.getElementById('reg-name').value;
+  const email = document.getElementById('reg-email').value;
+  const password = document.getElementById('reg-password').value;
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  try {
+    const data = await api('register', 'POST', { email, name, password, timezone });
+    loginSuccess(data);
+  } catch (err) {
+    showAuthError(err.message);
+  }
+});
+
+// Forgot password
+document.getElementById('form-forgot').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideAuthMessages();
+  const email = document.getElementById('forgot-email').value;
+
+  try {
+    await api('reset-request', 'POST', { email });
+    showAuthSuccess('If an account exists with that email, a reset link has been sent.');
+  } catch (err) {
+    showAuthError(err.message);
+  }
+});
+
+// Reset confirm
+document.getElementById('form-reset-confirm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const pw = document.getElementById('reset-new-pw').value;
+  const confirm = document.getElementById('reset-confirm-pw').value;
+  const resetError = document.getElementById('reset-error');
+  const resetSuccess = document.getElementById('reset-success');
+
+  resetError.classList.remove('show');
+  resetSuccess.classList.remove('show');
+
+  if (pw !== confirm) {
+    resetError.textContent = 'Passwords do not match.';
+    resetError.classList.add('show');
+    return;
+  }
+
+  const hash = location.hash;
+  const tokenMatch = hash.match(/token=([a-f0-9]+)/);
+  if (!tokenMatch) {
+    resetError.textContent = 'Invalid reset link.';
+    resetError.classList.add('show');
+    return;
+  }
+
+  try {
+    const data = await api('reset-confirm', 'POST', {
+      token: tokenMatch[1],
+      newPassword: pw,
+    });
+    resetSuccess.textContent = data.message;
+    resetSuccess.classList.add('show');
+    setTimeout(() => navigate('login'), 2000);
+  } catch (err) {
+    resetError.textContent = err.message;
+    resetError.classList.add('show');
+  }
+});
+
+function loginSuccess(data) {
+  state.token = data.token;
+  state.user = data.user;
+  localStorage.setItem('r15_token', data.token);
+  localStorage.setItem('r15_user', JSON.stringify(data.user));
+
+  // Check if we have a start date already
+  if (state.startDate) {
+    navigate('dashboard');
+  } else {
+    navigate('setup');
+  }
+}
+
+// Setup (start date + weight)
+document.getElementById('btn-start-reset').addEventListener('click', () => {
+  const dateInput = document.getElementById('setup-start-date').value;
+  const weightInput = document.getElementById('setup-start-weight').value;
+
+  if (!dateInput) {
+    alert('Please select a start date.');
+    return;
+  }
+
+  state.startDate = dateInput;
+  localStorage.setItem('r15_startDate', dateInput);
+
+  if (weightInput) {
+    state.startWeight = parseFloat(weightInput);
+    localStorage.setItem('r15_startWeight', String(state.startWeight));
+  }
+
+  navigate('dashboard');
+});
+
+// Logout
+document.getElementById('btn-logout').addEventListener('click', () => {
+  state.token = null;
+  state.user = null;
+  localStorage.removeItem('r15_token');
+  localStorage.removeItem('r15_user');
+  navigate('auth');
+});
+
+// Reset all data
+document.getElementById('btn-reset-data').addEventListener('click', () => {
+  if (!confirm('This will erase ALL your 15-Day Reset data. Are you sure?')) return;
+  if (!confirm('Last chance — this cannot be undone. Proceed?')) return;
+
+  state.progress = { days: {} };
+  state.startDate = null;
+  state.startWeight = null;
+  state.checkinState = {};
+  localStorage.removeItem('r15_progress');
+  localStorage.removeItem('r15_startDate');
+  localStorage.removeItem('r15_startWeight');
+  navigate('setup');
+});
+
+// ─── SHOPPING LIST ───
+let shopRange = 'current'; // 'current' | 'days-1-3' | 'days-4-7' | 'days-8-11' | 'days-12-15' | 'all'
+
+function getShopRangeDays(range) {
+  switch(range) {
+    case 'days-1-3': return [1,2,3];
+    case 'days-4-7': return [4,5,6,7];
+    case 'days-8-11': return [8,9,10,11];
+    case 'days-12-15': return [12,13,14,15];
+    case 'all': return Array.from({length:15}, (_,i)=>i+1);
+    case 'current':
+    default: {
+      const cur = getCurrentDay();
+      const start = cur;
+      const end = Math.min(15, cur + 2); // next 3 days
+      return Array.from({length: end-start+1}, (_,i)=>start+i);
+    }
+  }
+}
+
+function aggregateGroceries(dayNums) {
+  const items = {};
+  function add(name, qty, unit, category) {
+    const key = name.toLowerCase();
+    if (!items[key]) items[key] = { name, qty: 0, unit, category };
+    items[key].qty += qty;
+  }
+
+  for (const d of dayNums) {
+    const plan = MEAL_PLAN[d];
+    if (!plan) continue;
+    const allItems = [...plan.B, ...plan.L, ...plan.D];
+
+    for (const item of allItems) {
+      const li = item.toLowerCase();
+
+      // Eggs
+      if (li.includes('3 eggs')) add('Eggs', 3, '', 'Protein');
+      else if (li.includes('1-2 eggs')) add('Eggs', 2, '', 'Protein');
+      else if (li === 'eggs') add('Eggs', 2, '', 'Protein');
+
+      // Grapefruit
+      if (li === 'grapefruit') add('Grapefruit', 1, '', 'Produce');
+
+      // Coffee
+      if (li.includes('coffee')) {} // assume stocked
+
+      // Tomato juice
+      if (li.includes('tomato juice')) add('Tomato juice', 6, 'oz', 'Beverages');
+
+      // Cantaloupe
+      if (li.includes('cantaloupe')) add('Cantaloupe', 0.5, '', 'Produce');
+
+      // Fresh fruit
+      if (li.includes('fresh fruit')) add('Fresh fruit (variety)', 1, 'serving', 'Produce');
+
+      // Raw vegetables
+      if (li.includes('raw vegetables')) add('Raw vegetables (carrots, celery, cucumbers, peppers)', 1, 'serving', 'Produce');
+
+      // Lettuce/salad
+      if (li.includes('2 cups lettuce')) add('Lettuce (romaine or butter)', 2, 'cups', 'Produce');
+      else if (li.includes('mixed salad')) add('Mixed salad greens', 1, 'serving', 'Produce');
+
+      // Tomatoes
+      if (li === 'tomatoes' || li === 'tomato') add('Tomatoes', 2, '', 'Produce');
+      if (li.includes('cucumber & tomatoes') || li.includes('cucumbers')) {} // counted via veggie items below
+
+      // Broccoli
+      if (li.includes('broccoli')) add('Broccoli', 1, 'head', 'Produce');
+
+      // Steak
+      if (li.includes('steak')) add('Steak (lean cut)', 1, '', 'Protein');
+
+      // Lamb/Chicken
+      if (li.includes('lamb chops or chicken')) add('Lamb chops OR Chicken breast', 1, 'serving', 'Protein');
+
+      // Chicken breast
+      if (li.includes('cold chicken') || (li.includes('chicken (breast') && !li.includes('lamb'))) add('Chicken breast', 1, '', 'Protein');
+
+      // Cottage cheese
+      if (li.includes('cottage cheese')) add('Cottage cheese', 1, 'serving', 'Dairy');
+
+      // Dry toast
+      if (li.includes('dry toast')) add('Bread (NOT white)', 1, 'slice', 'Grains');
+
+      // Fish
+      if (li.includes('fish')) add('Fish (your choice)', 1, 'fillet', 'Protein');
+
+      // Cooked cabbage
+      if (li.includes('cabbage')) add('Cabbage', 1, '', 'Produce');
+
+      // Vegetable soup ingredients
+      if (li.includes('vegetable soup')) add('Soup vegetables (carrots, celery, onion, zucchini)', 1, 'batch', 'Produce');
+
+      // Celery, tomatoes, cucumbers, olives, lettuce combos
+      if (li.includes('celery') && !li.includes('soup')) add('Celery', 1, 'bunch', 'Produce');
+      if (li.includes('cucumbers') && !li.includes('soup')) add('Cucumbers', 2, '', 'Produce');
+      if (li.includes('olives')) add('Olives', 1, 'small jar', 'Pantry');
+    }
+  }
+  return items;
+}
+
+function renderShopping() {
+  const curDay = getCurrentDay();
+  const ranges = [
+    { key: 'current', label: `Next 3 Days (${curDay}-${Math.min(15,curDay+2)})` },
+    { key: 'days-1-3', label: 'Days 1-3' },
+    { key: 'days-4-7', label: 'Days 4-7' },
+    { key: 'days-8-11', label: 'Days 8-11' },
+    { key: 'days-12-15', label: 'Days 12-15' },
+    { key: 'all', label: 'All 15 Days' },
+  ];
+
+  const rangeBar = document.getElementById('shop-range-bar');
+  rangeBar.innerHTML = ranges.map(r =>
+    `<button class="shop-range-btn ${shopRange === r.key ? 'active' : ''}" data-range="${r.key}">${r.label}</button>`
+  ).join('');
+
+  rangeBar.querySelectorAll('.shop-range-btn').forEach(btn => {
+    btn.onclick = () => {
+      shopRange = btn.dataset.range;
+      renderShopping();
+    };
+  });
+
+  const dayNums = getShopRangeDays(shopRange);
+  const groceries = aggregateGroceries(dayNums);
+
+  // Group by category
+  const categories = {};
+  for (const item of Object.values(groceries)) {
+    if (!categories[item.category]) categories[item.category] = [];
+    categories[item.category].push(item);
+  }
+
+  // Category display order
+  const categoryOrder = ['Protein', 'Produce', 'Dairy', 'Grains', 'Beverages', 'Pantry'];
+  const categoryIcons = { Protein:'🥩', Produce:'🥬', Dairy:'🧀', Grains:'🍞', Beverages:'🥤', Pantry:'🫒' };
+
+  const container = document.getElementById('shop-list-container');
+  let html = '';
+
+  // Always-needed items card
+  html += `<div class="shop-category">
+    <h4>☕ Always Stocked</h4>
+    <div class="shop-item"><span>Black coffee (caffeinated or decaf)</span><span class="qty">daily</span></div>
+    <div class="shop-item"><span>Water</span><span class="qty">${dayNums.some(d=>d<=2) ? '500ml/day (Days 1-2)' : '2L/day max'}</span></div>
+  </div>`;
+
+  for (const cat of categoryOrder) {
+    if (!categories[cat] || categories[cat].length === 0) continue;
+    html += `<div class="shop-category"><h4>${categoryIcons[cat] || ''} ${cat}</h4>`;
+    for (const item of categories[cat]) {
+      let qtyStr = '';
+      if (item.unit === 'oz') {
+        qtyStr = `${item.qty}oz`;
+      } else if (item.unit === 'cups') {
+        qtyStr = `${item.qty} cups`;
+      } else if (item.unit === 'serving' || item.unit === 'batch') {
+        qtyStr = `${item.qty}x`;
+      } else if (item.unit === 'slice') {
+        qtyStr = `${item.qty} slices`;
+      } else if (item.unit === 'fillet') {
+        qtyStr = `${item.qty} fillet${item.qty > 1 ? 's' : ''}`;
+      } else if (item.unit === 'head') {
+        qtyStr = `${item.qty}`;
+      } else if (item.unit === 'bunch') {
+        qtyStr = `${item.qty}`;
+      } else if (item.unit === 'small jar') {
+        qtyStr = `${item.qty} jar`;
+      } else {
+        qtyStr = item.qty % 1 !== 0 ? item.qty.toFixed(1) : String(item.qty);
+      }
+      html += `<div class="shop-item"><span>${item.name}</span><span class="qty">${qtyStr}</span></div>`;
+    }
+    html += `</div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+// ─── BOTTOM NAV ───
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => navigate(btn.dataset.view));
+});
+
+// ─── CLOSE MODAL ON OVERLAY CLICK ───
+document.getElementById('day-modal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+// ─── INIT ───
+function init() {
+  const hash = location.hash.slice(1);
+
+  if (hash.startsWith('reset-confirm')) {
+    navigate('reset');
+    return;
+  }
+
+  if (state.token) {
+    // Already have auth — check if setup is done
+    if (state.startDate) {
+      navigate('dashboard');
+    } else {
+      navigate('setup');
+    }
+  } else {
+    navigate('auth');
+  }
+}
+
+// Set default date on setup view
+document.getElementById('setup-start-date').value = getTodayString();
+
+init();
+
+// ─── SERVICE WORKER REGISTRATION ───
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>
