@@ -2439,7 +2439,7 @@ document.getElementById('setup-start-date').value = getTodayString();
 
 init();
 
-// ─── SERVICE WORKER REGISTRATION ───
+// ─── SERVICE WORKER ───
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/q15-sw.js').catch(() => {});
 }
