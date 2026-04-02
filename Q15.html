@@ -1649,6 +1649,7 @@ function calcCheckinScore() {
   if (state.checkinState.dinner) score++;
   if (state.checkinState.water) score++;
   if (state.checkinState.noSnacking) score++;
+  if (state.checkinState.weight) score++;
   return score;
 }
 
